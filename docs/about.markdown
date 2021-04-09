@@ -31,4 +31,5 @@ I am a senior Computer Engineering student and a big fan of building gaming and 
 **Samuel Vanderlinda**
 <br>
 I’m a senior Computer Science student at UW and I enjoy working within technical teams while learning new technologies. Previously awarded MVP in a NASA robotics competition and part of the winning team at Dubhacks 2020 where we made a slouch detecting machine learning application called slouchai. I’ve been playing guitar for 10 years and I’m looking forward to applying that experience towards teaching others through technology.
+<br>
 ![Sam](/xrcapstone21sp-team4/images/sam.jpeg){:width="300px"}
