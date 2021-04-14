@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Capstone Team 4 AR Demo</title>
+    <script>
+        //Fix aframe requestDevice missing from Chrome m77
+        if(
+            navigator.xr &&
+            'requestDevice' in navigator.xr === false
+        ) {
+            navigator.xr.requestDevice = function () {
+                return new Promise(function(resolve, reject){
+                    resolve();
+                });
+            };
+        }
+    </script>
+    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+
+</head>
+<body>
+<a-scene>
+    <a-assets>
+        <!-- Asset preloads-->
+    </a-assets>
+
+
+    <a-entity id="rig">
+        <a-entity camera position="0 8 0" look-controls wasd-controls></a-entity>
+        <!-- Match Magic Leap controller if present, regardless of hand. -->
+        <a-entity magicleap-controls></a-entity>
+    </a-entity>
+</a-scene>
+</body>
+</html>
