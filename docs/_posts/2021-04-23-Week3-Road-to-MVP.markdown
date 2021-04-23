@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Week 2: Road to MVP"
+title:  "Week 3: Road to MVP"
 date:   2021-04-23 21:00:00 -0700
 categories:
 ---
@@ -28,7 +28,7 @@ Conversion notes:
 ----->
 
 
-**Rish: **This week I continued to work on marker tracking :
+**Rish:** This week I continued to work on marker tracking :
 
 I tested out a js library found by Kirit using my WebCam.  \
 Library : [https://github.com/jcmellado/js-aruco](https://github.com/jcmellado/js-aruco)  \
