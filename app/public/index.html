@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>GuitXR</title>
+    <script>
+        //Fix aframe requestDevice missing from Chrome m77
+        if(
+            navigator.xr &&
+            'requestDevice' in navigator.xr === false
+        ) {
+            navigator.xr.requestDevice = function () {
+                return new Promise(function(resolve, reject){
+                    resolve();
+                });
+            };
+        }
+    </script>
+
+    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+    <script type="text/javascript" src="scripts/aruco/aruco.js"></script>
+    <script type="text/javascript" src="scripts/aruco/cv.js"></script>
+    <script type="text/javascript" src="scripts/aruco/svd.js"></script>
+    <script type="text/javascript" src="scripts/aruco/posit1.js"></script>
+
+    <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<a-scene>
+    <a-assets>
+        <!-- Asset preloads-->
+        <video id="webcam" playsinline></video>
+        <canvas id="hiddenCanvas"></canvas>
+    </a-assets>
+
+
+    <a-entity id="marker" geometry="primitive: sphere; radius: 0.07" color="#4CC3D9" position="0 0 -1"></a-entity>
+
+
+    <a-entity id="rig">
+        <a-entity id="camera" camera position="0 8 0" look-controls wasd-controls>
+            <!--<a-video src="#webcam" width="16" height="9" position="0 0 -40" material="opacity: 0.5"></a-video>-->
+
+        </a-entity>
+        <!-- Match Magic Leap controller if present, regardless of hand. -->
+        <a-entity magicleap-controls></a-entity>
+    </a-entity>
+</a-scene>
+
+<script src="scripts/aruco-marker-detector.js"></script>
+</body>
+</html>

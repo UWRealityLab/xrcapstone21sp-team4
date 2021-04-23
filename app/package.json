@@ -1,0 +1,17 @@
+{
+  "name": "guitxr",
+  "version": "1.0.0",
+  "description": "WebXR guitar tool",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "easy-livereload": "^1.4.3",
+    "express": "^4.17.1",
+    "node-dev": "^6.7.0"
+  }
+}
