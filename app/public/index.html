@@ -25,6 +25,7 @@
     <script type="text/javascript" src="scripts/aruco/cv.js"></script>
     <script type="text/javascript" src="scripts/aruco/svd.js"></script>
     <script type="text/javascript" src="scripts/aruco/posit1.js"></script>
+    <script src="scripts/controller-tracking.js"></script>
 
     <link rel="stylesheet" href="./style.css">
 
@@ -39,7 +40,9 @@
 
 
     <a-entity id="marker" geometry="primitive: sphere; radius: 0.07" color="#4CC3D9" position="0 0 -1"></a-entity>
-
+    <a-entity magicleap-controls="hand: right" controller-tracking>
+        <a-entity id="controller" geometry="primitive: box; width: 0.45; height: 0.05; depth: 0.05" position="0 0 0" rotation="0 0 0 "></a-entity>
+    </a-entity>
 
     <a-entity id="rig">
         <a-entity id="camera" camera position="0 8 0" look-controls wasd-controls>
@@ -47,7 +50,7 @@
 
         </a-entity>
         <!-- Match Magic Leap controller if present, regardless of hand. -->
-        <a-entity magicleap-controls></a-entity>
+
     </a-entity>
 </a-scene>
 
