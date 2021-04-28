@@ -21,39 +21,61 @@
     </script>
 
     <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
-    <script type="text/javascript" src="scripts/aruco/aruco.js"></script>
-    <script type="text/javascript" src="scripts/aruco/cv.js"></script>
-    <script type="text/javascript" src="scripts/aruco/svd.js"></script>
-    <script type="text/javascript" src="scripts/aruco/posit1.js"></script>
+
+    <script src="scripts/offset-component.js"></script>
     <script src="scripts/controller-tracking.js"></script>
+    <script src="scripts/chord-keys.js"></script>
+    <script src="scripts/animation-manager.js"></script>
 
     <link rel="stylesheet" href="./style.css">
 
 </head>
 <body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.sound.min.js"></script>
+<!-- Start ml5.js-->
+<script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+
+<script src="scripts/audio.js"></script>
 <a-scene>
     <a-assets>
         <!-- Asset preloads-->
         <video id="webcam" playsinline></video>
-        <canvas id="hiddenCanvas"></canvas>
-    </a-assets>
+        <audio id="microphone" playsinline></audio>
 
+        <canvas id="hiddenCanvas"></canvas>
+        <img id="click" src="https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fclick.png?v=1619221620421">
+        <img id="to" src="https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fto.png?v=1619221624316">
+        <img id="start" src="https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fstart.png?v=1619221617408">
+
+
+    </a-assets>
+    <a-audio src="#microphone" width="16" height="9" position="0 0 -40"></a-audio>
 
     <a-entity id="marker" geometry="primitive: sphere; radius: 0.07" color="#4CC3D9" position="0 0 -1"></a-entity>
-    <a-entity magicleap-controls="hand: right" controller-tracking>
-        <a-entity id="controller" geometry="primitive: box; width: 0.45; height: 0.05; depth: 0.05" position="0 0 0" rotation="0 0 0 "></a-entity>
+    <a-entity id="controller" magicleap-controls="hand: right" controller-tracking>
+        <!--<a-entity id="controller" geometry="primitive: box; width: 0.45; height: 0.05; depth: 0.05" position="0 0 0" rotation="0 0 0 "></a-entity>-->
     </a-entity>
+    <a-box color="tomato" height="0.01" width="0.01" depth="0.01" id="real-controller" offset-component="0.1 -0.18 -0.05">
+        <a-plane id="fretboard" width="0.45" height="0.05" position="0 0 0.0" rotation="-45 0 0" color="#f7fcff" material="side: double"></a-plane>
+
+    </a-box>
+
 
     <a-entity id="rig">
         <a-entity id="camera" camera position="0 8 0" look-controls wasd-controls>
-            <!--<a-video src="#webcam" width="16" height="9" position="0 0 -40" material="opacity: 0.5"></a-video>-->
-
+            <a-entity id="image-tab" chord-keys position="0 -0.2 -3.5">
+                <a-image id="first" material="transparent: true; opacity: 0.50" position="0 0 -2" animation-manager src="#click"></a-image>
+                <a-image id="second" material="transparent: true; opacity: 0.50" position="2 0 -4" animation-manager src="#to"></a-image>
+                <a-image id="third" material="transparent: true; opacity: 0.75" position="4 0 -6" animation-manager src="#start"></a-image>
+            </a-entity>
+            <a-plane id="pitchMonitor" position="0 0.5 -3" rotation="0 0 0" width="0.5" height="0.5"></a-plane>
         </a-entity>
         <!-- Match Magic Leap controller if present, regardless of hand. -->
 
     </a-entity>
 </a-scene>
 
-<script src="scripts/aruco-marker-detector.js"></script>
 </body>
 </html>
