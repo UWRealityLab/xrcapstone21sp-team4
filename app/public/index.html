@@ -27,6 +27,7 @@
     <script src="scripts/chord-keys.js"></script>
     <script src="scripts/animation-manager.js"></script>
     <script src="scripts/autoplay.js"></script>
+    <script src="scripts/swap.js"></script>
 
     <link rel="stylesheet" href="./style.css">
 
@@ -37,6 +38,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.sound.min.js"></script>
 <!-- Start ml5.js-->
 <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+<!-- <script src="scripts/audio.js"></script> -->
 
 <a-scene>
     <a-assets>
@@ -45,12 +47,12 @@
         <audio id="microphone" playsinline></audio>
 
         <canvas id="hiddenCanvas"></canvas>
-        <img id="click" src="https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fclick.png?v=1619221620421">
-        <img id="to" src="https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fto.png?v=1619221624316">
-        <img id="start" src="https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fstart.png?v=1619221617408">
+
+        <img id="interface" src="https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Ftriggervsbumber.png?v=1619680793326">
 
     </a-assets>
-    <a-box width="0.5" height="0.5" depth="0.5" position="0 2 -2" color="blue"></a-box>
+    <!-- <a-audio src="#microphone" width="16" height="9" position="0 0 -40"></a-audio> -->
+ 
 
     <a-entity id="marker" geometry="primitive: sphere; radius: 0.07" color="#4CC3D9" position="0 0 -1"></a-entity>
     <a-entity id="controller" magicleap-controls="hand: right" controller-tracking>
@@ -64,10 +66,10 @@
 
     <a-entity id="rig">
         <a-entity id="camera" camera position="0 8 0" look-controls wasd-controls>
-            <a-entity id="image-tab" autoplay position="0 -0.2 -3.5">
-                <a-image id="first" material="transparent: true; opacity: 0.50" position="0 0 -2" animation-manager src="#click"></a-image>
-                <a-image id="second" material="transparent: true; opacity: 0.50" position="2 0 -4" animation-manager src="#to"></a-image>
-                <a-image id="third" material="transparent: true; opacity: 0.75" position="4 0 -6" animation-manager src="#start"></a-image>
+            <a-entity id="image-tab" swap position="0 -0.2 -3.5">
+                <a-image id="first" material="transparent: true; opacity: 0.50" position="0 0 -2" width= "1.5" animation-manager src="#interface"></a-image>
+                <a-image id="second" material="transparent: true; opacity: 0.50" position="2 0 -4" width= "1.5"  animation-manager src=""></a-image>
+                <a-image id="third" material="transparent: true; opacity: 0.50" position="4 0 -6" width= "1.5"  animation-manager src=""></a-image>
             </a-entity>
             <a-plane id="pitchMonitor" position="0 0.5 -3" rotation="0 0 0" width="0.5" height="0.5"></a-plane>
         </a-entity>

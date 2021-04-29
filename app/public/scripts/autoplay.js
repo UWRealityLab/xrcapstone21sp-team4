@@ -40,25 +40,17 @@ AFRAME.registerComponent('autoplay', {
             "g": "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fg.png?v=1619160197721",
             "g#": "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fg%23.png?v=1619160197912"
         };
+      
+        var countdown = {
+            "1": "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2F1.png?v=1619680779376",
+            "2": "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2F2.png?v=1619680783623",
+            "3": "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2F3.png?v=1619680787564"
+        };
+        var currentlyRunning = false;
 
-        this.startMusic = function(e) {
-            // this.controller.removeEventListener('gripdown', this.startMusic);
-              function nextNote(i) {
-                // swapping photos
-                // update the front facing note
-                console.log("next Note---: " + i);
-                var first = null;
-                var second = null;
-                var third = null;
-                for (var j = 0; j < 3; j++) {
-                    if (el.children[j].id == "first") { first = el.children[j]; }
-                    if (el.children[j].id == "second") { second = el.children[j]; }
-                    if (el.children[j].id == "third") { third = el.children[j]; }
-                }
-
-                // move second to first
-                var params = {
-                    property: 'position',
+        function animate(first, second, third, isMusic, i) {
+          var params = {
+                property: 'position',
                     to: {
                         x: firstPos.x,
                         y: firstPos.y,
@@ -79,32 +71,54 @@ AFRAME.registerComponent('autoplay', {
                 };
                 third.setAttribute('animation', params);
                 // move th
-                
-                var thirdI = i + 1;
-  
-                if (thirdI == times.length) { thirdI = 0; }
-                thirdI++;
-                if (thirdI == times.length) { thirdI = 0; }
-                
-                // thirdI++;
-                // if (thirdI == times.length) { thirdI = 0; }
-                // console.log(times[thirdI]["note"]);
-                first.setAttribute('src', notes[times[thirdI]["note"]]);
-                first.setAttribute('position', {
-                    x: thirdPos.x,
-                    y: thirdPos.y,
-                    z: thirdPos.z
-                });
-
+                if (isMusic) {
+                  var thirdI = i + 1;
+                  if (thirdI == times.length) { thirdI = 0; }
+                  thirdI++;
+                  if (thirdI == times.length) { thirdI = 0; }
+                  first.setAttribute('src', notes[times[thirdI]["note"]]);
+                  first.setAttribute('position', {
+                      x: thirdPos.x,
+                      y: thirdPos.y,
+                      z: thirdPos.z
+                  });
+                } else {
+                  first.setAttribute('src', notes[times[i]["note"]]);
+                  first.setAttribute('position', {
+                      x: thirdPos.x,
+                      y: thirdPos.y,
+                      z: thirdPos.z
+                  });
+                }
 
                 first.setAttribute('id', 'third');
                 second.setAttribute('id', 'first');
                 third.setAttribute('id', 'second');
+        }
+        this.startMusic = function(e) {
+            // this.controller.removeEventListener('gripdown', this.startMusic);
+            if (currentlyRunning) { return; }
+            currentlyRunning = true;
+
+            function nextNote(i, isMusic) {
+                // swapping photos
+                // update the front facing note
+
+                var first = null;
+                var second = null;
+                var third = null;
+                for (var j = 0; j < 3; j++) {
+                    if (el.children[j].id == "first") { first = el.children[j]; }
+                    if (el.children[j].id == "second") { second = el.children[j]; }
+                    if (el.children[j].id == "third") { third = el.children[j]; }
+                }
+                animate(first, second, third, isMusic, i);
+                
             }
           
 
             console.log("start the music");
-            var i = 0;
+            // var i = 0;
             var first = null;
             var second = null;
             var third = null;
@@ -113,30 +127,51 @@ AFRAME.registerComponent('autoplay', {
                 if (el.children[j].id == "second") { second = el.children[j]; }
                 if (el.children[j].id == "third") { third = el.children[j]; }
             }
+            
+          
+            first.setAttribute('src', countdown["3"]);
+            second.setAttribute('src', countdown["2"]);
+            third.setAttribute('src', countdown["1"]);
 
-            first.setAttribute('src', notes[times[0]["note"]]);
-            second.setAttribute('src', notes[times[1]["note"]]);
-            third.setAttribute('src', notes[times[2]["note"]]);
-
-            water.play();
+            e.stopImmediatePropagation();
+            // first.setAttribute('src', notes[times[0]["note"]]);
+            // second.setAttribute('src', notes[times[1]["note"]]);
+            // third.setAttribute('src', notes[times[2]["note"]]);
+            recursiveCountdown(0);
+            function recursiveCountdown(i) {
+              if (i==3) { return; }
+              console.log("countup in here")
+              setTimeout(() => {nextNote(i, false); recursiveCountdown(i+1);}, 1000);
+            }
+            var total_completes = 0;
             function recursiveTimeout(i) {
               if (i+1 == times.length) {
                 console.log("---repeat---")
                 var start = times[i]["start"];
                 var end = times[i]["end"];
-                setTimeout(() => {nextNote(0); recursiveTimeout(0);}, (end - start) * 1000);
+                setTimeout(() => {
+                    if (total_completes > 4) {
+                        currentlyRunning = false;
+                        return;
+                    }
+                    nextNote(0, true);
+                    recursiveTimeout(0);
+                    total_completes++;
+                }, (end - start) * 1000);
               } else {
                 var start = times[i]["start"];
                 var end = times[i]["end"];
-                setTimeout(() => {nextNote(i+1); recursiveTimeout(i+1);}, (end - start) * 1000);
+                setTimeout(() => {nextNote(i+1, true); recursiveTimeout(i+1);}, (end - start) * 1000);
               }
             }
-            recursiveTimeout(0);
+            
+            setTimeout(() => {water.play(); recursiveTimeout(0);}, 3000);
         }
 
         this.controller = document.querySelector('#controller');
         // max will change this function called from a click to a correct
         // note
+        
         this.controller.addEventListener('gripdown', this.startMusic);
     },
     remove: function() {
