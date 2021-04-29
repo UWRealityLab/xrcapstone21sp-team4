@@ -1,7 +1,9 @@
 AFRAME.registerComponent('add-frets', {
     init: function () {
+      const scaleLength = 0.6477; // this is 25.5 inches in meters. A-frame uses meters so we write it in meters.
+      const totalFrets = 21; // just going to make 15 frets for now.
       this.addFret = function (distanceFromNut,fretNum){
-        let scaleLength = 0.6477;
+
         let el = document.getElementById('String1');
         let myX = el.components.position.attrValue.x;
         let myY = el.components.position.attrValue.y;
@@ -27,9 +29,6 @@ AFRAME.registerComponent('add-frets', {
         });
         el.appendChild(newMark);
       }
-      
-      let scaleLength = 0.6477; // this is 25.5 inches in meters. A-frame uses meters so we write it in meters.
-      let totalFrets = 21; // just going to make 15 frets for now. 
       this.addFret(0); // creating Nut in the virtual world.
 
       let i = 1;

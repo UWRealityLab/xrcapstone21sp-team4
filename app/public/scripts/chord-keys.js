@@ -1,6 +1,8 @@
 AFRAME.registerComponent('chord-keys', {
     init: function() {
-
+        var addElementController = document.querySelector('[add-element-controller]').components['add-element-controller'];
+        // console.log('querySelction: '+document.querySelector('[add-element-controller]'))
+        // console.log('addElementController: '+addElementController);
         var firstPos = {
             x: 0,
             y: 0,
@@ -36,10 +38,10 @@ AFRAME.registerComponent('chord-keys', {
             {"note": "d", "start": 6.9, "end": 8.5},
         ];
         var notes = {
-            "d": "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fopen-d.png?v=1619160197750",
-            "f": "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Ff.png?v=1619160197623",
-            "g": "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fg.png?v=1619160197721",
-            "g#": "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fg%23.png?v=1619160197912"
+            "d": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fopen-d.png?v=1619160197750", tab: []},
+            "f": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Ff.png?v=1619160197623", tab: [[4, 3]]},
+            "g": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fg.png?v=1619160197721", tab: [[4, 5]]},
+            "g#": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fg%23.png?v=1619160197912", tab: [[4, 6]]}
         };
         this.startMusic = async function(e) {
             console.log('startmusic called');
@@ -62,9 +64,9 @@ AFRAME.registerComponent('chord-keys', {
 
             if (beginClick) {
                 beginClick = false;
-                first.setAttribute('src', notes[times[0]["note"]]);
-                second.setAttribute('src', notes[times[1]["note"]]);
-                third.setAttribute('src', notes[times[2]["note"]]);
+                first.setAttribute('src', notes[times[0]["note"]].image);
+                second.setAttribute('src', notes[times[1]["note"]].image);
+                third.setAttribute('src', notes[times[2]["note"]].image);
                 return;
             }
 
@@ -120,7 +122,7 @@ AFRAME.registerComponent('chord-keys', {
             if (thirdI == times.length) { thirdI = 0; }
             console.log(thirdI);
 
-            first.setAttribute('src', notes[times[thirdI]["note"]]);
+            first.setAttribute('src', notes[times[thirdI]["note"]].image);
             first.setAttribute('position', {
                 x: thirdPos.x,
                 y: thirdPos.y,
@@ -146,11 +148,17 @@ AFRAME.registerComponent('chord-keys', {
             second.setAttribute('id', 'first');
             third.setAttribute('id', 'second');
 
+
+            // addElementController.addMarker(notes[times[i]["note"]].tab); todo: fix
+
+
             console.log(times[i])
             snip(times[i]["start"], times[i]["end"]);
             i++;
             console.log('end');
-            console.log(el)
+            console.log(el);
+
+
 
         }
 
