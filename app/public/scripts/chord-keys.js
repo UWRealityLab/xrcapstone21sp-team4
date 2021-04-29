@@ -158,7 +158,6 @@ AFRAME.registerComponent('chord-keys', {
         // max will change this function called from a click to a correct
         // note
         this.controller.addEventListener('gripdown', this.startMusic);
-        // this.el.addEventListener('click', this.startMusic);
     },
     remove: function() {
         this.controller.removeEventListener('gripdown', this.startMusic);
