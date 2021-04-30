@@ -29,6 +29,7 @@ Sam worked on the chord progression system and music this time frame. Last week 
 You can take a look at a demo with this [video](https://twitter.com/SamVanderlinda/status/1387811784246005763?s=20).
 
 Next week he plans on integrating his work with the rest of the project and if time permits, improve the UI to have 3d notes played to the user.<br/>
+![Sam-demo](/xrcapstone21sp-team4/images/sam-week-5.png){:width="400px"}<br/>
 
 **Max:**<br/>
 Max completed a P5.js tutorial and modified it to recognize the respective frequencies of guitar strings. At this point individual notes are very much trackable, with the caveat that playing new notes over a still-vibrating old note and their harmonics cause the pitch signal to switch back and forth between them. This week he and Sam will work together to add pitch-triggered progression to the manual / automated chart/tab progression already in place. He will also implement a debouncing algorithm to control harmonics, and add frequencies for every possible note on the guitar. 
