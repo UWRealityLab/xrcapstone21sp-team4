@@ -9,7 +9,8 @@ Here is the week 4 report of the GuitXR project.
 
 This was quite a productive week! The primary, base functionality of our project has been put in place, the tracking of the guitar’s fretboard. There is still much polishing to do in this area, but the primary functionality of the project is put together, good job Kirit and Rish! On top of that, we were also able to make prototypes for chord progressions developed and pitch detection. What a week!
 Here is some code we each worked on:
-[Rish](https://github.com/UWRealityLab/xrcapstone21sp-team4/blob/master/app/public/scripts/add-frets.js)
+[Rish1](https://github.com/UWRealityLab/xrcapstone21sp-team4/blob/master/app/public/scripts/add-frets.js)
+[Rish2](https://github.com/UWRealityLab/xrcapstone21sp-team4/blob/master/app/public/scripts/add-element-controller.js)
 [Kirit](https://github.com/UWRealityLab/xrcapstone21sp-team4/blob/master/app/public/scripts/controller-tracking.js)
 [Sam](https://github.com/UWRealityLab/xrcapstone21sp-team4/blob/master/app/public/scripts/chord-keys.js)
 [Max](https://github.com/UWRealityLab/xrcapstone21sp-team4/blob/master/app/public/scripts/audio.js)
