@@ -1,14 +1,5 @@
 // You can also set which camera to use (front/back/etc)
 // @SEE https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
-// navigator.mediaDevices.getUserMedia({audio: true, video: false})
-//     .then(stream => {
-//         console.log('got audio stream');
-//         let $audio = document.querySelector('audio')
-//         $audio.srcObject = stream
-//         $audio.onloadedmetadata = () => {
-//             // $audio.play()
-//         };
-//     });
 
 // Daniel Shiffman
 // https://thecodingtrain.com/CodingChallenges/151-ukulele-tuner.html
@@ -23,7 +14,7 @@ let audioContext;
 let freq = 0;
 let threshold = 1;
 let pitchMonitor;
-var scene;
+let scene;
 
 let notes = [
     {
@@ -55,12 +46,6 @@ let notes = [
 function setup() {
     console.log('audio setup');
     scene = document.querySelector('a-scene');
-    // const canvas = createCanvas(400, 400);
-    // canvas.elt.id = 'audioCanvas';
-
-    // pitchMonitor = document.querySelector('#pitchMonitor');
-    // pitchMonitor.setAttribute('material', 'src: #audioCanvas');
-    // audioContext = getAudioContext();
     audioContext = new AudioContext();
     mic = new p5.AudioIn();
     mic.start(listening);
@@ -144,6 +129,3 @@ function gotPitch(error, frequency) {
 
     }
 }
-const event = new CustomEvent('build', { detail: elem.dataset.time });
-// obj = this.scene or whatevs
-// obj.dispatchEvent(event)
