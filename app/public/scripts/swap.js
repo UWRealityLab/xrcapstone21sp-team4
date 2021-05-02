@@ -5,7 +5,6 @@ AFRAME.registerComponent('swap', {
       el.setAttribute('autoplay',"test");
       el.removeAttribute('swap');
       console.log(el);
-      console.log(this.domucment)
     }
     this.manual = function() {
         el.setAttribute('chord-keys',"none");

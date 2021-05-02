@@ -1,6 +1,6 @@
 AFRAME.registerComponent('chord-keys', {
     init: function() {
-        var addElementController = document.querySelector('[add-element-controller]').components['add-element-controller'];
+        // var addElementController = document.querySelector('[add-element-controller]').components['add-element-controller'];
         // console.log('querySelction: '+document.querySelector('[add-element-controller]'))
         // console.log('addElementController: '+addElementController);
         var firstPos = {
@@ -55,16 +55,16 @@ AFRAME.registerComponent('chord-keys', {
         var ERROR_THRESHOLD = 0.5;      
         var isListening = false;
 
-        this.startMusic = async function(e) {
+        this.startMusic = async function(/*e*/) {
             console.log('startmusic called');
             /*if (e.target.id != "first") { return; }*/
-            console.log('startMusic note: ');
-            console.log(e.detail.freq);
+            //console.log('startMusic note: ');
+            //console.log(e.detail.freq);
             // distinguishing between triggerpull and music note
-            if (e.type == 'pitch' && !isListening) {
+            /*if (e.type == 'pitch' && !isListening) {
                 console.log('not listening for notes yet');
                 return;
-            }
+            }*/
             console.log('begin');
             console.log(el)
             if (i >= times.length) { console.log('repeat of song'); i = 0; }
@@ -92,12 +92,6 @@ AFRAME.registerComponent('chord-keys', {
                 console.log("first: " + first.getAttribute('note').image);
                 return;
             }
-
-            // if the notes freq is out of the threshold bounds, dont progress
-            if (e.detail.freq < freqs[first.getAttribute('note')]- ERROR_THRESHOLD ||
-                e.detail.freq > freqs[first.getAttribute('note')]+ ERROR_THRESHOLD) {
-                    return;
-            } 
 
 
             // move second to first
@@ -174,7 +168,21 @@ AFRAME.registerComponent('chord-keys', {
         // max will change this function called from a click to a correct
         // note
         this.controller.addEventListener('triggerdown', this.startMusic);
-        scene.addEventListener('pitch', this.startMusic);
+        scene.addEventListener('pitch', (e)=>{
+            if(!isListening){
+                return;
+            }
+
+            // asert first not null
+
+            // if the notes freq is out of the threshold bounds, dont progress
+            if (e.detail.freq < freqs[first.getAttribute('note')]- ERROR_THRESHOLD ||
+                e.detail.freq > freqs[first.getAttribute('note')]+ ERROR_THRESHOLD) {
+                return;
+            }
+
+            this.startMusic();
+        });
     },
     remove: function() {
         this.controller.removeEventListener('triggerdown', this.startMusic);

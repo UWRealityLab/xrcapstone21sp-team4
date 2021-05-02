@@ -107,7 +107,9 @@ function listening() {
 
 function modelLoaded() {
     console.log('audio model loaded');
-    pitch.getPitch(gotPitch);
+    setTimeout(()=>{
+        pitch.getPitch(gotPitch);
+    }, 10);
 }
 
 function gotPitch(error, frequency) {
@@ -119,7 +121,7 @@ function gotPitch(error, frequency) {
             freq = frequency;
             scene.emit('pitch', {"freq": freq});
         }
-        setTimeout(() => {pitch.getPitch(gotPitch)}, 10);
+        // setTimeout(() => {pitch.getPitch(gotPitch)}, 10);
         // const material = pitchMonitor.getObject3D('mesh').material;
         // if(!material || !material.map){
         //     console.log('pitchMonitor: no material');
