@@ -51,7 +51,7 @@ AFRAME.registerComponent('chord-keys', {
         };
         // check if pitch is sustained
         var ERROR_THRESHOLD = 0.5;      
-        var isListening = true;
+        var isListening = false;
 
         this.startMusic = async function(e) {
             console.log('startmusic called');
