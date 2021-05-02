@@ -1,4 +1,117 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://uwrealitylab.github.io/xrcapstone21sp-team4/feed.xml" rel="self" type="application/atom+xml" /><link href="https://uwrealitylab.github.io/xrcapstone21sp-team4/" rel="alternate" type="text/html" /><updated>2021-04-15T23:37:15-07:00</updated><id>https://uwrealitylab.github.io/xrcapstone21sp-team4/feed.xml</id><title type="html">GuitXR</title><subtitle>Augmented Reality project for the University of Washington AR/VR Capstone. We are building a mixed reality guitar assistor that enables guitarists to visualize chords and tabs in front of them and on their instruments.</subtitle><entry><title type="html">Week 2: Basics</title><link href="https://uwrealitylab.github.io/xrcapstone21sp-team4/2021/04/15/Week2-Basics.html" rel="alternate" type="text/html" title="Week 2: Basics" /><published>2021-04-15T21:00:00-07:00</published><updated>2021-04-15T21:00:00-07:00</updated><id>https://uwrealitylab.github.io/xrcapstone21sp-team4/2021/04/15/Week2-Basics</id><content type="html" xml:base="https://uwrealitylab.github.io/xrcapstone21sp-team4/2021/04/15/Week2-Basics.html">&lt;p&gt;Here is the week 2 report on the GuitXR project.&lt;br /&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://uwrealitylab.github.io/xrcapstone21sp-team4/feed.xml" rel="self" type="application/atom+xml" /><link href="https://uwrealitylab.github.io/xrcapstone21sp-team4/" rel="alternate" type="text/html" /><updated>2021-04-30T00:06:26-07:00</updated><id>https://uwrealitylab.github.io/xrcapstone21sp-team4/feed.xml</id><title type="html">GuitXR</title><subtitle>Augmented Reality project for the University of Washington AR/VR Capstone. We are building a mixed reality guitar assistor that enables guitarists to visualize chords and tabs in front of them and on their instruments.</subtitle><entry><title type="html">Week 4: Complete Pieces</title><link href="https://uwrealitylab.github.io/xrcapstone21sp-team4/2021/04/29/Week4-Complete-Pieces.html" rel="alternate" type="text/html" title="Week 4: Complete Pieces" /><published>2021-04-29T21:00:00-07:00</published><updated>2021-04-29T21:00:00-07:00</updated><id>https://uwrealitylab.github.io/xrcapstone21sp-team4/2021/04/29/Week4-Complete-Pieces</id><content type="html" xml:base="https://uwrealitylab.github.io/xrcapstone21sp-team4/2021/04/29/Week4-Complete-Pieces.html">&lt;p&gt;Here is the week 4 report of the GuitXR project.&lt;/p&gt;
+
+&lt;p&gt;This was quite a productive week! The primary, base functionality of our project has been put in place, the tracking of the guitar’s fretboard. There is still much polishing to do in this area, but the primary functionality of the project is put together, good job Kirit and Rish! On top of that, we were also able to make prototypes for chord progressions developed and pitch detection. What a week!
+Here is some code we each worked on:
+&lt;a href=&quot;https://github.com/UWRealityLab/xrcapstone21sp-team4/blob/master/app/public/scripts/add-frets.js&quot;&gt;Rish1&lt;/a&gt;
+&lt;a href=&quot;https://github.com/UWRealityLab/xrcapstone21sp-team4/blob/master/app/public/scripts/add-element-controller.js&quot;&gt;Rish2&lt;/a&gt;
+&lt;a href=&quot;https://github.com/UWRealityLab/xrcapstone21sp-team4/blob/master/app/public/scripts/controller-tracking.js&quot;&gt;Kirit&lt;/a&gt;
+&lt;a href=&quot;https://github.com/UWRealityLab/xrcapstone21sp-team4/blob/master/app/public/scripts/chord-keys.js&quot;&gt;Sam&lt;/a&gt;
+&lt;a href=&quot;https://github.com/UWRealityLab/xrcapstone21sp-team4/blob/master/app/public/scripts/audio.js&quot;&gt;Max&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Now lets get more indepth on what each member did this week…&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Rish:&lt;/strong&gt;&lt;br /&gt;
+Rish worked on creating a virtual fret board this week. It works by taking in the guitar length and virtually creating a fret board with correctly spaced frets ( as calculated by the methods described in this &lt;a href=&quot;https://www.liutaiomottola.com/formulae/fret.htm#mozTocId169477&quot;&gt;article&lt;/a&gt; ). He also worked on being able to add markers on frets and strings. So every time the method is called, it will clear the old chord markers and add new markers ( showing the user a new chord to play). We also have the ability to choose how many frets we want on our virtual board making this generalizable to any guitar given it’s length ( most guitars are 25.5 inches long) 
+&lt;img src=&quot;/xrcapstone21sp-team4/images/rish-week-5.JPG&quot; alt=&quot;Rish-demo&quot; width=&quot;400px&quot; /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Kirit:&lt;/strong&gt;&lt;br /&gt;
+Kirit solved the fretboard tracking and worked on integrating the different parts of the projects for the MVP. At the start of this week, Kirit created a prototype cardboard mount and used it to attach the magic leap controller on to the guitar. He noticed this worked relatively well but the pose estimate of the controller was offset relative to the physical controller location. He then worked on trying different ways to mitigate this, such as world and local space position offsets, but unfortunately none of these held up when the guitar was rotated. Ultimately Kirit discovered the pose estimate was offset such that it was always closer to the magic leap headset, and so he counter offset this along a vector from the centered headset position to the pose estimate. &lt;br /&gt;
+&lt;img src=&quot;/xrcapstone21sp-team4/images/kirit-week-5-1.png&quot; alt=&quot;Kirit-demo&quot; width=&quot;300px&quot; /&gt;
+&lt;img src=&quot;/xrcapstone21sp-team4/images/kirit-week-5-2.png&quot; alt=&quot;Kirit-demo&quot; width=&quot;300px&quot; /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Sam:&lt;/strong&gt;&lt;br /&gt;
+Sam worked on the chord progression system and music this time frame. Last week we had a floating guitar chord displayed to the user. Now he has decided that the song the user will learn for the MVP is Smoke on the Water. A classic first timer guitar song. He made two different modes. One where the song plays as normal and the tabs corresponding to each note in song will be displayed to the user. This is intended for a more experienced player that can play along. The second mode plays the next note in the song after a particular event has occurred. We are planning to integrate Max’s work to have an event be a correctly played note to progress the song. There will also be a backup mode, where if the user gets stuck at a particular part, they can progress the song with the trigger, which is integrated. 
+You can take a look at a demo with this &lt;a href=&quot;https://twitter.com/SamVanderlinda/status/1387811784246005763?s=20&quot;&gt;video&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Next week he plans on integrating his work with the rest of the project and if time permits, improve the UI to have 3d notes played to the user.&lt;br /&gt;
+&lt;img src=&quot;/xrcapstone21sp-team4/images/sam-week-5.png&quot; alt=&quot;Sam-demo&quot; width=&quot;400px&quot; /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Max:&lt;/strong&gt;&lt;br /&gt;
+Max completed a P5.js tutorial and modified it to recognize the respective frequencies of guitar strings. At this point individual notes are very much trackable, with the caveat that playing new notes over a still-vibrating old note and their harmonics cause the pitch signal to switch back and forth between them. This week he and Sam will work together to add pitch-triggered progression to the manual / automated chart/tab progression already in place. He will also implement a debouncing algorithm to control harmonics, and add frequencies for every possible note on the guitar.&lt;/p&gt;
+
+&lt;p&gt;Summary of &lt;strong&gt;next steps&lt;/strong&gt;:&lt;br /&gt;
+Integrate all the pieces of the build to together.&lt;br /&gt;
+Especially the pitch recognition and the chord progression.&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Summary of our &lt;strong&gt;blockers&lt;/strong&gt;:&lt;br /&gt;
+The audio code significantly slows down the rest of the program, so this will be a challenge combining everything.&lt;/p&gt;</content><author><name></name></author><summary type="html">Here is the week 4 report of the GuitXR project.</summary></entry><entry><title type="html">Week 3: Road to MVP</title><link href="https://uwrealitylab.github.io/xrcapstone21sp-team4/2021/04/23/Week3-Road-to-MVP.html" rel="alternate" type="text/html" title="Week 3: Road to MVP" /><published>2021-04-23T21:00:00-07:00</published><updated>2021-04-23T21:00:00-07:00</updated><id>https://uwrealitylab.github.io/xrcapstone21sp-team4/2021/04/23/Week3-Road-to-MVP</id><content type="html" xml:base="https://uwrealitylab.github.io/xrcapstone21sp-team4/2021/04/23/Week3-Road-to-MVP.html">&lt;!-- Output copied to clipboard! --&gt;
+
+&lt;!-----
+NEW: Check the &quot;Suppress top comment&quot; option to remove this info from the output.
+
+Conversion time: 0.409 seconds.
+
+
+Using this Markdown file:
+
+1. Paste this output into your source file.
+2. See the notes and action items below regarding this conversion run.
+3. Check the rendered output (headings, lists, code blocks, tables) for proper
+   formatting and use a linkchecker before you publish this page.
+
+Conversion notes:
+
+* Docs to Markdown version 1.0β29
+* Thu Apr 22 2021 23:51:55 GMT-0700 (PDT)
+* Source doc: Week3 Blog- Rish
+-----&gt;
+
+&lt;p&gt;&lt;strong&gt;Rish:&lt;/strong&gt; This week I continued to work on marker tracking :&lt;/p&gt;
+
+&lt;p&gt;I tested out a js library found by Kirit using my WebCam.  &lt;br /&gt;
+Library : &lt;a href=&quot;https://github.com/jcmellado/js-aruco&quot;&gt;https://github.com/jcmellado/js-aruco&lt;/a&gt;  &lt;br /&gt;
+ &lt;br /&gt;
+Results:- &lt;br /&gt;
+With a print size of each marker being ~ 1 ½ inches I saw that the webcam ( 1080p ) can detect the markers of upto ~30 inches away&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+With a print size of ~0.9 inch I saw it dropped to nearly half i.e. 16 inches.  &lt;br /&gt;
+ &lt;br /&gt;
+Next, I stuck these markers on a guitar and looked at them.  &lt;br /&gt;
+ &lt;br /&gt;
+Initial results are not super promising -&lt;/p&gt;
+
+&lt;p&gt;-The detection relies heavily on lighting ( we can make some assumptions about good lighting to combat this)&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The angle of viewing also matters and steeper angles ( as such we will have with the AR headset might not detect the markers) \&lt;/li&gt;
+  &lt;li&gt;The markers do not detect if under strings ( this might make tracking slightly more difficult).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I will spend the weekend trying to combat this issue.  &lt;br /&gt;
+ &lt;br /&gt;
+Any help regarding marker tracking would be greatly appreciated.  \&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+Here is the video Link of the first attempt : &lt;a href=&quot;https://youtu.be/1FeoUyqGfGU&quot;&gt;https://youtu.be/1FeoUyqGfGU&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Potential Future Solutions: \&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;I spend the rest of the time trying to find better ways to track the images and so Far I have found two promising candidates : &lt;br /&gt;
+&lt;a href=&quot;https://paperswithcode.com/paper/stag-a-stable-fiducial-marker-system&quot;&gt;https://paperswithcode.com/paper/stag-a-stable-fiducial-marker-system&lt;/a&gt; \&lt;/li&gt;
+  &lt;li&gt;Another potential approach that could work is using transfer learning with some modern nets like YOLO eg:- &lt;br /&gt;
+https://ieeexplore.ieee.org/document/9230250&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Sam:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;This week Sam chose Smoke on the Water by Deep Purple to be the song showcased in the MVP. He spent time editing the song and saved timestamps to corresponding notes.&lt;/p&gt;
+
+&lt;p&gt;He drew these corresponding notes in gimp and will model these as 3d guides this weekend for a nicer visual feel than 2d images.&lt;/p&gt;
+
+&lt;p&gt;He also made a script storing these images in a Data Structure as a key value store of notes - image (of the note).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Max:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;This week Max followed up on a variety of options for pitch detection with JavaScript before settling on ml5.js’s pitchDetection() based on the CREPE model (&lt;a href=&quot;https://ml5js.org/reference/api-PitchDetection/&quot;&gt;link&lt;/a&gt;). Examples online use p5.js, so he will spend some time exploring boilerplate examples and finish implementing a MVP on Glitch tomorrow. Follow along &lt;a href=&quot;https://glitch.com/edit/#!/remixed-capstone-leap-audio?path=audio.js%3A14%3A5&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Kirit:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Kirit spent the week researching options for tracking the guitar fretboard. He experimented with numerous javascript-based libraries that claimed to support pose tracking. In summary, object tracking via &lt;a href=&quot;https://trackingjs.com/&quot;&gt;Tracking.JS&lt;/a&gt; gave poor results because of the Magic Leap’s small field of view , &lt;a href=&quot;https://babylonjs.medium.com/marker-tracking-in-babylon-js-ce99490be1dd&quot;&gt;BabylonJS with Webassembly&lt;/a&gt; had issues running on the Helio browser, and &lt;a href=&quot;https://github.com/jcmellado/js-aruco&quot;&gt;js-aruco&lt;/a&gt;  had poor accuracy did on smaller markers. Js-aruco seems to be the most promising, and it is based on OpenCV ArUco marker tracking (related code linked below for this).&lt;/p&gt;
+
+&lt;p&gt;Kirit also parallelly explored the possibilities for tracking via the Magic Leap native sdk’s. He got a local development environment setup with Unity and followed along an official image tracking guide (code &lt;a href=&quot;https://drive.google.com/file/d/1vKCsdym2Uw2ByZOZawCNef98zbqzOA87/view?usp=sharing&quot;&gt;https://drive.google.com/file/d/1vKCsdym2Uw2ByZOZawCNef98zbqzOA87/view?usp=sharing&lt;/a&gt;). Unfortunately this performed worse at pose estimation than the ArUco marker tracking, and required larger images (which are infeasible to attach on a guitar fretboard). Finally he took the call to abandon Unity and stick with WebXR + AFrame for the project moving forward.&lt;/p&gt;
+
+&lt;p&gt;Kirit then setup a local node js server using Express for the team to speed up development, and is looking at getting a pre-MVP tracking prototype out using ArUco markers shortly. There is in-progress, early stage implementation of this in the app/ folder of the &lt;a href=&quot;https://github.com/UWRealityLab/xrcapstone21sp-team4&quot;&gt;team repository&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html"></summary></entry><entry><title type="html">Week 2: Basics</title><link href="https://uwrealitylab.github.io/xrcapstone21sp-team4/2021/04/15/Week2-Basics.html" rel="alternate" type="text/html" title="Week 2: Basics" /><published>2021-04-15T21:00:00-07:00</published><updated>2021-04-15T21:00:00-07:00</updated><id>https://uwrealitylab.github.io/xrcapstone21sp-team4/2021/04/15/Week2-Basics</id><content type="html" xml:base="https://uwrealitylab.github.io/xrcapstone21sp-team4/2021/04/15/Week2-Basics.html">&lt;p&gt;Here is the week 2 report on the GuitXR project.&lt;br /&gt;
 We all collaborated on finishing our PRD (look at the PRD link above) and this was the first week of prototyping a proof of concept.&lt;br /&gt;
 We each worked on a different core feature in seperate repositories.&lt;/p&gt;
 
