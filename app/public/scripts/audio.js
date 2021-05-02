@@ -1,14 +1,14 @@
 // You can also set which camera to use (front/back/etc)
 // @SEE https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
-navigator.mediaDevices.getUserMedia({audio: true, video: false})
-    .then(stream => {
-        console.log('got audio stream');
-        let $audio = document.querySelector('audio')
-        $audio.srcObject = stream
-        $audio.onloadedmetadata = () => {
-            // $audio.play()
-        };
-    });
+// navigator.mediaDevices.getUserMedia({audio: true, video: false})
+//     .then(stream => {
+//         console.log('got audio stream');
+//         let $audio = document.querySelector('audio')
+//         $audio.srcObject = stream
+//         $audio.onloadedmetadata = () => {
+//             // $audio.play()
+//         };
+//     });
 
 // Daniel Shiffman
 // https://thecodingtrain.com/CodingChallenges/151-ukulele-tuner.html
@@ -23,6 +23,7 @@ let audioContext;
 let freq = 0;
 let threshold = 1;
 let pitchMonitor;
+var scene;
 
 let notes = [
     {
@@ -53,12 +54,12 @@ let notes = [
 
 function setup() {
     console.log('audio setup');
+    scene = document.querySelector('a-scene');
+    // const canvas = createCanvas(400, 400);
+    // canvas.elt.id = 'audioCanvas';
 
-    const canvas = createCanvas(400, 400);
-    canvas.elt.id = 'audioCanvas';
-
-    pitchMonitor = document.querySelector('#pitchMonitor');
-    pitchMonitor.setAttribute('material', 'src: #audioCanvas');
+    // pitchMonitor = document.querySelector('#pitchMonitor');
+    // pitchMonitor.setAttribute('material', 'src: #audioCanvas');
     // audioContext = getAudioContext();
     audioContext = new AudioContext();
     mic = new p5.AudioIn();
@@ -71,53 +72,53 @@ function listening() {
     pitch = ml5.pitchDetection(model_url, audioContext, mic.stream, modelLoaded);
 }
 
-function draw() {
-    background(0);
-    textAlign(CENTER, CENTER);
-    fill(255);
-    textSize(32);
-    text(freq.toFixed(2), width / 2, height - 150);
+// function draw() {
+//     background(0);
+//     textAlign(CENTER, CENTER);
+//     fill(255);
+//     textSize(32);
+//     text(freq.toFixed(2), width / 2, height - 150);
 
-    let closestNote = -1;
-    let recordDiff = Infinity;
-    for (let i = 0; i < notes.length; i++) {
-        let diff = freq - notes[i].freq;
-        if (Math.abs(diff) < Math.abs(recordDiff)) {
-            closestNote = notes[i];
-            recordDiff = diff;
-        }
-    }
+//     let closestNote = -1;
+//     let recordDiff = Infinity;
+//     for (let i = 0; i < notes.length; i++) {
+//         let diff = freq - notes[i].freq;
+//         if (Math.abs(diff) < Math.abs(recordDiff)) {
+//             closestNote = notes[i];
+//             recordDiff = diff;
+//         }
+//     }
 
-    textSize(64);
-    text(closestNote.note, width / 2, height - 50);
+//     textSize(64);
+//     text(closestNote.note, width / 2, height - 50);
 
-    let diff = recordDiff;
-    // let amt = map(diff, -100, 100, 0, 1);
-    // let r = color(255, 0, 0);
-    // let g = color(0, 255, 0);
-    // let col = lerpColor(g, r, amt);
+//     let diff = recordDiff;
+//     // let amt = map(diff, -100, 100, 0, 1);
+//     // let r = color(255, 0, 0);
+//     // let g = color(0, 255, 0);
+//     // let col = lerpColor(g, r, amt);
 
-    let alpha = map(abs(diff), 0, 100, 255, 0);
-    rectMode(CENTER);
-    fill(255, alpha);
-    stroke(255);
-    strokeWeight(1);
-    if (abs(diff) < threshold) {
-        fill(0, 255, 0);
-    }
-    rect(200, 100, 200, 50);
+//     let alpha = map(abs(diff), 0, 100, 255, 0);
+//     rectMode(CENTER);
+//     fill(255, alpha);
+//     stroke(255);
+//     strokeWeight(1);
+//     if (abs(diff) < threshold) {
+//         fill(0, 255, 0);
+//     }
+//     rect(200, 100, 200, 50);
 
-    stroke(255);
-    strokeWeight(4);
-    line(200, 0, 200, 200);
+//     stroke(255);
+//     strokeWeight(4);
+//     line(200, 0, 200, 200);
 
-    noStroke();
-    fill(255, 0, 0);
-    if (abs(diff) < threshold) {
-        fill(0, 255, 0);
-    }
-    rect(200 + diff / 2, 100, 10, 75);
-}
+//     noStroke();
+//     fill(255, 0, 0);
+//     if (abs(diff) < threshold) {
+//         fill(0, 255, 0);
+//     }
+//     rect(200 + diff / 2, 100, 10, 75);
+// }
 
 function modelLoaded() {
     console.log('audio model loaded');
@@ -128,17 +129,21 @@ function gotPitch(error, frequency) {
     if (error) {
         console.error(error);
     } else {
-        console.log('got pitch: '+frequency);
+        // console.log('got pitch: '+frequency);
         if (frequency) {
             freq = frequency;
+            scene.emit('pitch', {"freq": freq});
         }
-        pitch.getPitch(gotPitch);
-        const material = pitchMonitor.getObject3D('mesh').material;
-        if(!material || !material.map){
-            console.log('pitchMonitor: no material');
-        }else{
-            material.map.needsUpdate = true;
-        }
+        setTimeout(() => {pitch.getPitch(gotPitch)}, 10);
+        // const material = pitchMonitor.getObject3D('mesh').material;
+        // if(!material || !material.map){
+        //     console.log('pitchMonitor: no material');
+        // }else{
+        //     material.map.needsUpdate = true;
+        // }
 
     }
 }
+const event = new CustomEvent('build', { detail: elem.dataset.time });
+// obj = this.scene or whatevs
+// obj.dispatchEvent(event)

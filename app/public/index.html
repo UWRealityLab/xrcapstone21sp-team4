@@ -38,7 +38,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.sound.min.js"></script>
 <!-- Start ml5.js-->
 <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
-<!-- <script src="scripts/audio.js"></script> -->
+<script src="scripts/audio.js"></script>
 
 <a-scene>
     <a-assets>
@@ -66,7 +66,7 @@
 
     <a-entity id="rig">
         <a-entity id="camera" camera position="0 8 0" look-controls wasd-controls>
-            <a-entity id="image-tab" swap position="0 -0.2 -3.5">
+            <a-entity id="image-tab" chord-keys position="0 -0.2 -3.5">
                 <a-image id="first" material="transparent: true; opacity: 0.50" position="0 0 -2" width= "1.5" animation-manager src="#interface"></a-image>
                 <a-image id="second" material="transparent: true; opacity: 0.50" position="2 0 -4" width= "1.5"  animation-manager src=""></a-image>
                 <a-image id="third" material="transparent: true; opacity: 0.50" position="4 0 -6" width= "1.5"  animation-manager src=""></a-image>
