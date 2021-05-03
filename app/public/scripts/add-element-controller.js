@@ -10,7 +10,7 @@ AFRAME.registerComponent('add-element-controller', {
         // clear markers and strings
         Markers.forEach((marker) => marker.parentNode.removeChild(marker));
         Markers = [];
-        Strings.forEach((string) => string.setAttribute('material', 'color: white'));
+        Strings.forEach((string) => string.setAttribute('material', 'color', 'white'));
 
         let scaleLength = 0.6477;
         for (let i = 0; i < markArray.length; i++) {

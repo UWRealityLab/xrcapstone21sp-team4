@@ -107,9 +107,9 @@ function listening() {
 
 function modelLoaded() {
     console.log('audio model loaded');
-    setTimeout(()=>{
+    setInterval(()=>{
         pitch.getPitch(gotPitch);
-    }, 10);
+    }, 30);
 }
 
 function gotPitch(error, frequency) {
