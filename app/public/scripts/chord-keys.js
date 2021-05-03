@@ -1,8 +1,6 @@
 AFRAME.registerComponent('chord-keys', {
     init: function() {
-        // var addElementController = document.querySelector('[add-element-controller]').components['add-element-controller'];
-        // console.log('querySelction: '+document.querySelector('[add-element-controller]'))
-        // console.log('addElementController: '+addElementController);
+        var scene = document.querySelector("a-scene");
         var firstPos = {
             x: 0,
             y: 0,
@@ -39,7 +37,7 @@ AFRAME.registerComponent('chord-keys', {
         ];
 
         var notes = {
-            "d": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fopen-d.png?v=1619160197750", tab: []},
+            "d": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fopen-d.png?v=1619160197750", tab: [[4, 0]]},
             "f": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Ff.png?v=1619160197623", tab: [[4, 3]]},
             "g": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fg.png?v=1619160197721", tab: [[4, 5]]},
             "g#": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fg%23.png?v=1619160197912", tab: [[4, 6]]}
@@ -90,6 +88,8 @@ AFRAME.registerComponent('chord-keys', {
                 second.setAttribute('src', notes[times[1]["note"]].image);
                 third.setAttribute('src', notes[times[2]["note"]].image);
                 console.log("first: " + first.getAttribute('note').image);
+
+                scene.emit('tab-change', {tab: notes[times[0]['note']].tab});
                 return;
             }
 
@@ -160,10 +160,19 @@ AFRAME.registerComponent('chord-keys', {
                 isListening = false;
                 setTimeout(() => {isListening = true}, 1200);
             }
+
             i++;
+            if(times[i]){
+                scene.emit('tab-change', {tab: notes[times[i]['note']].tab});
+            }else{
+                // end of song
+                scene.emit('tab-change', {tab: []});
+            }
+
+
 
         }
-        var scene = document.querySelector("a-scene");
+
         this.controller = document.querySelector('#controller');
         // max will change this function called from a click to a correct
         // note
@@ -189,23 +198,3 @@ AFRAME.registerComponent('chord-keys', {
         scene.removeEventListener('pitch', this.startMusic);
     }
 });
-
-//       // swapping photos
-//       // update the front facing note
-//       el.children[0].setAttribute('src', notes[times[i]["note"]]);
-//       var futureI = i + 1;
-//       if (futureI == times.length) {
-//         futureI = 0;
-//       }
-//       el.children[1].setAttribute('src', notes[times[futureI]["note"]]);
-//       futureI++;
-//       if (futureI == times.length) {
-//         futureI = 0;
-//       }
-//       el.children[2].setAttribute('src', notes[times[futureI]["note"]]);
-
-//       function snip(start, end) {
-//         water.currentTime = start;
-//         water.play();
-//         setTimeout(() => {water.pause();}, (end - start) * 1000);
-//       }

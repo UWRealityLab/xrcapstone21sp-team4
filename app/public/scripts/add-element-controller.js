@@ -1,25 +1,33 @@
 AFRAME.registerComponent('add-element-controller', {
     init: function () {
+      const Strings = [];
+      let Markers = [];
+      for(let i=1; i<=6; i++){
+        Strings.push(document.getElementById('String'+i))
+      }
+
       this.addMarker = function (markArray) {
-        let j = 0; 
-        
-        for (j = 0; j < 5; j++) {
-          let marker = document.getElementById("marker" + j);
-          if (marker != null) {
-            marker.parentNode.removeChild(marker);
-          }
-        }
+        // clear markers and strings
+        Markers.forEach((marker) => marker.parentNode.removeChild(marker));
+        Markers = [];
+        Strings.forEach((string) => string.setAttribute('material', 'color: white'));
 
         let scaleLength = 0.6477;
-        let i = 0;
-        for (i = 0; i < markArray.length; i++) {
+        for (let i = 0; i < markArray.length; i++) {
           let strNum = markArray[i][0];
-          let FretNum = markArray[i][1];
-          let el = document.getElementById('String' + strNum);
+          let fretNum = markArray[i][1];
+          let el = Strings[strNum-1];
+
+          if(fretNum===0){
+            // highlight entire string
+            el.setAttribute('material', 'color: blue');
+            return;
+          }
+
           let newMark = document.createElement('a-entity');
           let myX = el.components.position.attrValue.x;
 
-          let midPoint = this.calcFretDistance(FretNum) + this.calcFretDistance(FretNum - 1);
+          let midPoint = this.calcFretDistance(fretNum) + this.calcFretDistance(fretNum - 1);
           midPoint = midPoint / 2;
           myX = myX + (scaleLength/2) - midPoint; 
           newMark.setAttribute('geometry', {
@@ -34,6 +42,7 @@ AFRAME.registerComponent('add-element-controller', {
             z: 0
           });
           el.appendChild(newMark);
+          Markers.push(newMark);
         }
       }
 
@@ -49,17 +58,11 @@ AFRAME.registerComponent('add-element-controller', {
       let fourthPoint = [3, 10]; // string 3, fret 10
       let fifthPoint = [6, 4]; // string 6, fret 4
       let passedArray = [firstPoint, secondPoint, thirdPoint, fourthPoint, fifthPoint];
+
+
       this.addMarker(passedArray);
-
-
-      // Note this is test code to see if previous ID get removed. 
-      // let firstPoint1 = [1, 1]; // string 1 , fret 2
-      // let secondPoint1 = [2,1]; // string 2 , fret 2
-      // let thirdPoint1 = [3, 1]; //string 5, fret 7
-      // let fourthPoint1 = [4, 1]; // string 3, fret 10
-      // let fifthPoint1 = [5, 1]; // string 6, fret 4
-      // let passedArray1 = [firstPoint1, secondPoint1, thirdPoint1, fourthPoint1, fifthPoint1];
-      // this.addMarker(passedArray1);
-
+      this.el.addEventListener('tab-change', (event) => {
+        this.addMarker(event.detail.tab);
+      })
     },
   })
