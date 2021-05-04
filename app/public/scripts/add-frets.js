@@ -20,7 +20,7 @@ this.addFret = function (distanceFromNut, fretNum) {
     let newMark = document.createElement('a-entity');
     newMark.setAttribute('geometry', {
         primitive: 'box',
-        width: 0.1,
+        width: 0.075,
         height: 0.001,
         depth: 0.001
     });

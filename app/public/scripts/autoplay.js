@@ -35,10 +35,10 @@ AFRAME.registerComponent('autoplay', {
             {"note": "d", "start": 6.9, "end": 8.45},
         ];
         var notes = {
-            "d": "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fopen-d.png?v=1619160197750",
-            "f": "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Ff.png?v=1619160197623",
-            "g": "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fg.png?v=1619160197721",
-            "g#": "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fg%23.png?v=1619160197912"
+            "d": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fopen-d.png?v=1619160197750", tab: [[4, 0]]},
+            "f": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Ff.png?v=1619160197623", tab: [[4, 3]]},
+            "g": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fg.png?v=1619160197721", tab: [[4, 5]]},
+            "g#": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fg%23.png?v=1619160197912", tab: [[4, 6]]}
         };
       
         var countdown = {
@@ -47,6 +47,8 @@ AFRAME.registerComponent('autoplay', {
             "3": "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2F3.png?v=1619680787564"
         };
         var currentlyRunning = false;
+
+        const scene = document.querySelector('a-scene');
 
         function animate(first, second, third, isMusic, i) {
           var params = {
@@ -76,14 +78,14 @@ AFRAME.registerComponent('autoplay', {
                   if (thirdI == times.length) { thirdI = 0; }
                   thirdI++;
                   if (thirdI == times.length) { thirdI = 0; }
-                  first.setAttribute('src', notes[times[thirdI]["note"]]);
+                  first.setAttribute('src', notes[times[thirdI]["note"]].image);
                   first.setAttribute('position', {
                       x: thirdPos.x,
                       y: thirdPos.y,
                       z: thirdPos.z
                   });
                 } else {
-                  first.setAttribute('src', notes[times[i]["note"]]);
+                  first.setAttribute('src', notes[times[i]["note"]].image);
                   first.setAttribute('position', {
                       x: thirdPos.x,
                       y: thirdPos.y,
@@ -103,6 +105,15 @@ AFRAME.registerComponent('autoplay', {
             function nextNote(i, isMusic) {
                 // swapping photos
                 // update the front facing note
+
+                console.log('next note: '+i);
+                if(times[i]){
+                    scene.emit('tab-change', {tab: notes[times[i].note].tab});
+                }else{
+                    scene.emit('tab-change', []);
+                }
+
+
 
                 var first = null;
                 var second = null;

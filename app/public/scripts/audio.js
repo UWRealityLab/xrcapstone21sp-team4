@@ -116,8 +116,8 @@ function gotPitch(error, frequency) {
     if (error) {
         console.error(error);
     } else {
-        // console.log('got pitch: '+frequency);
         if (frequency) {
+            console.log('got pitch: '+frequency);
             freq = frequency;
             scene.emit('pitch', {"freq": freq});
         }
