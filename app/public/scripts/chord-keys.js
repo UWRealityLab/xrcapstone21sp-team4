@@ -22,32 +22,32 @@ AFRAME.registerComponent('chord-keys', {
         let el = this.el;
         var i = 0;
         var times = [
-            {"note": "d", "start": 0, "end": 0.5},
-            {"note": "f", "start": 0.5, "end": 1.2},
-            {"note": "g", "start": 1.2, "end": 2},
-            {"note": "d", "start": 2, "end": 2.5},
-            {"note": "f", "start": 2.5, "end": 3.2},
-            {"note": "g#", "start": 3.2, "end": 3.52},
-            {"note": "g", "start": 3.43, "end": 4.5},
-            {"note": "d", "start": 4.5, "end": 4.9},
-            {"note": "f", "start": 4.9, "end": 5.6},
-            {"note": "g", "start": 5.6, "end": 6.4},
-            {"note": "f", "start": 6.4, "end": 6.9},
-            {"note": "d", "start": 6.9, "end": 8.5},
+            {"note": "D3", "start": 0, "end": 0.5},
+            {"note": "F3", "start": 0.5, "end": 1.2},
+            {"note": "G3", "start": 1.2, "end": 2},
+            {"note": "D3", "start": 2, "end": 2.5},
+            {"note": "F3", "start": 2.5, "end": 3.2},
+            {"note": "G#3", "start": 3.2, "end": 3.52},
+            {"note": "G3", "start": 3.43, "end": 4.5},
+            {"note": "D3", "start": 4.5, "end": 4.9},
+            {"note": "F3", "start": 4.9, "end": 5.6},
+            {"note": "G3", "start": 5.6, "end": 6.4},
+            {"note": "F3", "start": 6.4, "end": 6.9},
+            {"note": "D3", "start": 6.9, "end": 8.5},
         ];
 
         var notes = {
-            "d": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fopen-d.png?v=1619160197750", tab: [[4, 0]]},
-            "f": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Ff.png?v=1619160197623", tab: [[4, 3]]},
-            "g": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fg.png?v=1619160197721", tab: [[4, 5]]},
-            "g#": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fg%23.png?v=1619160197912", tab: [[4, 6]]}
+            "D3": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fopen-d.png?v=1619160197750", tab: [[4, 0]]},
+            "F3": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Ff.png?v=1619160197623", tab: [[4, 3]]},
+            "G3": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fg.png?v=1619160197721", tab: [[4, 5]]},
+            "G#3": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fg%23.png?v=1619160197912", tab: [[4, 6]]}
         };
 
         var freqs = {
-            "d": 146.83,
-            "f": 174.61,
-            "g": 196.00,
-            "g#": 207.65
+            "D3": 146.83,
+            "F3": 174.61,
+            "G3": 196.00,
+            "G#3": 207.65
         };
         // check if pitch is sustained
         var ERROR_THRESHOLD = 0.5;      
