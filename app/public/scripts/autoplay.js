@@ -35,20 +35,19 @@ AFRAME.registerComponent('autoplay', {
             {"note": "d", "start": 6.9, "end": 8.45},
         ];
         var notes = {
-            "d": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fopen-d.png?v=1619160197750", tab: [[4, 0]]},
-            "f": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Ff.png?v=1619160197623", tab: [[4, 3]]},
-            "g": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fg.png?v=1619160197721", tab: [[4, 5]]},
-            "g#": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fg%23.png?v=1619160197912", tab: [[4, 6]]}
+            "d": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Ffc055219-cece-4a8f-9b64-7155fb2e6324.image.png?v=1620102883826", tab: [[4, 0]]},
+            "f": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2F63898bc2-8da3-4321-880f-1d7750892ece.image.png?v=1620102917808", tab: [[4, 3]]},
+            "g": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2F6a4cd273-d8aa-4eb6-862e-fbecff440967.image.png?v=1620102943326", tab: [[4, 5]]},
+            "g#": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2F0b88a893-54bd-433e-bb42-554bb73b06a6.image.png?v=1620102928423", tab: [[4, 6]]}
         };
-      
+
+
         var countdown = {
-            "1": "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2F1.png?v=1619680779376",
-            "2": "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2F2.png?v=1619680783623",
-            "3": "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2F3.png?v=1619680787564"
+            "1": "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2F1.png?v=1620104560154",
+            "2": "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2F2.png?v=1620104562410",
+            "3": "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2F3.png?v=1620104566565"
         };
         var currentlyRunning = false;
-
-        const scene = document.querySelector('a-scene');
 
         function animate(first, second, third, isMusic, i) {
           var params = {
