@@ -37,10 +37,10 @@ AFRAME.registerComponent('chord-keys', {
         ];
 
         var notes = {
-            "D3": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Ffc055219-cece-4a8f-9b64-7155fb2e6324.image.png?v=1620102883826", tab: [[5, 4]]},
-            "F3": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2F63898bc2-8da3-4321-880f-1d7750892ece.image.png?v=1620102917808", tab: [[4, 2]]},
-            "G3": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2F6a4cd273-d8aa-4eb6-862e-fbecff440967.image.png?v=1620102943326", tab: [[4, 4]]},
-            "G#3": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2F0b88a893-54bd-433e-bb42-554bb73b06a6.image.png?v=1620102928423", tab: [[4, 5]]}
+            "D3": {image: "../assets/notes/D3.png", tab: [[5, 4]]},
+            "F3": {image: "../assets/notes/F3.png", tab: [[4, 2]]},
+            "G3": {image: "../assets/notes/G3.png", tab: [[4, 4]]},
+            "G#3": {image: "../assets/notes/G3sharp.png", tab: [[4, 5]]}
         };
 
         var freqs = {

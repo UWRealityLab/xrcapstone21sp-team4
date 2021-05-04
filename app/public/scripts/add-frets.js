@@ -4,7 +4,7 @@ const scaleFactor = 1.4; // manual scale factor
 const el = document.getElementById('String1');
 let startPos = el.object3D.position.clone();
 startPos.x = startPos.x + (scaleLength / 2);
-startPos.y += 0.05;
+startPos.y += 0.040;
 
 this.addFret = function (distanceFromNut, fretNum) {
     console.log('adding fret ' + fretNum + ' at distance: ' + distanceFromNut);
