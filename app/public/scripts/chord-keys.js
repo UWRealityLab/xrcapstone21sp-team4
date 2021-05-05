@@ -37,11 +37,12 @@ AFRAME.registerComponent('chord-keys', {
         ];
 
         var notes = {
-            "D3": {image: "../assets/notes/D3.png", tab: [[5, 4]]},
-            "F3": {image: "../assets/notes/F3.png", tab: [[4, 2]]},
-            "G3": {image: "../assets/notes/G3.png", tab: [[4, 4]]},
-            "G#3": {image: "../assets/notes/G3sharp.png", tab: [[4, 5]]}
+            "D3": {image: "../assets/notes/D3.png", tab: [[5, 5]]},
+            "F3": {image: "../assets/notes/F3.png", tab: [[4, 3]]},
+            "G3": {image: "../assets/notes/G3.png", tab: [[4, 5]]},
+            "G#3": {image: "../assets/notes/G3sharp.png", tab: [[4, 6]]}
         };
+
 
         var freqs = {
             "D3": 146.83,
@@ -50,7 +51,7 @@ AFRAME.registerComponent('chord-keys', {
             "G#3": 207.65
         };
         // check if pitch is sustained
-        var ERROR_THRESHOLD = 0.5;      
+        var ERROR_THRESHOLD = 0.5;
         var isListening = false;
 
         this.startMusic = async function(/*e*/) {
