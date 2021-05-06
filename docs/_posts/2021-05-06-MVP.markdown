@@ -1,0 +1,12 @@
+---
+layout: post
+title:  "MVP"
+date:   2021-05-06 1:00:00 -0700
+categories:
+---
+We hit the MVP milestone this week!
+
+You can find our MVP application here (built for the Magic Leap): [https://uwrealitylab.github.io/xrcapstone21sp-team4/MVP/index.html](https://uwrealitylab.github.io/xrcapstone21sp-team4/MVP/index.html)
+
+We also put together a short demo video and presented it to everyone in the capstone.
+[https://drive.google.com/file/d/1rIpgdVQ0_urofp7_nmK8itFwea4glDkU/view?usp=sharing](https://drive.google.com/file/d/1rIpgdVQ0_urofp7_nmK8itFwea4glDkU/view?usp=sharing)
