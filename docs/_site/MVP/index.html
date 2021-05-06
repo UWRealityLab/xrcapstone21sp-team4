@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>GuitXR MVP</title>
+    <script>
+        //Fix aframe requestDevice missing from Chrome m77
+        if(
+            navigator.xr &&
+            'requestDevice' in navigator.xr === false
+        ) {
+            navigator.xr.requestDevice = function () {
+                return new Promise(function(resolve, reject){
+                    resolve();
+                });
+            };
+        }
+    </script>
+
+    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.sound.min.js"></script>
+    <!-- Start ml5.js-->
+    <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+    <script src="scripts/offset-component.js"></script>
+    <script src="scripts/controller-tracking.js"></script>
+
+    <script src="scripts/hud.js"></script>
+    <script src="scripts/chord-keys.js"></script>
+    <script src="scripts/animation-manager.js"></script>
+    <script src="scripts/autoplay.js"></script>
+    <script src="scripts/swap.js"></script>
+
+    <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<a-scene>
+    <a-assets>
+        <!-- Asset preloads-->
+        <video id="webcam" playsinline></video>
+        <audio id="microphone" playsinline></audio>
+
+<!--
+        <canvas id="hiddenCanvas"></canvas>
+-->
+
+        <img id="interface" src="https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fautovsmanual.png?v=1620104675774">
+
+    </a-assets>
+    <!-- <a-audio src="#microphone" width="16" height="9" position="0 0 -40"></a-audio> -->
+ 
+
+    <a-box color="green" height="0.01" width="0.01" depth="0.01" id="controller-estimate" position="0.0 0.0 0.0" offset-component="1.5 0 0"></a-box>
+
+    <a-entity id="controller" magicleap-controls="hand: right" controller-tracking>
+        <!--<a-box color="blue" height="0.01" width="0.01" depth="0.01" id="controller-child" position="0.0 -0.06 0.02"></a-box>-->
+        <!--<a-entity id="controller" geometry="primitive: box; width: 0.45; height: 0.05; depth: 0.05" position="0 0 0" rotation="0 0 0 "></a-entity>-->
+    </a-entity>
+
+    <a-box color="tomato" height="0.01" width="0.01" depth="0.01" id="real-controller" offset-component="0.19 -0.07 0.0">
+        <a-plane id="fretboard" width="0.45" height="0.1" position="0 0 0.0" rotation="-45 0 0" color="#b3b3b3" material="side: double; transparent: true; opacity: 0.1">
+            <a-entity id="strings" position="-0.1 -0.03 0">
+                <a-entity id="String1" geometry="primitive: box; width: 0.6477; height: 0.001; depth: 0.001" position="0 0 0" rotation="0 0 0" material="opacity: 0.3"></a-entity>
+                <a-entity id="String2" geometry="primitive: box; width: 0.6477; height: 0.001; depth: 0.001" position="0 0.015 0" rotation="0 0 0" material="opacity: 0.3"></a-entity>
+                <a-entity id="String3" geometry="primitive: box; width: 0.6477; height: 0.001; depth: 0.001" position="0 0.03 0" rotation="0 0 0" material="opacity: 0.3"></a-entity>
+                <a-entity id="String4" geometry="primitive: box; width: 0.6477; height: 0.001; depth: 0.001" position="0 0.045 0" rotation="0 0 0" material="opacity: 0.3"></a-entity>
+                <a-entity id="String5" geometry="primitive: box; width: 0.6477; height: 0.001; depth: 0.001" position="0 0.06 0" rotation="0 0 0" material="opacity: 0.3"></a-entity>
+                <a-entity id="String6" geometry="primitive: box; width: 0.6477; height: 0.001; depth: 0.001" position="0 0.075 0" rotation="0 0 0" material="opacity: 0.3"></a-entity>
+            </a-entity>
+
+        </a-plane>
+    </a-box>
+
+    <a-entity id="axisLines" line="start: 0 0 0; end: 0 0 0; color: red" line__2="start: 0 0 0; end: 0 0 0; color: green" line__3="start: 0 0 0; end: 0 0 0; color: blue"></a-entity>
+
+    <a-entity id="hud" offset-component="0 0 0.5" hud>
+
+        <a-entity id="image-tab" swap position="0 -0.2 -3.5">
+                <a-image id="first" material="transparent: true; opacity: 0.60" position="0 0 -2" width= "1.7" animation-manager src="#interface"></a-image>
+                <a-image id="second" material="transparent: true; opacity: 0.60" position="2 0 -4" width= "1.7"  animation-manager src=""></a-image>
+                <a-image id="third" material="transparent: true; opacity: 0.60" position="4 0 -6" width= "1.7"  animation-manager src=""></a-image>
+            </a-entity>
+        </a-plane>
+<!--
+        <a-plane rotation="0 0 0" material="opacity: 0.5" position="0 0 -4">
+-->
+<!--
+        <a-plane id="pitchMonitor" position="0 0.5 -3" rotation="0 0 0" width="0.5" height="0.5"></a-plane>
+-->
+    </a-entity>
+
+    <a-entity id="rig">
+        <a-entity id="camera" camera position="0 8 0" look-controls wasd-controls>
+            <a-entity id="camera-center" geometry="primitive: sphere; radius: 0.02" color="#4CC3D9" position="0.05 0 0"></a-entity>
+        </a-entity>
+        <!-- Match Magic Leap controller if present, regardless of hand. -->
+
+    </a-entity>
+</a-scene>
+
+<script src="scripts/audio.js"></script>
+<script src="scripts/add-frets.js"></script>
+<script src= "scripts/add-element-controller.js"></script>
+</body>
+</html>
