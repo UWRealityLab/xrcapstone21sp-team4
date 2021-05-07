@@ -23,7 +23,7 @@ Kirit’s immediate plan for the upcoming week is to 3D model and print a more p
 
 **Max**<br/>
 Max’s last major milestone this week was pair programming with Sam on merging pitch recognition code in time for the MVP demo. He recorded a brief pitch recognition demo and designed a new image file with layers to clean up the artifacts of a somewhat blurry chart template. This begins the process of modularizing chart and tab construction, and also helps with an eventual goal of allowing users to upload/select custom tabs for songs that have no MIDI file freely available.
-![Max-demo](/xrcapstone21sp-team4/images/max-week5.png){:width="300px"}
+![Max-demo](/xrcapstone21sp-team4/images/Max-week5.png){:width="300px"}
 
 
 This coming week Max will explore implementation of the tonal.js library [link](https://github.com/tonaljs/tonal) to standardize our implementation of notes and frequencies and open up options for MIDI-based pitch/rhythm tracking instead of the hard-coded frequencies and delays we have at the moment. This is all but essential if we’re going to include many more songs besides Smoke on the Water, but we could leave the work of importing songs to the user in a pinch.
