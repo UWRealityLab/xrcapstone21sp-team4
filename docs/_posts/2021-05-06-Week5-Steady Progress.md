@@ -16,14 +16,15 @@ On the suggestion of one of the answers, Kirit helped test if the scaling issues
 **Kirit:**<br/>
 This week Kirit took charge of integrating some of the different parts of the project for the MVP. He merged the virtual fretboard visualizations (done by Rish) and made the markers follow the song and highlight the correct fret + string. Upon integrating with the tracking, he found that despite correct math, the scaling seemed to be slightly off when viewed from the magic leap. This caused frets further down the fretboard to look misaligned. To solve this, Kirit experimented and modified the math to include a scaling factor which ultimately ended up aligning almost perfectly!
 He also merged in the pitch recognition, and took a pass at refactoring and optimizing it to improve on-device performance. Finally, he recorded and put together a MVP demo video.<br/> 
-[Link here](https://drive.google.com/file/d/1rIpgdVQ0_urofp7_nmK8itFwea4glDkU/view?usp=sharing)
+[Link](https://drive.google.com/file/d/1rIpgdVQ0_urofp7_nmK8itFwea4glDkU/view?usp=sharing)
 Kirit’s immediate plan for the upcoming week is to 3D model and print a more permanent controller mount so it attaches onto the guitar in a more stable and predictable way.
 
 
 
 **Max**<br/>
-Max’s last major milestone this week was pair programming with Sam on merging pitch recognition code in time for the MVP demo. He recorded a brief pitch recognition demo and designed a new image file with layers to clean up the artifacts of a somewhat blurry chart template. This begins the process of modularizing chart and tab construction, and also helps with an eventual goal of allowing users to upload/select custom tabs for songs that have no MIDI file freely available.
+Max’s last major milestone this week was pair programming with Sam on merging pitch recognition code in time for the MVP demo. He recorded a brief pitch recognition demo and designed a new image file with layers to clean up the artifacts of a somewhat blurry chart template. This begins the process of modularizing chart and tab construction, and also helps with an eventual goal of allowing users to upload/select custom tabs for songs that have no MIDI file freely available.<br/>
 ![Max-demo](/xrcapstone21sp-team4/images/Max-week5.png){:width="300px"}
+<br/>
 
 
 This coming week Max will explore implementation of the tonal.js library [link](https://github.com/tonaljs/tonal) to standardize our implementation of notes and frequencies and open up options for MIDI-based pitch/rhythm tracking instead of the hard-coded frequencies and delays we have at the moment. This is all but essential if we’re going to include many more songs besides Smoke on the Water, but we could leave the work of importing songs to the user in a pinch.
