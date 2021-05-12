@@ -1,3 +1,4 @@
+// Sam branch
 AFRAME.registerComponent('chord-keys', {
     init: function() {
         var scene = document.querySelector("a-scene");
