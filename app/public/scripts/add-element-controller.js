@@ -26,9 +26,9 @@ function moveHand(markerPos) {
     // SAMs Hand Position addition
     let leftHand = document.querySelector("#hand");
     leftHand.setAttribute('position', {
-        x: markerPos.x,
-        y: markerPos.y,
-        z: markerPos.z
+        x: markerPos.x + 0.05,
+        y: markerPos.y - 0.1,
+        z: markerPos.z - 0.1
     })
 }
 

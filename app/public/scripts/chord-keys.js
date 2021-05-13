@@ -68,7 +68,7 @@ AFRAME.registerComponent('chord-keys', {
             }*/
             console.log('begin');
             console.log(el)
-            if (i-1 == times.length) {
+            if (i+1 == times.length) {
                 endCounter++;
             }
             if (i >= times.length) {
@@ -169,6 +169,7 @@ AFRAME.registerComponent('chord-keys', {
                 isListening = false;
                 setTimeout(() => {isListening = true}, 1200);
             }
+            
             i++;
             if (endCounter > 1) {
                 el.setAttribute('swap', "none");
