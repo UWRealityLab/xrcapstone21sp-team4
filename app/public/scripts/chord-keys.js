@@ -68,9 +68,11 @@ AFRAME.registerComponent('chord-keys', {
             }*/
             console.log('begin');
             console.log(el)
+            if (i-1 == times.length) {
+                endCounter++;
+            }
             if (i >= times.length) {
                 i = 0;
-                endCounter++;
              }
 
             // swapping photos
@@ -83,6 +85,8 @@ AFRAME.registerComponent('chord-keys', {
                 if (el.children[j].id == "second") { second = el.children[j]; }
                 if (el.children[j].id == "third") { third = el.children[j]; }
             }
+
+            if ()
 
             if (beginClick) {
                 beginClick = false;
@@ -156,7 +160,6 @@ AFRAME.registerComponent('chord-keys', {
 
             // addElementController.addMarker(notes[times[i]["note"]].tab); todo: fix
 
-
             console.log(times[i])
             snip(times[i]["start"], times[i]["end"]);
             console.log('end');
@@ -166,7 +169,8 @@ AFRAME.registerComponent('chord-keys', {
                 isListening = false;
                 setTimeout(() => {isListening = true}, 1200);
             }
-            if (endCounter > 2) {
+            i++;
+            if (endCounter > 1) {
                 el.setAttribute('swap', "none");
                 el.removeAttribute('chord-keys');
                 second.setAttribute('src', "#interface");
@@ -174,7 +178,6 @@ AFRAME.registerComponent('chord-keys', {
                 first.setAttribute('src', "");
                 return;
             }
-            i++;
     
             if(times[i]){
                 scene.emit('tab-change', {tab: notes[times[i]['note']].tab});
