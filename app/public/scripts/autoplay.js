@@ -100,7 +100,7 @@ AFRAME.registerComponent('autoplay', {
             // this.controller.removeEventListener('gripdown', this.startMusic);
             if (currentlyRunning) { return; }
             currentlyRunning = true;
-
+            var numRepeats = 0;
             function nextNote(i, isMusic) {
                 // swapping photos
                 // update the front facing note
@@ -153,10 +153,20 @@ AFRAME.registerComponent('autoplay', {
               console.log("countup in here")
               setTimeout(() => {nextNote(i, false); recursiveCountdown(i+1);}, 1000);
             }
+        
             var total_completes = 0;
             function recursiveTimeout(i) {
               if (i+1 == times.length) {
                 console.log("---repeat---")
+                if (numRepeats > 4) {
+                    el.setAttribute('swap', "none");
+                    el.removeAttribute('autoplay');
+                    second.setAttribute('src', "");
+                    third.setAttribute('src', "#interface");
+                    first.setAttribute('src', "");
+                    return;
+                }
+                numRepeats++;
                 var start = times[i]["start"];
                 var end = times[i]["end"];
                 setTimeout(() => {
