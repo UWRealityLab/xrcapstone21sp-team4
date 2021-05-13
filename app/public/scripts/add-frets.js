@@ -7,7 +7,7 @@ startPos.x = startPos.x - (scaleLength / 2);
 startPos.y += 0.040;
 
 this.addFret = function (distanceFromNut, fretNum) {
-    console.log('adding fret ' + fretNum + ' at distance: ' + distanceFromNut);
+    // console.log('adding fret ' + fretNum + ' at distance: ' + distanceFromNut);
 
     let myX = startPos.x;
     let myY = startPos.y;
