@@ -1,9 +1,9 @@
 const scaleLength = 0.6477; // this is 25.5 inches in meters. A-frame uses meters so we write it in meters.
 const totalFrets = 21; // just going to make 15 frets for now.
-const scaleFactor = 1.4; // manual scale factor
+const scaleFactor = 1.45; // manual scale factor
 const el = document.getElementById('String1');
 let startPos = el.object3D.position.clone();
-startPos.x = startPos.x + (scaleLength / 2);
+startPos.x = startPos.x - (scaleLength / 2);
 startPos.y += 0.040;
 
 this.addFret = function (distanceFromNut, fretNum) {
@@ -14,7 +14,7 @@ this.addFret = function (distanceFromNut, fretNum) {
     let myZ = startPos.z;
     // myY = myY + 0.05;
 
-    myX = myX - (distanceFromNut*scaleFactor);
+    myX = myX + (distanceFromNut*scaleFactor);
 
     //let p = el.getAttribute('position');
     let newMark = document.createElement('a-entity');
