@@ -86,7 +86,7 @@ AFRAME.registerComponent('chord-keys', {
                 if (el.children[j].id == "third") { third = el.children[j]; }
             }
 
-            if ()
+
 
             if (beginClick) {
                 beginClick = false;
@@ -134,7 +134,7 @@ AFRAME.registerComponent('chord-keys', {
             if (thirdI == times.length) { thirdI = 0; }
             thirdI++;
             if (thirdI == times.length) { thirdI = 0; }
-            console.log(thirdI);
+
             first.setAttribute('note', times[thirdI]["note"]);
             first.setAttribute('src', notes[times[thirdI]["note"]].image);
             first.setAttribute('position', {

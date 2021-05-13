@@ -52,7 +52,7 @@
 <!--
         <canvas id="hiddenCanvas"></canvas>
 -->
-        <a-asset-item id="leftHand" src="https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fuploads_files_2782972_Guitar%2BPick.glb?v=1620870947583"></a-asset-item>
+        <a-asset-item id="leftHand" src="https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2FrobotHand.glb?v=1620874821452"></a-asset-item>
 
         <img id="interface" src="https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fautovsmanual.png?v=1620104675774">
 
@@ -69,12 +69,7 @@
 
     <a-box color="tomato" height="0.01" width="0.01" depth="0.01" id="real-controller" offset-component="-0.175 0.015 0.07">
         <a-plane id="fretboard" width="0.45" height="0.1" position="0 0 0.0" rotation="-45 0 0" color="#b3b3b3" material="side: double; transparent: true; opacity: 0.1">
-<<<<<<< HEAD
             <a-entity id="strings" position="0.1 -0.035 0">
-=======
-            <a-entity gltf-model="#leftHand"  position="-0.1 -0.03 0.05"></a-entity>
-            <a-entity id="strings" position="-0.1 -0.03 0">
->>>>>>> gltf pick floating
                 <a-entity id="String1" geometry="primitive: box; width: 0.6477; height: 0.001; depth: 0.001" position="0 0 0" rotation="0 0 0" material="opacity: 0.3"></a-entity>
                 <a-entity id="String2" geometry="primitive: box; width: 0.6477; height: 0.001; depth: 0.001" position="0 0.012 0" rotation="0 0 0" material="opacity: 0.3"></a-entity>
                 <a-entity id="String3" geometry="primitive: box; width: 0.6477; height: 0.001; depth: 0.001" position="0 0.024 0" rotation="0 0 0" material="opacity: 0.3"></a-entity>
@@ -85,6 +80,7 @@
 
         </a-plane>
     </a-box>
+    <a-entity id="hand" gltf-model="#leftHand"  position="-0.1 -0.03 -0.08" material="opacity: 0.3"></a-entity>
 
     <a-entity id="axisLines" line="start: 0 0 0; end: 0 0 0; color: red" line__2="start: 0 0 0; end: 0 0 0; color: green" line__3="start: 0 0 0; end: 0 0 0; color: blue"></a-entity>
 

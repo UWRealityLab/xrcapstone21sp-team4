@@ -22,6 +22,14 @@ function getMidpointPosition(fret1, fret2){
     }
 }
 
+function moveHand(marker) {
+    // SAMs Hand Position addition
+    let leftHand = document.querySelector("#hand");
+    let worldPos = new Vector3();
+    marker.getWorldPosition(worldPos);
+    leftHand.object3D.position = worldPos;
+}
+
 this.addMarker = function (markArray) {
     // clear markers and strings
     Markers.forEach((marker) => marker.parentNode.removeChild(marker));
@@ -66,6 +74,9 @@ this.addMarker = function (markArray) {
         // newMark.object3D.position = midPoint;
         el.appendChild(newMark);
         Markers.push(newMark);
+
+        // SAMs Hand Position addition
+        moveHand(newMark.object3D);
     }
 }
 
