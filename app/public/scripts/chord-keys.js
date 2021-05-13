@@ -17,7 +17,8 @@ AFRAME.registerComponent('chord-keys', {
             y: 0,
             z: -6
         };
-
+        
+        var endCounter = 0;
         var beginClick = true;
         var water = new Audio("https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fsmoke-on-water-vr.mp3?v=1619155205392");
         let el = this.el;
@@ -67,7 +68,10 @@ AFRAME.registerComponent('chord-keys', {
             }*/
             console.log('begin');
             console.log(el)
-            if (i >= times.length) { console.log('repeat of song'); i = 0; }
+            if (i >= times.length) {
+                i = 0;
+                endCounter++;
+             }
 
             // swapping photos
             // update the front facing note
@@ -162,8 +166,16 @@ AFRAME.registerComponent('chord-keys', {
                 isListening = false;
                 setTimeout(() => {isListening = true}, 1200);
             }
-
+            if (endCounter > 2) {
+                el.setAttribute('swap', "none");
+                el.removeAttribute('chord-keys');
+                second.setAttribute('src', "#interface");
+                third.setAttribute('src', "");
+                first.setAttribute('src', "");
+                return;
+            }
             i++;
+    
             if(times[i]){
                 scene.emit('tab-change', {tab: notes[times[i]['note']].tab});
             }else{
