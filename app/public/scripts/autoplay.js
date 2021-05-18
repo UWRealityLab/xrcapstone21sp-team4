@@ -1,6 +1,7 @@
 AFRAME.registerComponent('autoplay', {
     init: function() {
 
+        let scene = document.querySelector('a-scene');
         var firstPos = {
             x: 0,
             y: 0,
@@ -159,11 +160,7 @@ AFRAME.registerComponent('autoplay', {
               if (i+1 == times.length) {
                 console.log("---repeat---")
                 if (numRepeats > 4) {
-                    el.setAttribute('swap', "none");
-                    el.removeAttribute('autoplay');
-                    second.setAttribute('src', "");
-                    third.setAttribute('src', "#interface");
-                    first.setAttribute('src', "");
+                    scene.emit('reset-menu', {});
                     return;
                 }
                 numRepeats++;
@@ -187,12 +184,7 @@ AFRAME.registerComponent('autoplay', {
             
             setTimeout(() => {water.play(); recursiveTimeout(0);}, 3000);
         }
-
-        this.controller = document.querySelector('#controller');
-        // max will change this function called from a click to a correct
-        // note
-        
-        this.controller.addEventListener('gripdown', this.startMusic);
+        this.startMusic();
     },
     remove: function() {
         this.controller.removeEventListener('gripdown', this.startMusic);

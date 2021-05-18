@@ -1,29 +1,18 @@
 // Sam branch
 AFRAME.registerComponent('chord-keys', {
     init: function() {
-        var scene = document.querySelector("a-scene");
-        var firstPos = {
-            x: 0,
-            y: 0,
-            z: -2
-        };
-        var secondPos = {
-            x: 2,
-            y: 0,
-            z: -4
-        };
-        var thirdPos = {
-            x: 4,
-            y: 0,
-            z: -6
-        };
+        let scene = document.querySelector("a-scene");
+        const firstPos = document.querySelector('#first').object3D.position.clone();
+        const secondPos = document.querySelector('#second').object3D.position.clone();
+        const thirdPos = document.querySelector('#third').object3D.position.clone();
+
         
-        var endCounter = 0;
-        var beginClick = true;
-        var water = new Audio("https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fsmoke-on-water-vr.mp3?v=1619155205392");
+        let endCounter = 0;
+        let beginClick = true;
+        const water = new Audio("../assets/smoke-on-water-vr.mp3");
         let el = this.el;
-        var i = 0;
-        var times = [
+        let i = 0;
+        const times = [
             {"note": "D3", "start": 0, "end": 0.5},
             {"note": "F3", "start": 0.5, "end": 1.2},
             {"note": "G3", "start": 1.2, "end": 2},
@@ -38,7 +27,7 @@ AFRAME.registerComponent('chord-keys', {
             {"note": "D3", "start": 6.9, "end": 8.5},
         ];
 
-        var notes = {
+        const notes = {
             "D3": {image: "../assets/notes/D3.png", tab: [[5, 5]]},
             "F3": {image: "../assets/notes/F3.png", tab: [[4, 3]]},
             "G3": {image: "../assets/notes/G3.png", tab: [[4, 5]]},
@@ -46,43 +35,40 @@ AFRAME.registerComponent('chord-keys', {
         };
 
 
-        var freqs = {
+        const freqs = {
             "D3": 146.83,
             "F3": 174.61,
             "G3": 196.00,
             "G#3": 207.65
         };
         // check if pitch is sustained
-        var ERROR_THRESHOLD = 1.5;
-        var isListening = false;
+        const ERROR_THRESHOLD = 1.5;
+        let isListening = false;
 
-        this.startMusic = async function(/*e*/) {
+        function snip(start, end) {
+            water.currentTime = start;
+            console.log('play')
+            // this system is flawed, audio of progressing notes can get
+            // cut awkwardly
+            water.play()
+            setTimeout(() => {water.pause();}, (end - start) * 1000);
+        }
+
+        // swapping photos
+        // update the front facing note
+        let first = document.querySelector('#first');
+        let second = document.querySelector('#second');
+        let third = document.querySelector('#third');
+
+        this.startMusic = async (/*e*/) => {
             console.log('startmusic called');
-            /*if (e.target.id != "first") { return; }*/
-            //console.log('startMusic note: ');
-            //console.log(e.detail.freq);
-            // distinguishing between triggerpull and music note
-            /*if (e.type == 'pitch' && !isListening) {
-                console.log('not listening for notes yet');
-                return;
-            }*/
             console.log('begin');
-            console.log(el)
             if (i >= times.length) {
                 i = 0;
                 endCounter++;
              }
 
-            // swapping photos
-            // update the front facing note
-            var first = null;
-            var second = null;
-            var third = null;
-            for (var j = 0; j < 3; j++) {
-                if (el.children[j].id == "first") { first = el.children[j]; }
-                if (el.children[j].id == "second") { second = el.children[j]; }
-                if (el.children[j].id == "third") { third = el.children[j]; }
-            }
+
 
             if (beginClick) {
                 beginClick = false;
@@ -101,7 +87,7 @@ AFRAME.registerComponent('chord-keys', {
 
 
             // move second to first
-            var params = {
+            let secondToFirst = {
                 property: 'position',
                 to: {
                     x: firstPos.x,
@@ -110,9 +96,9 @@ AFRAME.registerComponent('chord-keys', {
                 },
                 dur: "100",
             };
-            second.setAttribute('animation', params);
+            second.setAttribute('animation', secondToFirst);
 
-            var params = {
+            let thirdToSecond = {
                 property: 'position',
                 to: {
                     x: secondPos.x,
@@ -121,7 +107,7 @@ AFRAME.registerComponent('chord-keys', {
                 },
                 dur: "100",
             };
-            third.setAttribute('animation', params);
+            third.setAttribute('animation', thirdToSecond);
             // move th
 
             var thirdI = i + 1;
@@ -130,48 +116,31 @@ AFRAME.registerComponent('chord-keys', {
             if (thirdI == times.length) { thirdI = 0; }
             thirdI++;
             if (thirdI == times.length) { thirdI = 0; }
-            console.log(thirdI);
+            // console.log(thirdI);
             first.setAttribute('note', times[thirdI]["note"]);
             first.setAttribute('src', notes[times[thirdI]["note"]].image);
-            first.setAttribute('position', {
-                x: thirdPos.x,
-                y: thirdPos.y,
-                z: thirdPos.z
-            });
+            first.object3D.position.set(thirdPos.x, thirdPos.y, thirdPos.z);
 
-            function snip(start, end) {
-                water.currentTime = start;
-                console.log('play')
-                // this system is flawed, audio of progressing notes can get
-                // cut awkwardly
-                water.play()
-                setTimeout(() => {water.pause();}, (end - start) * 1000);
-            }
+            let prevFirst = first;
+            first = second;
+            second = third;
+            third = prevFirst;
 
-
-            first.setAttribute('id', 'third');
-            second.setAttribute('id', 'first');
-            third.setAttribute('id', 'second');
-
-
-            // addElementController.addMarker(notes[times[i]["note"]].tab); todo: fix
-
-
-            console.log(times[i])
+            // console.log(times[i])
             snip(times[i]["start"], times[i]["end"]);
             console.log('end');
-            console.log(el)
             // if we are at the last note, wait to start listening again
             if (i+1 == times.length) {
                 isListening = false;
                 setTimeout(() => {isListening = true}, 1200);
             }
             if (endCounter > 2) {
-                el.setAttribute('swap', "none");
-                el.removeAttribute('chord-keys');
+                // el.setAttribute('swap', "none");
+                /*el.removeAttribute('chord-keys');
                 second.setAttribute('src', "#interface");
                 third.setAttribute('src', "");
-                first.setAttribute('src', "");
+                first.setAttribute('src', "");*/
+                scene.emit('reset-menu', {});
                 return;
             }
             i++;
@@ -187,10 +156,7 @@ AFRAME.registerComponent('chord-keys', {
 
         }
 
-        this.controller = document.querySelector('#controller');
-        // max will change this function called from a click to a correct
-        // note
-        this.controller.addEventListener('triggerdown', this.startMusic);
+        this.startMusic();
         scene.addEventListener('pitch', (e)=>{
             if(!isListening){
                 return;

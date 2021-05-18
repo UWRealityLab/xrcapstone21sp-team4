@@ -61,9 +61,8 @@ function modelLoaded() {
         if(isRunning){
             pitch.getPitch(gotPitch);
         }
-        // pitch.getPitch(gotPitch);
-        // pitch.getPitch(gotPitch);
-    }, 30);
+
+    }, 200);
 }
 
 function gotPitch(error, frequency) {
