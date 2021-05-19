@@ -14,17 +14,22 @@ for (let j = 0; i<3; j++) {
 const initialOpacity = Strings[0].getAttribute('material').opacity;
 console.log('initial string opacity: ' + initialOpacity);
 
-const displayStringInitialOpacity = displayStrings[0].getAttribute('material').opacity;
+const displayStringInitialOpacity = 1.0;
 
 function getMidpointPosition(fret1, fret2,screen) {
     let s = 'screen' + screen + 'fret' + fret1;
     let a = document.getElementById(s);
-    let fre1Pos = document.getElementById('screen' + screen + 'fret' + fret1).object3D.position;
-    let fre2Pos = document.getElementById('screen' + screen + 'fret' + fret2).object3D.position;
-    if (screen == null) { // placing on guitar
-        const fret1Pos = document.querySelector('#fret' + fret1).object3D.position;
-        const fret2Pos = document.querySelector('#fret' + fret2).object3D.position;
+
+    let fret1Pos, fret2Pos;
+
+    if(screen == null){
+        fret1Pos = document.querySelector('#fret' + fret1).object3D.position;
+        fret2Pos = document.querySelector('#fret' + fret2).object3D.position;
+    }else{
+        fre1Pos = document.getElementById('screen' + screen + 'fret' + fret1).object3D.position;
+        fre2Pos = document.getElementById('screen' + screen + 'fret' + fret2).object3D.position;
     }
+    
 
     const getMid = function (num1, num2) {
         return (num1 + num2) / 2;

@@ -107,7 +107,6 @@ AFRAME.registerComponent('autoplay', {
                 var second = document.getElementById('second');
                 var third = document.getElementById('third');
                 animate(first, second, third, isMusic, i);
-                
             }
 
 
@@ -159,29 +158,6 @@ AFRAME.registerComponent('autoplay', {
                     var end = times[i]["end"];
                     setTimeout(() => { nextNote(i + 1, true); recursiveTimeout(i + 1); }, (end - start) * 1000);
                 }
-              if (i+1 == times.length) {
-                console.log("---repeat---")
-                if (numRepeats > 4) {
-                    scene.emit('reset-menu', {});
-                    return;
-                }
-                numRepeats++;
-                var start = times[i]["start"];
-                var end = times[i]["end"];
-                setTimeout(() => {
-                    if (total_completes > 4) {
-                        currentlyRunning = false;
-                        return;
-                    }
-                    nextNote(0, true);
-                    recursiveTimeout(0);
-                    total_completes++;
-                }, (end - start) * 1000);
-              } else {
-                var start = times[i]["start"];
-                var end = times[i]["end"];
-                setTimeout(() => {nextNote(i+1, true); recursiveTimeout(i+1);}, (end - start) * 1000);
-              }
             }
 
             setTimeout(() => { water.play(); recursiveTimeout(0); }, 3000);
@@ -199,7 +175,7 @@ AFRAME.registerComponent('autoplay', {
 
 
 
-        // Code for fret and string addition
+        // Code for fret and string addition 
         const scaleLength = 0.6477; // this is 25.5 inches in meters. A-frame uses meters so we write it in meters.
         // ---------------- STRING ADDITION ---------------------------------------
         let allVis = ['first', 'second', 'third'];
@@ -284,19 +260,18 @@ AFRAME.registerComponent('autoplay', {
 
 //---------------------- adding marker code -----------------------------------------
 
+       
 
-
-
+      
         let firstPoint = [1, 2]; // string 1 , fret 2
         let secondPoint = [2, 2]; // string 2 , fret 2
         let thirdPoint = [5, 7]; //string 5, fret 7
         let fourthPoint = [3, 10]; // string 3, fret 10
         let fifthPoint = [6, 4]; // string 6, fret 4
-        let passedArray = [firstPoint, secondPoint, thirdPoint, fourthPoint, fifthPoint];
+        let passedArray = [firstPoint, secondPoint, thirdPoint, fourthPoint, fifthPoint]; 
         this.addMarker(passedArray,0);
         this.addMarker(passedArray,1);
         this.addMarker(passedArray,2);
-        this.startMusic();
     },
 
 
