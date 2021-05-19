@@ -12,6 +12,7 @@ AFRAME.registerComponent('chord-keys', {
         const water = new Audio("../assets/smoke-on-water-vr.mp3");
         let el = this.el;
         let i = 0;
+
         const times = [
             {"note": "D3", "start": 0, "end": 0.5},
             {"note": "F3", "start": 0.5, "end": 1.2},
@@ -41,6 +42,7 @@ AFRAME.registerComponent('chord-keys', {
             "G3": 196.00,
             "G#3": 207.65
         };
+        
         // check if pitch is sustained
         const ERROR_THRESHOLD = 1.5;
         let isListening = false;
