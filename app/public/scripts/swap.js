@@ -24,7 +24,8 @@ AFRAME.registerComponent('swap', {
         this.controller = document.querySelector('#controller');
         this.controller.addEventListener('gripdown', this.autoplay);
         this.controller.addEventListener('triggerdown', this.manual);
-        document.addEventListener('click', this.manual); // for debugging
+       // document.addEventListener('click', this.manual); // for debugging
+        document.addEventListener('click',this.autoplay);
     },
     remove: function () {
         this.controller.removeEventListener('gripdown', this.autoplay);
