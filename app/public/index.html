@@ -80,15 +80,12 @@
            width="0.01">
         <a-plane color="#b3b3b3" height="0.1" id="fretboard" material="side: double; transparent: true; opacity: 0.1" position="0 0 0.0" rotation="-45 0 0"
                  width="0.45">
-            <a-entity id="base" gltf-model="#baseHand"  position="0.02 -0.14 -0.14" material="opacity: 0.3"></a-entity>
-            </a-entity>
-            <a-entity visible="false" id="indexFinger" gltf-model="#indexHand"  position="0.02 -0.14 -0.14" material="opacity: 0.3"></a-entity>
-            </a-entity>
-            <a-entity visible="false" id="middleFinger" gltf-model="#middleHand"  position="0.02 -0.14 -0.14" material="opacity: 0.3"></a-entity>
-            </a-entity>
-            <a-entity visible="false" id="ringFinger" gltf-model="#ringHand"  position="0.02 -0.14 -0.14" material="opacity: 0.3"></a-entity>
-            </a-entity>
-            <a-entity visible="false" id="pinkieFinger" gltf-model="#pinkieHand"  position="0.02 -0.14 -0.14" material="opacity: 0.3"></a-entity>
+            <a-entity id="hand" position="0.02 -0.14 -0.14" offset-component="0.1 0 0">
+                <a-entity id="base" gltf-model="#baseHand" material="opacity: 0.3"></a-entity>
+                <a-entity visible="false" id="indexFinger" gltf-model="#indexHand" material="opacity: 0.3"></a-entity>
+                <a-entity visible="false" id="middleFinger" gltf-model="#middleHand"  material="opacity: 0.3"></a-entity>
+                <a-entity visible="false" id="ringFinger" gltf-model="#ringHand" material="opacity: 0.3"></a-entity>
+                <a-entity visible="false" id="pinkieFinger" gltf-model="#pinkieHand" material="opacity: 0.3"></a-entity>
             </a-entity>
             <a-entity id="strings" position="0.1 -0.035 0">
                 <a-entity geometry="primitive: box; width: 0.6477; height: 0.001; depth: 0.001" id="String1"

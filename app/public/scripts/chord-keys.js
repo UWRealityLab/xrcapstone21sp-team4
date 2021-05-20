@@ -155,13 +155,14 @@ AFRAME.registerComponent('chord-keys', {
 
             // Send the hand shape
             i++;
-            scene.emit('hand-change', {shape: handShapes[times[i]['note']].shape})
+
     
             if(times[i]){
                 scene.emit('tab-change', {tab: notes[times[i]['note']].tab});
+                scene.emit('hand-change', {shape: handShapes[times[i]['note']].shape})
             }else{
                 // end of song
-                scene.emit('tab-change', {tab: []});
+                scene.emit('tab-change', {tab: notes[times[0]['note']].tab});
             }
 
 

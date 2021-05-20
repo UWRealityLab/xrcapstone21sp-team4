@@ -23,6 +23,8 @@ function getMidpointPosition(fret1, fret2) {
     }
 }
 
+const handModel = document.querySelector('#hand');
+
 
 // pass screen for displaying in front of user in display
 // do not pass anything for screen or pass as null if you want to add marker to guitar.
@@ -59,8 +61,22 @@ this.addMarker = function (markArray) {
         newMark.setAttribute('scale', markerScale);
         newMark.object3D.position.set(midPoint.x, 0, 0);
         el.appendChild(newMark);
+
+        const handOffset = handModel.getAttribute('offset-component');
+        moveHand({x: midPoint.x+handOffset.x, y:0 + handOffset.y, z:0 + handOffset.z});
+
         Markers.push(newMark);
     }
+}
+
+function moveHand(markerPos) {
+    // SAMs Hand Position addition
+    let leftHand = document.querySelector("#hand");
+    leftHand.setAttribute('position', {
+        x: markerPos.x + 0.05,
+        y: markerPos.y - 0.1,
+        z: markerPos.z - 0.1
+    })
 }
 
 window.onload = function(e){
