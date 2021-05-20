@@ -8,6 +8,7 @@ AFRAME.registerComponent('scene-manager', {
     init: function () {
         let state = State.MENU;
         let scene = this.el;
+        let menu = document.querySelector('#menu');
         let imageTab = document.querySelector('#image-tab');
 
         let initialImageTab = imageTab.innerHTML;
@@ -23,6 +24,7 @@ AFRAME.registerComponent('scene-manager', {
         // todo: toggle pitch recognition
         this.autoplay = () => {
             if(state === State.MENU){
+                menu.setAttribute('visible', 'false');
                 togglePitchRecognition(false);
                 console.log('setting autoplay');
                 imageTab.setAttribute('autoplay', "test");
@@ -32,17 +34,24 @@ AFRAME.registerComponent('scene-manager', {
         this.manual = () => {
             if(state === State.MENU){
                 console.log('setting manual');
+                menu.setAttribute('visible', 'false');
                 imageTab.setAttribute('chord-keys', "none");
                 state = State.MANUAL;
                 togglePitchRecognition(true);
+            }else if(state === State.MANUAL){
+                scene.emit('start-music', {});
             }
         }
 
         this.menu = () => {
             if(this.state!==State.MENU){
-                imageTab.innerHTML = initialImageTab;
-                state = State.MENU;
                 togglePitchRecognition(false);
+                state = State.MENU;
+                imageTab.removeAttribute('chord-keys');
+                imageTab.removeAttribute('autoplay');
+                menu.setAttribute('visible', 'true');
+                scene.emit('clear-screens');
+
 
             }
         }

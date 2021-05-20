@@ -51,142 +51,131 @@ AFRAME.registerComponent('autoplay', {
         var currentlyRunning = false;
 
         function animate(first, second, third, isMusic, i) {
-          var params = {
+            var params = {
                 property: 'position',
-                    to: {
-                        x: firstPos.x,
-                        y: firstPos.y,
-                        z: firstPos.z
-                    },
-                    dur: "100",
-                };
-                second.setAttribute('animation', params);
-
-                var params = {
-                    property: 'position',
-                    to: {
-                        x: secondPos.x,
-                        y: secondPos.y,
-                        z: secondPos.z
-                    },
-                    dur: "100",
-                };
-                third.setAttribute('animation', params);
-                // move th
-                if (isMusic) {
-                  var thirdI = i + 1;
-                  if (thirdI == times.length) { thirdI = 0; }
-                  thirdI++;
-                  if (thirdI == times.length) { thirdI = 0; }
-                  first.setAttribute('src', notes[times[thirdI]["note"]].image);
-                  first.setAttribute('position', {
-                      x: thirdPos.x,
-                      y: thirdPos.y,
-                      z: thirdPos.z
-                  });
-                } else {
-                  first.setAttribute('src', notes[times[i]["note"]].image);
-                  first.setAttribute('position', {
-                      x: thirdPos.x,
-                      y: thirdPos.y,
-                      z: thirdPos.z
-                  });
-                }
-
-                first.setAttribute('id', 'third');
-                second.setAttribute('id', 'first');
-                third.setAttribute('id', 'second');
+                to: firstPos,
+                dur: "100",
+            };
+            second.setAttribute('animation', params);
+            params.to = secondPos;
+            third.setAttribute('animation', params);
+            if (isMusic) {
+                var thirdI = i + 1;
+                if (thirdI == times.length) { thirdI = 0; }
+                thirdI++;
+                if (thirdI == times.length) { thirdI = 0; }
+                //first.setAttribute('src', notes[times[thirdI]["note"]].image);
+                first.setAttribute('geometry', {
+                    primitive: 'box',
+                    width: 1,
+                    height: 1,
+                    depth: 0
+                });
+                first.setAttribute('material', 'transparent:true; opacity: 0');
+                first.setAttribute('position', thirdPos);
+            } else {
+                //first.setAttribute('src', notes[times[i]["note"]].image);
+                first.setAttribute('src', '');
+                first.setAttribute('material', 'transparent:true; opacity: 0');
+                first.setAttribute('geometry', {
+                    primitive: 'box',
+                    width: 1,
+                    height: 1,
+                    depth: 0
+                });
+                first.setAttribute('position', thirdPos);
+            }
+            first.setAttribute('id', 'third');
+            second.setAttribute('id', 'first');
+            third.setAttribute('id', 'second');
         }
-        this.startMusic = function(e) {
-            // this.controller.removeEventListener('gripdown', this.startMusic);
+
+        this.startMusic = function (e) {
             if (currentlyRunning) { return; }
             currentlyRunning = true;
             var numRepeats = 0;
             function nextNote(i, isMusic) {
                 // swapping photos
                 // update the front facing note
-
-                console.log('next note: '+i);
-                if(times[i]){
-                    scene.emit('tab-change', {tab: notes[times[i].note].tab});
-                }else{
+                console.log('next note: ' + i);
+                if (times[i]) {
+                    scene.emit('tab-change', { tab: notes[times[i].note].tab });
+                } else {
                     scene.emit('tab-change', []);
                 }
-
-
-
-                var first = null;
-                var second = null;
-                var third = null;
-                for (var j = 0; j < 3; j++) {
-                    if (el.children[j].id == "first") { first = el.children[j]; }
-                    if (el.children[j].id == "second") { second = el.children[j]; }
-                    if (el.children[j].id == "third") { third = el.children[j]; }
-                }
+                var first = document.getElementById('first');
+                var second = document.getElementById('second');
+                var third = document.getElementById('third');
                 animate(first, second, third, isMusic, i);
-                
             }
-          
+
 
             console.log("start the music");
-            // var i = 0;
-            var first = null;
-            var second = null;
-            var third = null;
-            for (var j = 0; j < 3; j++) {
-                if (el.children[j].id == "first") { first = el.children[j]; }
-                if (el.children[j].id == "second") { second = el.children[j]; }
-                if (el.children[j].id == "third") { third = el.children[j]; }
-            }
-            
-          
+            var first = document.getElementById('first');
+            var second = document.getElementById('second');
+            var third = document.getElementById('third');
+
+
             first.setAttribute('src', countdown["3"]);
             second.setAttribute('src', countdown["2"]);
             third.setAttribute('src', countdown["1"]);
 
             e.stopImmediatePropagation();
-            // first.setAttribute('src', notes[times[0]["note"]]);
-            // second.setAttribute('src', notes[times[1]["note"]]);
-            // third.setAttribute('src', notes[times[2]["note"]]);
+
             recursiveCountdown(0);
             function recursiveCountdown(i) {
-              if (i==3) { return; }
-              console.log("countup in here")
-              setTimeout(() => {nextNote(i, false); recursiveCountdown(i+1);}, 1000);
+                if (i == 3) { return; }
+                console.log("countup in here")
+                setTimeout(() => { nextNote(i, false); recursiveCountdown(i + 1); }, 1000);
             }
-        
+
             var total_completes = 0;
             function recursiveTimeout(i) {
-              if (i+1 == times.length) {
-                console.log("---repeat---")
-                if (numRepeats > 4) {
-                    scene.emit('reset-menu', {});
-                    return;
-                }
-                numRepeats++;
-                var start = times[i]["start"];
-                var end = times[i]["end"];
-                setTimeout(() => {
-                    if (total_completes > 4) {
-                        currentlyRunning = false;
+                if (i + 1 == times.length) {
+                    console.log("---repeat---")
+                    if (numRepeats > 4) {
+                        el.setAttribute('swap', "none");
+                        el.removeAttribute('autoplay');
+                        second.setAttribute('src', "");
+                        third.setAttribute('src', "#interface");
+                        first.setAttribute('src', "");
                         return;
                     }
-                    nextNote(0, true);
-                    recursiveTimeout(0);
-                    total_completes++;
-                }, (end - start) * 1000);
-              } else {
-                var start = times[i]["start"];
-                var end = times[i]["end"];
-                setTimeout(() => {nextNote(i+1, true); recursiveTimeout(i+1);}, (end - start) * 1000);
-              }
+                    numRepeats++;
+                    var start = times[i]["start"];
+                    var end = times[i]["end"];
+                    setTimeout(() => {
+                        if (total_completes > 4) {
+                            currentlyRunning = false;
+                            return;
+                        }
+                        nextNote(0, true);
+                        recursiveTimeout(0);
+                        total_completes++;
+                    }, (end - start) * 1000);
+                } else {
+                    var start = times[i]["start"];
+                    var end = times[i]["end"];
+                    setTimeout(() => { nextNote(i + 1, true); recursiveTimeout(i + 1); }, (end - start) * 1000);
+                }
             }
-            
-            setTimeout(() => {water.play(); recursiveTimeout(0);}, 3000);
+
+            setTimeout(() => { water.play(); recursiveTimeout(0); }, 3000);
         }
-        this.startMusic();
+
+
+
+
+
+        this.controller = document.querySelector('#controller');
+
+
+        this.controller.addEventListener('gripdown', this.startMusic);
+        document.addEventListener('click', this.startMusic);
     },
-    remove: function() {
+
+
+    remove: function () {
         this.controller.removeEventListener('gripdown', this.startMusic);
     }
 });

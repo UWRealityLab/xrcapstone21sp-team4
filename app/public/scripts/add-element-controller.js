@@ -1,18 +1,19 @@
 const Strings = [];
 let Markers = [];
+
 for (let i = 1; i <= 6; i++) {
     Strings.push(document.getElementById('String' + i))
 }
 
 const initialOpacity = Strings[0].getAttribute('material').opacity;
-console.log('initial string opacity: '+initialOpacity);
+console.log('initial string opacity: ' + initialOpacity);
 
-function getMidpointPosition(fret1, fret2){
-    const fret1Pos = document.querySelector('#fret'+fret1).object3D.position;
-    const fret2Pos = document.querySelector('#fret'+fret2).object3D.position;
+function getMidpointPosition(fret1, fret2) {
+    let fret1Pos = document.querySelector('#fret' + fret1).object3D.position;
+    let fret2Pos = document.querySelector('#fret' + fret2).object3D.position;
 
-    const getMid = function(num1, num2){
-        return (num1 + num2)/2;
+    const getMid = function (num1, num2) {
+        return (num1 + num2) / 2;
     }
 
     return {
@@ -22,7 +23,12 @@ function getMidpointPosition(fret1, fret2){
     }
 }
 
+
+// pass screen for displaying in front of user in display
+// do not pass anything for screen or pass as null if you want to add marker to guitar.
 this.addMarker = function (markArray) {
+    let markerScale = '0.005 0.005 0.005'; // scale the size of the marker by this amount.
+
     // clear markers and strings
     Markers.forEach((marker) => marker.parentNode.removeChild(marker));
     Markers = [];
@@ -42,38 +48,19 @@ this.addMarker = function (markArray) {
             el.setAttribute('material', 'color: blue; opacity: 0.6');
             return;
         }
-
         let newMark = document.createElement('a-entity');
-        // let myX = el.components.position.attrValue.x;
 
-        /*let midPoint = this.calcFretDistance(fretNum) + this.calcFretDistance(fretNum - 1);
-        midPoint = midPoint / 2;
-        myX = myX + (scaleLength / 2) - midPoint;*/
-
-        const midPoint = getMidpointPosition(fretNum, fretNum-1);
+        const midPoint = getMidpointPosition(fretNum, fretNum - 1);
 
         newMark.setAttribute('geometry', {
             primitive: 'sphere'
         });
-        newMark.setAttribute('id', "marker" + i); // setting ID numbers so that we can delete them later.
         newMark.setAttribute('material', 'color: blue');
-        newMark.setAttribute('scale', '0.005 0.005 0.005');
-        newMark.setAttribute('position', {
-            x: midPoint.x,
-            y: 0,
-            z: 0
-        });
-        // newMark.object3D.position = midPoint;
+        newMark.setAttribute('scale', markerScale);
+        newMark.object3D.position.set(midPoint.x, 0, 0);
         el.appendChild(newMark);
         Markers.push(newMark);
     }
-}
-
-this.calcFretDistance = function (fretNum) {
-    let scaleLength = 0.6477;
-    let twoPower = Math.pow(2, fretNum / 12);
-    let d = scaleLength - (scaleLength / twoPower);
-    return d;
 }
 
 window.onload = function(e){
@@ -83,8 +70,7 @@ window.onload = function(e){
     let fourthPoint = [3, 10]; // string 3, fret 10
     let fifthPoint = [6, 4]; // string 6, fret 4
     let passedArray = [firstPoint, secondPoint, thirdPoint, fourthPoint, fifthPoint];
-    console.log('setting initial string positions');
-    this.addMarker(passedArray);
+    this.addMarker(passedArray, null);
 }
 
 

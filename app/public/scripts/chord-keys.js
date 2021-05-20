@@ -1,7 +1,7 @@
 // Sam branch
 AFRAME.registerComponent('chord-keys', {
     init: function() {
-        let scene = document.querySelector("a-scene");
+        this.scene = document.querySelector("a-scene");
         const firstPos = document.querySelector('#first').object3D.position.clone();
         const secondPos = document.querySelector('#second').object3D.position.clone();
         const thirdPos = document.querySelector('#third').object3D.position.clone();
@@ -29,10 +29,10 @@ AFRAME.registerComponent('chord-keys', {
         ];
 
         const notes = {
-            "D3": {image: "../assets/notes/D3.png", tab: [[5, 5]]},
-            "F3": {image: "../assets/notes/F3.png", tab: [[4, 3]]},
-            "G3": {image: "../assets/notes/G3.png", tab: [[4, 5]]},
-            "G#3": {image: "../assets/notes/G3sharp.png", tab: [[4, 6]]}
+            "D3": {tab: [[5, 5]]},
+            "F3": { tab: [[4, 3]]},
+            "G3": {tab: [[ 4, 5]]},
+            "G#3": { tab: [[4, 6]]}
         };
 
 
@@ -78,11 +78,9 @@ AFRAME.registerComponent('chord-keys', {
                 first.setAttribute('note', times[0]["note"]);
                 second.setAttribute('note', times[1]["note"]);
                 third.setAttribute('note', times[2]["note"]);
-                first.setAttribute('src', notes[times[0]["note"]].image);
-                second.setAttribute('src', notes[times[1]["note"]].image);
-                third.setAttribute('src', notes[times[2]["note"]].image);
-                console.log("first: " + first.getAttribute('note').image);
-
+                scene.emit('show-screen-marker', {screen: 0, tab: notes[times[0]["note"]].tab})
+                scene.emit('show-screen-marker', {screen: 1, tab: notes[times[1]["note"]].tab})
+                scene.emit('show-screen-marker', {screen: 2, tab: notes[times[2]["note"]].tab})
                 scene.emit('tab-change', {tab: notes[times[0]['note']].tab});
                 return;
             }
@@ -120,7 +118,7 @@ AFRAME.registerComponent('chord-keys', {
             if (thirdI == times.length) { thirdI = 0; }
             // console.log(thirdI);
             first.setAttribute('note', times[thirdI]["note"]);
-            first.setAttribute('src', notes[times[thirdI]["note"]].image);
+            scene.emit('show-screen-marker', {screen: i%3, tab: notes[times[thirdI]["note"]].tab});
             first.object3D.position.set(thirdPos.x, thirdPos.y, thirdPos.z);
 
             let prevFirst = first;
@@ -159,7 +157,8 @@ AFRAME.registerComponent('chord-keys', {
         }
 
         this.startMusic();
-        scene.addEventListener('pitch', (e)=>{
+
+        this.onPitch = (e)=>{
             if(!isListening){
                 return;
             }
@@ -173,10 +172,17 @@ AFRAME.registerComponent('chord-keys', {
             }
 
             this.startMusic();
-        });
+        };
+        scene.addEventListener('pitch', this.onPitch);
+
+
+        scene.addEventListener('start-music', this.startMusic);
+
+
     },
     remove: function() {
-        this.controller.removeEventListener('triggerdown', this.startMusic);
         scene.removeEventListener('pitch', this.startMusic);
+        scene.removeEventListener('start-music', this.startMusic);
+        scene.removeEventListener('pitch', this.onPitch);
     }
 });
