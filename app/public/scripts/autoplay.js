@@ -1,7 +1,7 @@
 AFRAME.registerComponent('autoplay', {
     init: function() {
 
-        let scene = document.querySelector('a-scene');
+        this.scene = document.querySelector('a-scene');
         var firstPos = {
             x: 0,
             y: 0,
@@ -21,25 +21,27 @@ AFRAME.registerComponent('autoplay', {
         var beginClick = true;
         var water = new Audio("https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Fsmoke-on-water-vr.mp3?v=1619155205392");
         let el = this.el;
-        var times = [
-            {"note": "d", "start": 0, "end": 0.5},
-            {"note": "f", "start": 0.5, "end": 1},
-            {"note": "g", "start": 1, "end": 1.85},
-            {"note": "d", "start": 1.85, "end": 2.45},
-            {"note": "f", "start": 2.45, "end": 2.8},
-            {"note": "g#", "start": 2.8, "end": 3.25},
-            {"note": "g", "start": 3.25, "end": 4.5},
-            {"note": "d", "start": 4.5, "end": 4.9},
-            {"note": "f", "start": 4.9, "end": 5.6},
-            {"note": "g", "start": 5.6, "end": 6.4},
-            {"note": "f", "start": 6.4, "end": 6.9},
-            {"note": "d", "start": 6.9, "end": 8.45},
+
+        const times = [
+            {"note": "D3", "start": 0, "end": 0.5},
+            {"note": "F3", "start": 0.5, "end": 1.2},
+            {"note": "G3", "start": 1.2, "end": 2},
+            {"note": "D3", "start": 2, "end": 2.5},
+            {"note": "F3", "start": 2.5, "end": 3.2},
+            {"note": "G#3", "start": 3.2, "end": 3.52},
+            {"note": "G3", "start": 3.43, "end": 4.5},
+            {"note": "D3", "start": 4.5, "end": 4.9},
+            {"note": "F3", "start": 4.9, "end": 5.6},
+            {"note": "G3", "start": 5.6, "end": 6.4},
+            {"note": "F3", "start": 6.4, "end": 6.9},
+            {"note": "D3", "start": 6.9, "end": 8.5},
         ];
-        var notes = {
-            "d": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2Ffc055219-cece-4a8f-9b64-7155fb2e6324.image.png?v=1620102883826", tab: [[4, 0]]},
-            "f": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2F63898bc2-8da3-4321-880f-1d7750892ece.image.png?v=1620102917808", tab: [[4, 3]]},
-            "g": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2F6a4cd273-d8aa-4eb6-862e-fbecff440967.image.png?v=1620102943326", tab: [[4, 5]]},
-            "g#": {image: "https://cdn.glitch.com/830c83ca-e1de-4fc9-a5a2-2488bca7008a%2F0b88a893-54bd-433e-bb42-554bb73b06a6.image.png?v=1620102928423", tab: [[4, 6]]}
+
+        const notes = {
+            "D3": {tab: [[5, 5]]},
+            "F3": { tab: [[4, 3]]},
+            "G3": {tab: [[ 4, 5]]},
+            "G#3": { tab: [[4, 6]]}
         };
 
 
@@ -50,7 +52,11 @@ AFRAME.registerComponent('autoplay', {
         };
         var currentlyRunning = false;
 
-        function animate(first, second, third, isMusic, i) {
+        var first = document.getElementById('first');
+        var second = document.getElementById('second');
+        var third = document.getElementById('third');
+
+        function animate(/*first, second, third, */isMusic, i) {
             var params = {
                 property: 'position',
                 to: firstPos,
@@ -64,7 +70,8 @@ AFRAME.registerComponent('autoplay', {
                 if (thirdI == times.length) { thirdI = 0; }
                 thirdI++;
                 if (thirdI == times.length) { thirdI = 0; }
-                //first.setAttribute('src', notes[times[thirdI]["note"]].image);
+                // first.setAttribute('src', notes[times[thirdI]["note"]].image);
+                scene.emit('show-screen-marker', {tab: notes[times[thirdI]["note"]].tab, screen: getScreenNumber(first.id)});
                 first.setAttribute('geometry', {
                     primitive: 'box',
                     width: 1,
@@ -74,8 +81,9 @@ AFRAME.registerComponent('autoplay', {
                 first.setAttribute('material', 'transparent:true; opacity: 0');
                 first.setAttribute('position', thirdPos);
             } else {
-                //first.setAttribute('src', notes[times[i]["note"]].image);
-                first.setAttribute('src', '');
+                // first.setAttribute('src', notes[times[i]["note"]].image);
+                scene.emit('show-screen-marker', {tab: notes[times[i]["note"]].tab, screen: getScreenNumber(first.id)});
+                // first.setAttribute('src', '');
                 first.setAttribute('material', 'transparent:true; opacity: 0');
                 first.setAttribute('geometry', {
                     primitive: 'box',
@@ -85,9 +93,14 @@ AFRAME.registerComponent('autoplay', {
                 });
                 first.setAttribute('position', thirdPos);
             }
-            first.setAttribute('id', 'third');
+
+            let firstCopy = first;
+            first = second;
+            second = third;
+            third = firstCopy;
+            /*first.setAttribute('id', 'third');
             second.setAttribute('id', 'first');
-            third.setAttribute('id', 'second');
+            third.setAttribute('id', 'second');*/
         }
 
         this.startMusic = function (e) {
@@ -103,24 +116,25 @@ AFRAME.registerComponent('autoplay', {
                 } else {
                     scene.emit('tab-change', []);
                 }
-                var first = document.getElementById('first');
-                var second = document.getElementById('second');
-                var third = document.getElementById('third');
-                animate(first, second, third, isMusic, i);
+
+                animate(/*first, second, third, */isMusic, i);
             }
 
 
-            console.log("start the music");
+            /*console.log("start the music");
             var first = document.getElementById('first');
             var second = document.getElementById('second');
-            var third = document.getElementById('third');
+            var third = document.getElementById('third');*/
 
 
-            first.setAttribute('src', countdown["3"]);
-            second.setAttribute('src', countdown["2"]);
-            third.setAttribute('src', countdown["1"]);
+            //first.setAttribute('src', countdown["3"]);
+            //second.setAttribute('src', countdown["2"]);
+            //third.setAttribute('src', countdown["1"]);
+            scene.emit('show-screen-marker', {tab: [[3, 3], [3, 4], [3, 5]], screen: getScreenNumber(first.id)});
+            scene.emit('show-screen-marker', {tab: [[3, 3], [3, 4]], screen: getScreenNumber(second.id)});
+            scene.emit('show-screen-marker', {tab: [[3, 3]], screen: getScreenNumber(third.id)});
 
-            e.stopImmediatePropagation();
+            // e.stopImmediatePropagation();
 
             recursiveCountdown(0);
             function recursiveCountdown(i) {
@@ -134,11 +148,7 @@ AFRAME.registerComponent('autoplay', {
                 if (i + 1 == times.length) {
                     console.log("---repeat---")
                     if (numRepeats > 4) {
-                        el.setAttribute('swap', "none");
-                        el.removeAttribute('autoplay');
-                        second.setAttribute('src', "");
-                        third.setAttribute('src', "#interface");
-                        first.setAttribute('src', "");
+                        scene.emit('reset-menu');
                         return;
                     }
                     numRepeats++;
@@ -164,18 +174,11 @@ AFRAME.registerComponent('autoplay', {
         }
 
 
+        this.startMusic();
 
 
-
-        this.controller = document.querySelector('#controller');
-
-
-        this.controller.addEventListener('gripdown', this.startMusic);
-        document.addEventListener('click', this.startMusic);
     },
 
-
     remove: function () {
-        this.controller.removeEventListener('gripdown', this.startMusic);
     }
 });
