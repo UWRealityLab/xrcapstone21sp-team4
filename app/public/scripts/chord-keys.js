@@ -6,6 +6,26 @@ AFRAME.registerComponent('chord-keys', {
         const secondPos = document.querySelector('#second').object3D.position.clone();
         const thirdPos = document.querySelector('#third').object3D.position.clone();
 
+        // MIDI stuff
+        
+        // load song (TODO: need more logic here to load specific songs)
+        const midi = await Midi.fromUrl("../assets/midi/sotw")
+
+        // file name (included in the first track)
+        const name = midi.name
+
+        // get tracks (TODO: how to distinguish between the tracks.
+        // Is there a version of sotw with named tracks?)
+        midi.tracks.forEach(track => {
+            // array of notes
+            const notes = track.notes
+            notes.forEach(note => {
+                // TODO: what am I doing with the notes here?
+                // .midi, .time, .duration, .name
+            })
+        } )
+
+
         
         let endCounter = 0;
         let beginClick = true;
