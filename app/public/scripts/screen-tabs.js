@@ -31,11 +31,32 @@ function addScreenFret(stringElm, startPos, distanceFromNut, fretNum, displayNum
         height: 0.03,
         depth: 0.01
     });
+    let fretNumDisplay = document.createElement('a-entity');
+    fretNumDisplay.setAttribute('geometry',{
+        primitive: 'plane',
+        width: 4,
+        height: 4
+    
+    });
+    fretNumDisplay.setAttribute('material',{
+        color: 'red',
+        opacity:0,
+    });
+    fretNumDisplay.setAttribute('text',{
+        value:fretNum,
+        color:'red'
+    });
+   fretNumDisplay.setAttribute('position', {
+       x: myX + 1.93,
+       y:myY + 0.7,
+       z: myZ 
+   });
     newMark.setAttribute('rotation', '0 0 90');
     newMark.setAttribute('material', 'color: #c4c4c4');
     let fretId = 'screen' + displayNum + 'fret' + fretNum;
     newMark.setAttribute('id', fretId);
     newMark.object3D.position.set(myX, myY, myZ);
+    stringElm.appendChild(fretNumDisplay);
     stringElm.appendChild(newMark);
 }
 
@@ -67,7 +88,6 @@ function generateScreen(screen, markArray) {
         strID = strID + 'string' + a;
         str.setAttribute('id', strID);
         str.setAttribute('material', 'color: #e3a002');
-
         parent.appendChild(str);
         yPosStr += 0.2
     }
