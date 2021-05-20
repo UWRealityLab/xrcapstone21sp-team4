@@ -95,14 +95,12 @@
 
     <a-entity hud id="hud" offset-component="0 0 0.5">
         <a-entity fps-counter position="0 -0.6 -3"></a-entity>
+        <a-image id="menu" src="#interface" position="0 0 -1.8"></a-image>
 
         <a-entity id="image-tab" position="0 -0.2 -3.5">
-            <a-image animation-manager id="first" material="transparent: true; opacity: 0.60" position="0 0 -2"
-                     src="#interface" width="1.7"></a-image>
-            <a-image animation-manager id="second" material="transparent: true; opacity: 0.60" position="2 0 -4"
-                     src="" width="1.7"></a-image>
-            <a-image animation-manager id="third" material="transparent: true; opacity: 0.60" position="4 0 -6"
-                     src="" width="1.7"></a-image>
+            <a-entity animation-manager id="first" material="transparent: true; opacity: 0.60" position="0 0 -2" width="1.7"></a-entity>
+            <a-entity animation-manager id="second" material="transparent: true; opacity: 0.60" position="2 0 -4" width="1.7"></a-entity>
+            <a-entity animation-manager id="third" material="transparent: true; opacity: 0.60" position="4 0 -6" width="1.7"></a-entity>
         </a-entity>
     </a-entity>
 
@@ -122,5 +120,6 @@
 <script src= "scripts/add-animation.js"></script>
 -->
 <script src= "scripts/add-element-controller.js"></script>
+<script src="scripts/screen-tabs.js"></script>
 </body>
 </html>
