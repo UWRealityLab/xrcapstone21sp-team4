@@ -99,7 +99,7 @@
 
     <a-entity hud id="hud" offset-component="0 0 0.5">
         <a-entity fps-counter position="0 -0.6 -3"></a-entity>
-        <a-image id="menu" src="#interface" position="0 0 -1.8"></a-image>
+        <a-image id="menu" src="#interface" position="0 0 -3.5"></a-image>
 
         <a-entity id="image-tab" position="0 -0.2 -3.5">
             <a-entity animation-manager id="first" material="transparent: true; opacity: 0.60" position="0 0 -2" width="1.7"></a-entity>
@@ -118,6 +118,7 @@
     </a-entity>
 </a-scene>
 
+<script src="scripts/utils/getScreenNumber.js"></script>
 <script src="scripts/audio.js"></script>
 <script src="scripts/add-frets.js"></script>
 <!--

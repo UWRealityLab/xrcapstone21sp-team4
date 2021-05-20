@@ -159,7 +159,6 @@ function addScreenMarker(screen, markArray) {
 
         newMark.object3D.position.set(midPoint.x, 0, 0);
         el.appendChild(newMark);
-        console.log(el);
 
         ScreenMarkers[screen].push(newMark);
     }
