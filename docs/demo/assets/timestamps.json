@@ -1,0 +1,16 @@
+{
+  "times": [
+    {"note": "d", "start": 0, "end": 0.5},
+    {"note": "f", "start": 0.5, "end": 1.2},
+    {"note": "g", "start": 1.2, "end": 2},
+    {"note": "d", "start": 2, "end": 2.5},
+    {"note": "f", "start": 2.5, "end": 3.2},
+    {"note": "g#", "start": 3.2, "end": 3.52},
+    {"note": "g", "start": 3.43, "end": 4.5},
+    {"note": "d", "start": 4.5, "end": 5},
+    {"note": "f", "start": 5, "end": 5.6},
+    {"note": "g", "start": 5.6, "end": 6.4},
+    {"note": "f", "start": 6.4, "end": 6.9},
+    {"note": "d", "start": 6.9, "end": 8.5}
+  ]
+}
