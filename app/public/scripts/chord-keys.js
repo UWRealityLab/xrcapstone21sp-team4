@@ -35,6 +35,14 @@ AFRAME.registerComponent('chord-keys', {
             "G#3": { tab: [[4, 6]]}
         };
 
+        // Note as an associated hand shape on how to play, will emit event for 
+        // script to change hand shape
+        const handShapes = {
+            "D3": {shape: "ring"},
+            "F3": {shape: "index"},
+            "G3": {shape: "ring"},
+            "G#3": {shape: "pinkie"}
+        };
 
         const freqs = {
             "D3": 146.83,
@@ -82,6 +90,7 @@ AFRAME.registerComponent('chord-keys', {
                 scene.emit('show-screen-marker', {screen: 1, tab: notes[times[1]["note"]].tab})
                 scene.emit('show-screen-marker', {screen: 2, tab: notes[times[2]["note"]].tab})
                 scene.emit('tab-change', {tab: notes[times[0]['note']].tab});
+                scene.emit('hand-change', {shape: handShapes[times[0]['note']].shape})
                 return;
             }
 
@@ -143,7 +152,10 @@ AFRAME.registerComponent('chord-keys', {
                 scene.emit('reset-menu', {});
                 return;
             }
+
+            // Send the hand shape
             i++;
+            scene.emit('hand-change', {shape: handShapes[times[i]['note']].shape})
     
             if(times[i]){
                 scene.emit('tab-change', {tab: notes[times[i]['note']].tab});

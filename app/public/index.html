@@ -55,6 +55,11 @@
 <!--
         <video id="webcam" playsinline></video>
 -->
+        <a-asset-item id="baseHand" src="../assets/hands/natural_base_hand.glb"></a-asset-item>
+        <a-asset-item id="indexHand" src="../assets/hands/index_hand.glb"></a-asset-item>
+        <a-asset-item id="middleHand" src="../assets/hands/middle_hand.glb"></a-asset-item>
+        <a-asset-item id="ringHand" src="../assets/hands/ring_hand.glb"></a-asset-item>
+        <a-asset-item id="pinkieHand" src="../assets/hands/pinkie_hand.glb"></a-asset-item>
         <audio id="microphone" playsinline></audio>
 
         <img id="interface"
@@ -75,6 +80,16 @@
            width="0.01">
         <a-plane color="#b3b3b3" height="0.1" id="fretboard" material="side: double; transparent: true; opacity: 0.1" position="0 0 0.0" rotation="-45 0 0"
                  width="0.45">
+            <a-entity id="base" gltf-model="#baseHand"  position="0.02 -0.14 -0.14" material="opacity: 0.3"></a-entity>
+            </a-entity>
+            <a-entity visible="false" id="indexFinger" gltf-model="#indexHand"  position="0.02 -0.14 -0.14" material="opacity: 0.3"></a-entity>
+            </a-entity>
+            <a-entity visible="false" id="middleFinger" gltf-model="#middleHand"  position="0.02 -0.14 -0.14" material="opacity: 0.3"></a-entity>
+            </a-entity>
+            <a-entity visible="false" id="ringFinger" gltf-model="#ringHand"  position="0.02 -0.14 -0.14" material="opacity: 0.3"></a-entity>
+            </a-entity>
+            <a-entity visible="false" id="pinkieFinger" gltf-model="#pinkieHand"  position="0.02 -0.14 -0.14" material="opacity: 0.3"></a-entity>
+            </a-entity>
             <a-entity id="strings" position="0.1 -0.035 0">
                 <a-entity geometry="primitive: box; width: 0.6477; height: 0.001; depth: 0.001" id="String1"
                           material="opacity: 0.3" position="0 0 0" rotation="0 0 0"></a-entity>
@@ -125,5 +140,6 @@
 -->
 <script src= "scripts/add-element-controller.js"></script>
 <script src="scripts/screen-tabs.js"></script>
+<script src="scripts/add-hand.js"></script>
 </body>
 </html>
