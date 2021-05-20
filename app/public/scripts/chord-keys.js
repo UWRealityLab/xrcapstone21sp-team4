@@ -7,15 +7,17 @@ AFRAME.registerComponent('chord-keys', {
         const thirdPos = document.querySelector('#third').object3D.position.clone();
 
         // MIDI stuff
-        
+
         // load song (TODO: need more logic here to load specific songs)
-        const midi = await Midi.fromUrl("../assets/midi/sotw")
+        const midi = await Midi.fromUrl("../assets/midi/DEEP_PURPLE_-_Smoke_on_the_water__KAR")
 
         // file name (included in the first track)
         const name = midi.name
 
-        // get tracks (TODO: how to distinguish between the tracks.
-        // Is there a version of sotw with named tracks?)
+        // get tracks (TODO: how to distinguish between the tracks. Is there a version of sotw with named tracks?)
+
+        // In the DEEP_PURPLE file the tracks of interest are 2 and 3
+        // Repeating edited measures 8 to 11 until I figure out an idiomatic way of distinguishing transposed melodies
         midi.tracks.forEach(track => {
             // array of notes
             const notes = track.notes
