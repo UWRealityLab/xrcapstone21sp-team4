@@ -25,6 +25,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.sound.min.js"></script>
 
+
     <!-- Start tone.js (if performance lags consider importing the minified version from the repo) -->
     <script src="https://cdn.jsdelivr.net/npm/@tonaljs/tonal/browser/tonal.min.js"></script>
 
@@ -40,6 +41,7 @@
     <script src="scripts/animation-manager.js"></script>
     <script src="scripts/autoplay.js"></script>
     <script src="scripts/scene-manager.js"></script>
+ 
 
     <script src="https://unpkg.com/aframe-fps-counter-component/dist/aframe-fps-counter-component.min.js"></script>
 
@@ -65,20 +67,17 @@
         <img id="interface"
              src="./assets/menu.png" >
     </a-assets>
-    <!-- <a-audio src="#microphone" width="16" height="9" position="0 0 -40"></a-audio> -->
-
 
     <a-box color="green" depth="0.01" height="0.01" id="controller-estimate" offset-component="1.5 0 0" position="0.0 0.0 0.0"
-           width="0.01"></a-box>
+           width="0.01" opacity = "0"></a-box>
 
     <a-entity controller-tracking id="controller" magicleap-controls="hand: right">
-        <!--<a-box color="blue" height="0.01" width="0.01" depth="0.01" id="controller-child" position="0.0 -0.06 0.02"></a-box>-->
-        <!--<a-entity id="controller" geometry="primitive: box; width: 0.45; height: 0.05; depth: 0.05" position="0 0 0" rotation="0 0 0 "></a-entity>-->
+
     </a-entity>
 
     <a-box color="tomato" depth="0.01" height="0.01" id="real-controller" offset-component="-0.175 0.015 0.07"
-           width="0.01">
-        <a-plane color="#b3b3b3" height="0.1" id="fretboard" material="side: double; transparent: true; opacity: 0.1" position="0 0 0.0" rotation="-45 0 0"
+           width="0.01" opacity="0">
+        <a-plane color="#b3b3b3" height="0.1" id="fretboard" material="side: double; transparent: true; opacity: 0" position="0 0 0.0" rotation="-45 0 0"
                  width="0.45">
             <a-entity id="hand" position="0.02 -0.14 -0.14" offset-component="0.1 0 0">
                 <a-entity id="base" gltf-model="#baseHand" material="opacity: 0.3"></a-entity>
@@ -105,16 +104,16 @@
         </a-plane>
     </a-box>
 
-    <a-entity id="axisLines" line="start: 0 0 0; end: 0 0 0; color: red"
-              line__2="start: 0 0 0; end: 0 0 0; color: green"
-              line__3="start: 0 0 0; end: 0 0 0; color: blue"></a-entity>
+    <a-entity id="axisLines" line="start: 0 0 0; end: 0 0 0; color: red; opacity:0"
+              line__2="start: 0 0 0; end: 0 0 0; color: green; opacity: 0 "
+              line__3="start: 0 0 0; end: 0 0 0; color: blue; opacity: 0"></a-entity>
 
     <a-entity hud id="hud" offset-component="0 0 0.5">
         <a-entity fps-counter position="0 -0.6 -3"></a-entity>
         <a-image id="menu" src="#interface" position="0 0 -3.5"></a-image>
 
         <a-entity id="image-tab" position="0 -0.2 -3.5">
-            <a-entity animation-manager id="first" material="transparent: true; opacity: 0.60" position="0 0 -2" width="1.7"></a-entity>
+            <a-entity animation-manager id="first" material="transparent: true; opacity: 0.60" position="0 0 -2"width="1.7"></a-entity>
             <a-entity animation-manager id="second" material="transparent: true; opacity: 0.60" position="2 0 -4" width="1.7"></a-entity>
             <a-entity animation-manager id="third" material="transparent: true; opacity: 0.60" position="4 0 -6" width="1.7"></a-entity>
         </a-entity>
@@ -124,10 +123,16 @@
         <a-entity camera id="camera" look-controls position="0 8 0" wasd-controls>
             <a-entity color="#4CC3D9" geometry="primitive: sphere; radius: 0.02" id="camera-center"
                       position="0.05 0 0"></a-entity>
+        <!-- <a-entity id="image-tab" position="0 -0.2 -3.5">
+            <a-entity animation-manager id="first" material="transparent: true; opacity: 0.60" position="0 0 -2"width="1.7"></a-entity>
+            <a-entity animation-manager id="second" material="transparent: true; opacity: 0.60" position="2 0 -4" width="1.7"></a-entity>
+            <a-entity animation-manager id="third" material="transparent: true; opacity: 0.60" position="4 0 -6" width="1.7"></a-entity> -->
+        </a-entity>
         </a-entity>
         <!-- Match Magic Leap controller if present, regardless of hand. -->
-
     </a-entity>
+
+
 </a-scene>
 
 <script src="scripts/utils/getScreenNumber.js"></script>
@@ -139,5 +144,6 @@
 <script src= "scripts/add-element-controller.js"></script>
 <script src="scripts/screen-tabs.js"></script>
 <script src="scripts/add-hand.js"></script>
+<script src="scripts/rotation-reader.js"></script>
 </body>
 </html>

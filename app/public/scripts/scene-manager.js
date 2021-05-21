@@ -14,7 +14,7 @@ AFRAME.registerComponent('scene-manager', {
         let initialImageTab = imageTab.innerHTML;
 
 
-
+    
         const togglePitchRecognition = function (isOn) {
             scene.emit('toggle-pitch-recognition', {isOn: isOn})
         }

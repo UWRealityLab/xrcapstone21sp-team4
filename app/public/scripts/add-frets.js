@@ -4,7 +4,7 @@ const scaleFactor = 1.45; // manual scale factor
 const el = document.getElementById('String1');
 let startPos = el.object3D.position.clone();
 startPos.x = startPos.x - (scaleLength / 2);
-startPos.y += 0.040;
+startPos.y += 0.03;
 
 this.addFret = function (distanceFromNut, fretNum) {
     // console.log('adding fret ' + fretNum + ' at distance: ' + distanceFromNut);
@@ -20,7 +20,7 @@ this.addFret = function (distanceFromNut, fretNum) {
     let newMark = document.createElement('a-entity');
     newMark.setAttribute('geometry', {
         primitive: 'box',
-        width: 0.075,
+        width: 0.06,
         height: 0.001,
         depth: 0.001
     });

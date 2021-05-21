@@ -57,7 +57,7 @@ AFRAME.registerComponent('chord-keys', {
 
         function snip(start, end) {
             water.currentTime = start;
-            console.log('play')
+           // console.log('play')
             // this system is flawed, audio of progressing notes can get
             // cut awkwardly
             water.play()
@@ -71,8 +71,8 @@ AFRAME.registerComponent('chord-keys', {
         let third = document.querySelector('#third');
 
         this.startMusic = async (/*e*/) => {
-            console.log('startmusic called');
-            console.log('begin');
+          //  console.log('startmusic called');
+          //  console.log('begin');
             if (i >= times.length) {
                 i = 0;
                 endCounter++;
@@ -137,7 +137,7 @@ AFRAME.registerComponent('chord-keys', {
 
             // console.log(times[i])
             snip(times[i]["start"], times[i]["end"]);
-            console.log('end');
+            //console.log('end');
             // if we are at the last note, wait to start listening again
             if (i+1 == times.length) {
                 isListening = false;
