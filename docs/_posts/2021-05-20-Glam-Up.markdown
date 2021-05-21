@@ -1,0 +1,52 @@
+---
+layout: post
+title:  "Glam Up"
+date:   2021-05-20 1:00:00 -0700
+categories:
+---
+
+Much improved performance! Far more playable.<br/>
+Auto generated, generalizable, 3D tabs to display to the user<br/>
+Suggested hand position diplayed to the user<br/>
+Research for adding in songs instead of hardcoding them<br/>
+All this and more, in this week's post... <br/>
+
+<b>Kirit</b><br/>
+
+Kirit’s first milestone this week was to improve the app performance significantly, bringing it to an acceptable level. He refactored most of the codebase and rewrote some of it to use Three.JS directly rather than going through AFrame. He further modified the ml5 source code (used for pitch recognition) and rebuilt the library to sample less frequently. Together this gave about a 12fps increase, bringing the application mean fps to around 22! Considering an empty AFrame scene runs on the magic leap at only around 30fps, this was a big win and relief.
+
+Kirit then switched gears and helped Rish with the visual tab generation. He debugged issues and amended the implementation to generate a complete visual per note at once (rather than generating the next three notes in a 2 stage process). This allowed him to show only the relevant frets for a note (cropping the rest out), making the visuals less cluttered.
+
+Finally Kirit added in Sam’s hand shape indicators and merged it with last week’s moving implementation so the hands would traverse across the fretboard.
+
+Kirit’s immediate goals for next week are to support showing chords and lyrics that fade in and scroll along with the song.
+
+
+<b>Sam</b><br/>
+
+Sam worked on modeling the hands to overlay over the guitar. In blender, he made models for every individual finger position and several chord shapes that will potentially be used for future songs. He integrated these hands into the tracking of the fret board and changed models depending on the suggested hand position of the current song being learned. He also finally got a 3d printed mount for the controller to finally use the project!
+Take a look at his progress and guitar shredding in this [video](https://twitter.com/SamVanderlinda/status/1395274567954751492?s=20).
+<br/>
+![Sam-demo](/xrcapstone21sp-team4/images/sam-week-8.png){:width="400px"}<br/>
+Next week, Sam will improve the animations between the hands and work with Max to make song importing generalizable.
+
+<b>Max</b><br/>
+
+This week Max studied up on the Tonal.js library and wrote some boilerplate code to import and process MIDI files. After his usual DAW (digital audio workstation) refused to drive audio he switched to a lightweight MIDI editor. MIDI file processing requires more human input than expected since naming of instrument tracks in MIDI files isn’t standardized, and many guitar songs transpose the melody across a chord that shifts up and down. For Smoke on the Water Max needed to delete the transposed melodies (the melodies that do not start on D3), and will most likely loop across a subsection of measures like the example below for each part of the song that a guitar player wants to learn. That presents another hurdle for processing - how do we differentiate song sections in a random MIDI file, and should we even?
+<br/>
+![Max-demo](/xrcapstone21sp-team4/images/max-week-8.png){:width="400px"}<br/>
+
+This weekend Max will pair-program with Kirit and Sam to automate playback of audio recordings of songs based on the timings of a MIDI file and update the progression logic to rely less on hardcoded timings and frequencies. One potential challenge is that the recorded performance of a song doesn’t always match up to the MIDI version. Hopefully, we can get a good list of royalty-free audio tracks with closely matched MIDI files. We might need to retreat from a vision of processing whatever MIDI file a user uploads to just using MIDI processing to build up a large library.
+
+<b>Rish</b><br/>
+
+This week rish spent time generalizing the chord display in front of the user. Initially, he spent time refactoring code and re-writing parts to make it generalizable. Further, he worked with Kirit to change the design of the adding marker code to enable adding a marker to the screen in front of the user and on the guitar using a single event listener which is better for our performance. With the addition of this feature, we will potentially be able to import any song (As MIDI import gets sorted) and our chord display would work with it. He also added guitar fret numbers over the display. 
+<br/>
+![Rish-demo](/xrcapstone21sp-team4/images/rish-week-8.png){:width="400px"}<br/>
+
+In summary, <b>plans for next week:</b>
+
+*  Showing FULL chords and lyrics.
+*  Make importing a song generalizable with Midi.
+*  Check if I can get the chord recognition working.
+*  Work on guitar scaling issues for after fret 12.  
