@@ -6,14 +6,14 @@ AFRAME.registerComponent('add-frets', {
         let myX = el.components.position.attrValue.x;
         let myY = el.components.position.attrValue.y;
         let myZ = el.components.position.attrValue.z;
-        myY = myY + 0.05;
+        myY = myY + 0.03;
          
         myX = myX + (scaleLength/2) - distanceFromNut;
         let p = el.getAttribute('position');
         let newMark = document.createElement('a-entity');
         newMark.setAttribute('geometry', {
           primitive: 'box',
-          width: 0.1,
+          width: 0.06,
           height: 0.001,
           depth: 0.001
         });
