@@ -71,14 +71,13 @@
     <a-box color="green" depth="0.01" height="0.01" id="controller-estimate" offset-component="1.5 0 0" position="0.0 0.0 0.0"
            width="0.01" opacity = "0"></a-box>
 
-    <a-entity controller-tracking id="controller" magicleap-controls="hand: right">
+    <a-entity controller-tracking id="controller" magicleap-controls="hand: right" material="opacity: 0; transparent:true">
 
     </a-entity>
 
     <a-box color="tomato" depth="0.01" height="0.01" id="real-controller" offset-component="-0.175 0.015 0.07"
            width="0.01" opacity="0">
-        <a-plane color="#b3b3b3" height="0.1" id="fretboard" material="side: double; transparent: true; opacity: 0" position="0 0 0.0" rotation="-45 0 0"
-                 width="0.45">
+        <a-plane color="#b3b3b3" height="0.1" id="fretboard" material="side: double; transparent: true; opacity: 0" position="0 0 0" rotation="-45 0 0">
             <a-entity id="hand" position="0.02 -0.14 -0.14" offset-component="0.1 0 0">
                 <a-entity id="base" gltf-model="#baseHand" material="opacity: 0.3"></a-entity>
                 <a-entity visible="false" id="indexFinger" gltf-model="#indexHand" material="opacity: 0.3"></a-entity>
@@ -86,18 +85,18 @@
                 <a-entity visible="false" id="ringFinger" gltf-model="#ringHand" material="opacity: 0.3"></a-entity>
                 <a-entity visible="false" id="pinkieFinger" gltf-model="#pinkieHand" material="opacity: 0.3"></a-entity>
             </a-entity>
-            <a-entity id="strings" position="0.1 -0.035 0">
-                <a-entity geometry="primitive: box; width: 0.6477; height: 0.001; depth: 0.001" id="String1"
+            <a-entity id="strings" position="0.1 0 0">
+                <a-entity geometry="primitive: box; width: 0.93; height: 0.001; depth: 0.001" id="String1"
                           material="opacity: 0.3" position="0 0 0" rotation="0 0 0"></a-entity>
-                <a-entity geometry="primitive: box; width: 0.6477; height: 0.001; depth: 0.001" id="String2"
+                <a-entity geometry="primitive: box; width: 0.93; height: 0.001; depth: 0.001" id="String2"
                           material="opacity: 0.3" position="0 0.012 0" rotation="0 0 0"></a-entity>
-                <a-entity geometry="primitive: box; width: 0.6477; height: 0.001; depth: 0.001" id="String3"
+                <a-entity geometry="primitive: box; width: 0.93; height: 0.001; depth: 0.001" id="String3"
                           material="opacity: 0.3" position="0 0.024 0" rotation="0 0 0"></a-entity>
-                <a-entity geometry="primitive: box; width: 0.6477; height: 0.001; depth: 0.001" id="String4"
+                <a-entity geometry="primitive: box; width: 0.93; height: 0.001; depth: 0.001" id="String4"
                           material="opacity: 0.3" position="0 0.036 0" rotation="0 0 0"></a-entity>
-                <a-entity geometry="primitive: box; width: 0.6477; height: 0.001; depth: 0.001" id="String5"
+                <a-entity geometry="primitive: box; width: 0.93; height: 0.001; depth: 0.001" id="String5"
                           material="opacity: 0.3" position="0 0.048 0" rotation="0 0 0"></a-entity>
-                <a-entity geometry="primitive: box; width: 0.6477; height: 0.001; depth: 0.001" id="String6"
+                <a-entity geometry="primitive: box; width: 0.93; height: 0.001; depth: 0.001" id="String6"
                           material="opacity: 0.3" position="0 0.06 0" rotation="0 0 0"></a-entity>
             </a-entity>
 

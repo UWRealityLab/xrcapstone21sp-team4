@@ -1,22 +1,20 @@
 const scaleLength = 0.6477; // this is 25.5 inches in meters. A-frame uses meters so we write it in meters.
 const totalFrets = 21; // just going to make 15 frets for now.
-const scaleFactor = 1.45; // manual scale factor
+let scaleFactor = 1.35; // manual scale factor
 const el = document.getElementById('String1');
 let startPos = el.object3D.position.clone();
-startPos.x = startPos.x - (scaleLength / 2);
+startPos.x = startPos.x - (0.93 / 2);
 startPos.y += 0.03;
 
-this.addFret = function (distanceFromNut, fretNum) {
+this.addFret = function (distanceFromNut, fretNum,scaleFactor) {
     // console.log('adding fret ' + fretNum + ' at distance: ' + distanceFromNut);
 
     let myX = startPos.x;
     let myY = startPos.y;
     let myZ = startPos.z;
-    // myY = myY + 0.05;
 
-    myX = myX + (distanceFromNut*scaleFactor);
+    myX = myX + (distanceFromNut * scaleFactor);
 
-    //let p = el.getAttribute('position');
     let newMark = document.createElement('a-entity');
     newMark.setAttribute('geometry', {
         primitive: 'box',
@@ -34,13 +32,16 @@ this.addFret = function (distanceFromNut, fretNum) {
     });
     el.appendChild(newMark);
 }
-this.addFret(0, 0); // creating Nut in the virtual world.
+this.addFret(0, 0, scaleFactor); // creating Nut in the virtual world.
 
 let i = 1;
 for (i = 1; i < totalFrets; i++) {
+    if(i < 9) {
+      scaleFactor = 0.02 + scaleFactor;
+    } 
     let twoPower = Math.pow(2, i / 12);
     let d = scaleLength - (scaleLength / twoPower);
-    this.addFret(d, i);
+    this.addFret(d, i, scaleFactor);
 }
 
 //let a = document.getElementById('fret1').getAttribute('position');
