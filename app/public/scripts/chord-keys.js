@@ -54,12 +54,12 @@ AFRAME.registerComponent('chord-keys', {
 
         let startTime = midiNote[0].time;
 
-        for (let midiNote of midiNote) {
+        for (let midiNote of midiNotes) {
             console.log('note: '+JSON.stringify(midiNote));
-            let note = {
+            /*let note = {
                 note: midiNote.name,
                 start: midiNote.
-            }
+            }*/
 
 
         }
