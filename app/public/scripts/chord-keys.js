@@ -1,15 +1,33 @@
 // Sam branch
 AFRAME.registerComponent('chord-keys', {
-    init: function() {
+    init: async function() {
         this.scene = document.querySelector("a-scene");
         const firstPos = document.querySelector('#first').object3D.position.clone();
         const secondPos = document.querySelector('#second').object3D.position.clone();
         const thirdPos = document.querySelector('#third').object3D.position.clone();
 
+        const times = [
+            /*{"note": "D3", "start": 0, "end": 0.5},
+            {"note": "F3", "start": 0.5, "end": 1.2},
+            {"note": "G3", "start": 1.2, "end": 2},
+            {"note": "D3", "start": 2, "end": 2.5},
+            {"note": "F3", "start": 2.5, "end": 3.2},
+            {"note": "G#3", "start": 3.2, "end": 3.52},
+            {"note": "G3", "start": 3.43, "end": 4.5},
+            {"note": "D3", "start": 4.5, "end": 4.9},
+            {"note": "F3", "start": 4.9, "end": 5.6},
+            {"note": "G3", "start": 5.6, "end": 6.4},
+            {"note": "F3", "start": 6.4, "end": 6.9},
+            {"note": "D3", "start": 6.9, "end": 8.5},*/
+        ];
+
+
         // MIDI stuff
 
         // load song (TODO: need more logic here to load specific songs)
-        const midi = await Midi.fromUrl("../assets/midi/DEEP_PURPLE_-_Smoke_on_the_water__KAR")
+        const midi = await Midi.fromUrl("../assets/midi/DEEP_PURPLE_-_Smoke_on_the_water__KAR.mid");
+
+        console.log('midi loaded');
 
         // ***
         // I don't know if we want to use the midi track for audio as well or if the sync with
@@ -27,34 +45,27 @@ AFRAME.registerComponent('chord-keys', {
 
         // In the DEEP_PURPLE file the tracks of interest are 2 and 3
         // Repeating edited measures 8 to 11 until I figure out an idiomatic way of distinguishing transposed melodies
-        midi.tracks.forEach(track => {
+        let track = midi.tracks[3];
             // array of notes
-            const notes = track.notes
+        const midiNotes = track.notes;
             // for (int i = 0; i < notes.length; i++) {
                 // track.notes[i];
             // }
-            for (note in notes) {
-                // TODO: what am I doing with the notes here?
-                // .midi, .time, .duration, .name
 
-                // so these are the fields we have available for each of the notes
-                // there's frequency in there somewhere too which is really what this was supposed
-                // to streamline. >> Time too but that's another wrinkle because it's measured from the start
-                // of the song, which includes a pause and an intro.
+        let startTime = midiNote[0].time;
 
-                // We'll need to record the time of the beginning of the section we want to loop to teach people
-                // then calculate timing of the chords / tabs / audio with the offset between that and the current
-                // note / chord (since we don't)
-
-                // Getting note names from MIDI
-                
-
-
+        for (let midiNote of midiNote) {
+            console.log('note: '+JSON.stringify(midiNote));
+            let note = {
+                note: midiNote.name,
+                start: midiNote.
             }
+
+
+        }
             // notes.forEach(note => {
 
             // })
-        })
 
         
         let endCounter = 0;
@@ -63,20 +74,6 @@ AFRAME.registerComponent('chord-keys', {
         let el = this.el;
         let i = 0;
 
-        const times = [
-            {"note": "D3", "start": 0, "end": 0.5},
-            {"note": "F3", "start": 0.5, "end": 1.2},
-            {"note": "G3", "start": 1.2, "end": 2},
-            {"note": "D3", "start": 2, "end": 2.5},
-            {"note": "F3", "start": 2.5, "end": 3.2},
-            {"note": "G#3", "start": 3.2, "end": 3.52},
-            {"note": "G3", "start": 3.43, "end": 4.5},
-            {"note": "D3", "start": 4.5, "end": 4.9},
-            {"note": "F3", "start": 4.9, "end": 5.6},
-            {"note": "G3", "start": 5.6, "end": 6.4},
-            {"note": "F3", "start": 6.4, "end": 6.9},
-            {"note": "D3", "start": 6.9, "end": 8.5},
-        ];
 
         const notes = {
             "D3": {tab: [[5, 5]]},
@@ -85,7 +82,7 @@ AFRAME.registerComponent('chord-keys', {
             "G#3": { tab: [[4, 6]]}
         };
 
-        // Note as an associated hand shape on how to play, will emit event for 
+        // Note as an associated hand shape on how to play, will emit event for
         // script to change hand shape
         const handShapes = {
             "D3": {shape: "ring"},
@@ -206,7 +203,7 @@ AFRAME.registerComponent('chord-keys', {
             // Send the hand shape
             i++;
 
-    
+
             if(times[i]){
                 scene.emit('tab-change', {tab: notes[times[i]['note']].tab});
                 scene.emit('hand-change', {shape: handShapes[times[i]['note']].shape})
