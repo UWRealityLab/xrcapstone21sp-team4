@@ -30,7 +30,10 @@ AFRAME.registerComponent('chord-keys', {
         midi.tracks.forEach(track => {
             // array of notes
             const notes = track.notes
-            notes.forEach(note => {
+            // for (int i = 0; i < notes.length; i++) {
+                // track.notes[i];
+            // }
+            for (note in notes) {
                 // TODO: what am I doing with the notes here?
                 // .midi, .time, .duration, .name
 
@@ -43,10 +46,15 @@ AFRAME.registerComponent('chord-keys', {
                 // then calculate timing of the chords / tabs / audio with the offset between that and the current
                 // note / chord (since we don't)
 
-                // 
-            })
-        })
+                // Getting note names from MIDI
+                
 
+
+            }
+            // notes.forEach(note => {
+
+            // })
+        })
 
         
         let endCounter = 0;
