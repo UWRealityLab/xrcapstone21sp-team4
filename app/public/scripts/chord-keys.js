@@ -104,7 +104,7 @@ AFRAME.registerComponent('chord-keys', {
         let beginClick = true;
         const water = new Audio("../assets/smoke-on-water-vr.mp3");
         let el = this.el;
-        let i = 0;
+        let i = 0;              // number of note in the riff that we're practicing
 
 
         /*const notes = {
@@ -141,12 +141,10 @@ AFRAME.registerComponent('chord-keys', {
 
 
 
-        const freqs = {
-            "D3": 146.83,
-            "F3": 174.61,
-            "G3": 196.00,
-            "G#3": 207.65
-        };
+        // import frequencies from MIDI
+        // import frequencies from MIDI
+
+
         
         // check if pitch is sustained
         const ERROR_THRESHOLD = 1.5;
@@ -257,7 +255,6 @@ AFRAME.registerComponent('chord-keys', {
             // Send the hand shape
             i++;
 
-
             if(times[i]){
                 scene.emit('tab-change', {tab: mergeTab(times[i].notes)});
                 // todo: fix
@@ -284,7 +281,7 @@ AFRAME.registerComponent('chord-keys', {
                 return;
             }
 
-            // asert first not null
+            // assert first not null
 
             // if the notes freq is out of the threshold bounds, dont progress
             if(isSingleNote(times[i].notes)){
