@@ -1,64 +1,84 @@
-console.log('chord ui started');
-
-const song = `{comment: Intro}
-[D][Am][Am][Em][x4]
-
+this.ChordSheetJS = chordsheetjs.default;
+AFRAME.registerComponent('chords-ui', {
+    init: function(){
+        this.song = `
 {start_of_verse}
 [D]Lights go out and I c[Am]an't be saved, tides that I tried to [Em]swim against
 [D]Brought me down up[Am]on my knees, oh I beg I [Em]beg and plead -singing
 [D]Come out of the [Am]things unsaid, shoot an apple [Em]off my head - and a
 [D]Trouble that ca[Am]n't be named, tigers waiting [Em]to be tamed - singing
-{end_of_verse}
+{end_of_verse}`
 
-{comment: Hook}
-(Piano Riff)
-[D]  you  [Am]             a[Em]re       [D]you    [Am]              ar[Em]e
 
-(w/Piano Riff)
-[D][Am][Am][Em/G][x2]
+        this.parser = new ChordSheetJS.ChordProParser();
+        this.parsedSong = this.parser.parse(this.song);
+        /*this.formatter = new ChordSheetJS.HtmlTableFormatter();
+        const disp = formatter.format(parsedSong);*/
+        this.el.addEventListener('draw-render', this.render.bind(this));
 
-{start_of_verse}
-Co[D]nfusion [Am]never stops, closing walls and [Em]ticking clocks - gonna
-[D]come back and [Am]take you home, I could not stop tha[Em]t you now know - singing
-[D]Come out upon [Am]my seas, curse missed oppo[Em]rtunities - am I
-[D]A part o[Am]f the cure, or am I a part of [Em]the disease? - singing
-{end_of_verse}
+        this.lineSpacing = 40;
+        this.chordSpacing = 15;
 
-{comment: Hook}
-(w/Piano Riff)
-[D]  You  [Am]             a[Em]re       [D]you    [Am]              a[Em]re
-[D]  You  [Am]             a[Em]re       [D]you    [Am]              a[Em]re
+    },
+    render(e){
+        console.log('render texture');
+        let ctx = e.detail.ctx;
+        let texture = e.detail.texture;
+        let w = ctx.canvas.width;
+        let h = ctx.canvas.height;
 
-{comment: Bridge}
-[Fmaj7]  And nothing else compares[C][G]
-[Fmaj7]  Oh nothing else compares[C][G]
-[Fmaj7]  And nothing else compares[C][G][Fmaj7]
+/*// Set line width
 
-{comment: Hook}
-(Piano Riff)
-[D][Am][Am][Em][x2]
 
-(w/High Piano Riff)
-[D][Am][Am][Em][x2]
+// Wall
+        ctx.strokeRect(75, 140, 150, 110);
 
-{comment: Outro}
-(w/High Piano Riff)
-[D]Home, home,[Am] where I wanted to [Em/G]go
-[D]Home, home,[Am] where I wanted to [Em/G]go
-[D]Home, home,[Am] where I wanted to [Em/G]go
-      you                     are
-[D]Home, home,[Am] where I wanted to [Em/G]go
-      you                     are
+// Door
+        ctx.fillRect(130, 190, 40, 60);
 
-{comment: Outro}
-(w/High Piano Riff)
-[D](fa[Am]de o[Am]ut)[Em][x3]`
+// Roof
+        ctx.beginPath();
+        ctx.moveTo(50, 140);
+        ctx.lineTo(150, 60);
+        ctx.lineTo(250, 140);
+        ctx.closePath();
+        ctx.stroke();*/
 
-const ChordSheetJS = chordsheetjs.default;
-const parser = new ChordSheetJS.ChordProParser();
-const parsedSong = parser.parse(song);
-const formatter = new ChordSheetJS.HtmlTableFormatter();
-const disp = formatter.format(parsedSong);
-console.log('Chordsheet parser');
-// console.log(disp);
-document.querySelector('#menu').innerHTML = disp;
+
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = 'blue';
+        ctx.font = '15px serif';
+        ctx.fillStyle = 'gray'
+        // ctx.fillRect(0, 0, w, h);
+
+
+        let lineStart = [20, 20];
+
+        for(let paragraph of this.parsedSong.paragraphs){
+            for (let line of paragraph.lines){
+                let lineX = lineStart[0];
+                console.log('line type: '+line.type);
+                if(line.type === 'verse'){
+                    for(let item of line.items){
+                        console.log('drawing lyrics: '+item.lyrics);
+                        ctx.strokeStyle = 'green';
+                        ctx.strokeText(item.chords, lineX, lineStart[1]);
+                        ctx.strokeStyle = 'blue';
+                        ctx.strokeText(item.lyrics, lineX, lineStart[1]+this.chordSpacing);
+                        let textWidth = ctx.measureText(item.lyrics);
+                        lineX += textWidth.width;
+                    }
+                }
+
+                lineStart[1] += this.lineSpacing;
+            }
+        }
+
+        texture.needsUpdate = true;
+
+    },
+    remove: function (){
+
+    }
+})
+
