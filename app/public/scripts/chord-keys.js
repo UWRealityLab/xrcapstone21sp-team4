@@ -172,7 +172,7 @@ AFRAME.registerComponent('chord-keys', {
           //  console.log('begin');
             if (i >= times.length) {
                 i = 0;
-                endCounter++;
+                // endCounter++;
              }
 
 
@@ -227,8 +227,8 @@ AFRAME.registerComponent('chord-keys', {
             thirdI++;
             if (thirdI == times.length) { thirdI = 0; }
             // console.log(thirdI);
-            first.setAttribute('note', times[thirdI]["note"]);
-            scene.emit('show-screen-marker', {screen: i%3, tab: notes[times[thirdI]["note"]].tab});
+            // first.setAttribute('note', times[thirdI]["note"]);
+            scene.emit('show-screen-marker', {screen: i%3, tab: mergeTab(times[thirdI].notes)});
             first.object3D.position.set(thirdPos.x, thirdPos.y, thirdPos.z);
 
             let prevFirst = first;
@@ -259,8 +259,11 @@ AFRAME.registerComponent('chord-keys', {
 
 
             if(times[i]){
-                scene.emit('tab-change', {tab: notes[times[i]['note']].tab});
-                scene.emit('hand-change', {shape: handShapes[times[i]['note']].shape})
+                scene.emit('tab-change', {tab: mergeTab(times[i].notes)});
+                // todo: fix
+                if (isSingleNote(times[i].notes)) {
+                    scene.emit('hand-change', {shape: handShapes[times[0].notes[0]].shape})
+                }
             }else{
                 // end of song
                 scene.emit('tab-change', {tab: mergeTab(times[0].notes)});
