@@ -11,6 +11,15 @@ AFRAME.registerComponent('chord-keys', {
         // load song (TODO: need more logic here to load specific songs)
         const midi = await Midi.fromUrl("../assets/midi/DEEP_PURPLE_-_Smoke_on_the_water__KAR")
 
+        // ***
+        // I don't know if we want to use the midi track for audio as well or if the sync with
+        // the recording will be close enough to be usable. It's like a synth version kind of.
+        // but we could totally use a tonal.js instrument they have a pretty wide range of instruments
+        // yeah
+        // ***
+
+        // was talking to Sam about this earlier ^
+
         // file name (included in the first track)
         const name = midi.name
 
@@ -24,8 +33,19 @@ AFRAME.registerComponent('chord-keys', {
             notes.forEach(note => {
                 // TODO: what am I doing with the notes here?
                 // .midi, .time, .duration, .name
+
+                // so these are the fields we have available for each of the notes
+                // there's frequency in there somewhere too which is really what this was supposed
+                // to streamline. >> Time too but that's another wrinkle because it's measured from the start
+                // of the song, which includes a pause and an intro.
+
+                // We'll need to record the time of the beginning of the section we want to loop to teach people
+                // then calculate timing of the chords / tabs / audio with the offset between that and the current
+                // note / chord (since we don't)
+
+                // 
             })
-        } )
+        })
 
 
         
