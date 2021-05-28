@@ -4,9 +4,9 @@ title:  "Above and Beyond"
 date:   2021-05-27 1:00:00 -0700
 categories:
 ---
-Product goal reached!! 
-Working towards stretch goals. 
-Polishing our product..! 
+Product goal reached!! <br/>
+Working towards stretch goals. <br/> 
+Polishing our product..! <br/>
 
 <b>Rish</b><br/>
 
