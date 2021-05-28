@@ -37,3 +37,10 @@ For our final week Sam will assist in putting together a UI to select from sever
 This week Max collaborated on midi integration and learned the valuable lesson that Tone.js and Tonal.js were two different libraries with largely incompatible parts. While both offer options for parsing Midi files (and Tone includes some very nice boilerplate to get started), Tonal is far better suited to the kind of flexibility we need to get a variety of songs imported quickly. Tonal also has a wide variety of synth instruments available for playback in case the audio tracks we use do not line up exactly.
 
 Distinguishing between tracks, recognizing the start and end of key sections, and selecting a melody out of transposed notes in a chord continue to be problems. Copyright may prove to be a challenge if offloading midi sourcing to the user remains a pain point and we decide to keep a rolling library of royalty-free songs instead. Even if so, Ira mentioned copyrighted assets this week and likely has some insight into funding options for the initial song list.
+
+
+In summary, <b>plans for next week:</b>
+
+*  Create UI for song selection
+*  Polish Polish Polish
+*  Work on the presentation and video.
