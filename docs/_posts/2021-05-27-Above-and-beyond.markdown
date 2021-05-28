@@ -4,6 +4,9 @@ title:  "Above and Beyond"
 date:   2021-05-27 1:00:00 -0700
 categories:
 ---
+Product goal reached!! 
+Working towards stretch goals. 
+Polishing our product..! 
 
 <b>Rish</b><br/>
 
@@ -29,7 +32,7 @@ This week Sam worked with Max and Kirit to finalize midi file integration into o
 He also put together a history of photos cataloging the progress that our project has gone through. Ohhh the memories…
 For our final week Sam will assist in putting together a UI to select from several songs. 
 <br/>
-![sam8-demo](/xrcapstone21sp-team4/images/sa,-week-9.png){:width="400px"}<br/>
+![sam8-demo](/xrcapstone21sp-team4/images/sam-week-9.png){:width="400px"}<br/>
 
 <b>Max</b><br/>
 
