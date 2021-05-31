@@ -44,10 +44,11 @@ function modelLoaded() {
     scene.addEventListener('toggle-pitch-recognition', event => {
         console.log('toggle-pitch-recognition isOn: '+event.detail.isOn);
         if(event.detail.isOn){
-            if(!isRunning){
+            // todo: enable
+            /*if(!isRunning){
                 isRunning = true;
                 audioContext.resume();
-            }
+            }*/
         }else{
             if(isRunning){
                 isRunning = false;

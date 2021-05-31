@@ -9,7 +9,7 @@ AFRAME.registerComponent('chords-ui', {
 [D]Trouble that ca[Am]n't be named, tigers waiting [Em]to be tamed - singing
 {end_of_verse}`
 
-
+        this.ystart = 20;
         this.parser = new ChordSheetJS.ChordProParser();
         this.parsedSong = this.parser.parse(this.song);
         /*this.formatter = new ChordSheetJS.HtmlTableFormatter();
@@ -27,23 +27,6 @@ AFRAME.registerComponent('chords-ui', {
         let w = ctx.canvas.width;
         let h = ctx.canvas.height;
 
-/*// Set line width
-
-
-// Wall
-        ctx.strokeRect(75, 140, 150, 110);
-
-// Door
-        ctx.fillRect(130, 190, 40, 60);
-
-// Roof
-        ctx.beginPath();
-        ctx.moveTo(50, 140);
-        ctx.lineTo(150, 60);
-        ctx.lineTo(250, 140);
-        ctx.closePath();
-        ctx.stroke();*/
-
 
         ctx.lineWidth = 1;
         ctx.strokeStyle = 'blue';
@@ -52,7 +35,7 @@ AFRAME.registerComponent('chords-ui', {
         // ctx.fillRect(0, 0, w, h);
 
 
-        let lineStart = [20, 20];
+        let lineStart = [20, this.ystart];
 
         for(let paragraph of this.parsedSong.paragraphs){
             for (let line of paragraph.lines){
@@ -73,6 +56,8 @@ AFRAME.registerComponent('chords-ui', {
                 lineStart[1] += this.lineSpacing;
             }
         }
+
+        // this.ystart -= 0.1;
 
         texture.needsUpdate = true;
 
