@@ -62,7 +62,6 @@
         <a-asset-item id="middleHand" src="./assets/hands/middle_hand.glb"></a-asset-item>
         <a-asset-item id="ringHand" src="./assets/hands/ring_hand.glb"></a-asset-item>
         <a-asset-item id="pinkieHand" src="./assets/hands/pinkie_hand.glb"></a-asset-item>
-        <a-asset-item id="lowPolyGuitar" src="./assets/LowPolyGuitar.glb"></a-asset-item>
         <audio id="microphone" playsinline></audio>
 
         <img id="interface"
@@ -105,33 +104,13 @@
         </a-plane>
     </a-box>
 
-
     <a-entity id="axisLines" line="start: 0 0 0; end: 0 0 0; color: red; opacity:0"
               line__2="start: 0 0 0; end: 0 0 0; color: green; opacity: 0 "
               line__3="start: 0 0 0; end: 0 0 0; color: blue; opacity: 0"></a-entity>
 
     <a-entity hud id="hud" offset-component="0 0 0.5">
         <a-entity fps-counter position="0 -0.6 -3"></a-entity>
-        <a-image id="menu" src="" position="0 0 -3.5"></a-image>
-        <a-entity
-        geometry="primitive: plane; height: auto; width: 1"
-        material="color: blue; opacity: 0.6 "
-        text="width: 3; value: Manual; align: center; color:red" position = "0 0.4 -3" id = "btn-1"></a-entity>
-        <a-entity
-        geometry="primitive: plane; height: auto; width: 1"
-        material="color: blue; opacity: 0.6 "
-        text="width: 3; value: Auto Play; align: center; color:red" position = "0 0.2 -3" id = "btn-2"></a-entity>
-
-        <a-entity
-  geometry="primitive: plane; height: auto; width: auto"
-  material="color: blue; opacity: 0 "
-  text="width: 6; value: GuitXR; align: center; color:red" position = "-0.7 0.6 -3" rotation = "0 0 45"></a-entity>
-
-        <!-- trying to load guitar -->
-        </a-entity
-        id="guitar"
-        gltf-model="#lowPolyGuitar"
-        position = "0.7 0.6 -3"></a-entity>
+        <a-image id="menu" src="#interface" position="0 0 -3.5"></a-image>
 
         <a-entity id="image-tab" position="0 -0.2 -3.5">
             <a-entity animation-manager id="first" material="transparent: true; opacity: 0.60" position="0 0 -2"width="1.7"></a-entity>
@@ -144,7 +123,6 @@
         <a-entity camera id="camera" look-controls position="0 8 0" wasd-controls>
             <a-entity color="#4CC3D9" geometry="primitive: sphere; radius: 0.02" id="camera-center"
                       position="0.05 0 0"></a-entity>
-
         <!-- <a-entity id="image-tab" position="0 -0.2 -3.5">
             <a-entity animation-manager id="first" material="transparent: true; opacity: 0.60" position="0 0 -2"width="1.7"></a-entity>
             <a-entity animation-manager id="second" material="transparent: true; opacity: 0.60" position="2 0 -4" width="1.7"></a-entity>
@@ -167,6 +145,5 @@
 <script src="scripts/screen-tabs.js"></script>
 <script src="scripts/add-hand.js"></script>
 <script src="scripts/rotation-reader.js"></script>
-<script src="scripts/click-img.js"></script>
 </body>
 </html>
