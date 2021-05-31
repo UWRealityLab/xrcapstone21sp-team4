@@ -31,6 +31,7 @@ AFRAME.registerComponent('scene-manager', {
                 state = State.AUTOPLAY;
             }
         }
+        
         this.manual = () => {
             if(state === State.MENU){
                 console.log('setting manual');
@@ -40,7 +41,7 @@ AFRAME.registerComponent('scene-manager', {
                 });
                 state = State.MANUAL;
                 togglePitchRecognition(true);
-            }else if(state === State.MANUAL){
+            } else if(state === State.MANUAL){
                 scene.emit('start-music', {});
             }
         }
@@ -61,7 +62,7 @@ AFRAME.registerComponent('scene-manager', {
         this.controller = document.querySelector('#controller');
         this.controller.addEventListener('gripdown', this.autoplay);
         this.controller.addEventListener('triggerdown', this.manual);
-        document.addEventListener('click', this.manual); // for debugging
+        //document.addEventListener('click', this.manual); // for debugging
 
         document.addEventListener('reset-menu', this.menu);
     },
