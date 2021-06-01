@@ -43,6 +43,11 @@ AFRAME.registerComponent('cursor-listener', {
             for (child of dropButton.getChildren()) {
                 console.log(child.object3D.visible);
             }
+
+            for (let i = 0; i < songList.length; i++) {
+                let sng_clear = document.getElementById(songList[i]);
+                sng_clear.object3D.visible = false;
+            }
             // song1.object3D.visible = false;
         }
 
