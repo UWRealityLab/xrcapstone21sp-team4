@@ -8,7 +8,7 @@ AFRAME.registerComponent('scene-manager', {
     init: function () {
         let state = State.MENU;
         let scene = this.el;
-        let menu = document.querySelector('#menu');
+        //let menu = document.querySelector('#menu');
         let imageTab = document.querySelector('#image-tab');
 
         let initialImageTab = imageTab.innerHTML;
@@ -24,18 +24,18 @@ AFRAME.registerComponent('scene-manager', {
         // todo: toggle pitch recognition
         this.autoplay = () => {
             if(state === State.MENU){
-                menu.setAttribute('visible', 'false');
+              //  menu.setAttribute('visible', 'false');
                 togglePitchRecognition(false);
                 console.log('setting autoplay');
                 imageTab.setAttribute('autoplay', "test");
                 state = State.AUTOPLAY;
             }
         }
-        
+
         this.manual = () => {
             if(state === State.MENU){
                 console.log('setting manual');
-                menu.setAttribute('visible', 'false');
+                // menu.setAttribute('visible', 'false');
                 imageTab.setAttribute('chord-keys', {
                     songNumber: 0 // smoke on the water
                 });
@@ -52,7 +52,7 @@ AFRAME.registerComponent('scene-manager', {
                 state = State.MENU;
                 imageTab.removeAttribute('chord-keys');
                 imageTab.removeAttribute('autoplay');
-                menu.setAttribute('visible', 'true');
+              //  menu.setAttribute('visible', 'true');
                 scene.emit('clear-screens');
 
 

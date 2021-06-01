@@ -12,7 +12,7 @@ AFRAME.registerComponent('cursor-listener', {
         };
         let state = State.MENU;
         let scene = this.el;
-        let menu = document.querySelector('#menu');
+        //let menu = document.querySelector('#menu');
         let imageTab = document.querySelector('#image-tab');
 
         var manualButton = document.querySelector("#btn-1");
@@ -80,7 +80,7 @@ AFRAME.registerComponent('cursor-listener', {
                 state = State.MENU;
                 imageTab.removeAttribute('chord-keys');
                 imageTab.removeAttribute('autoplay');
-                menu.setAttribute('visible', 'true');
+                //menu.setAttribute('visible', 'true');
                 scene.emit('clear-screens');
 
 
