@@ -1,6 +1,7 @@
 let songList = ['song1','song2','song3'];
 let songSelected = 'none';
 
+// todo: cleanup (have scene manager handle)
 AFRAME.registerComponent('cursor-listener', {
     init: function () {
         // var lastIndex = -1;
@@ -87,23 +88,23 @@ AFRAME.registerComponent('cursor-listener', {
             }
         }
 
-        this.el.addEventListener('click', function (evt) {
+        this.el.addEventListener('raycaster-intersected', function(el, intersection) {
             //lastIndex = (lastIndex + 1) % COLORS.length;
-            if(this.id == 'btn-1') {
+            if(this.id === 'btn-1') {
                 console.log("manual selected");
                 this.setAttribute('material', 'color: #005f99; opacity: 1');
                 this.setAttribute('text', 'width: 3; value: Manual; align: center; color:#fff5b7');
                 let other = document.getElementById('btn-2');
                 other.setAttribute('material', 'color: #ffc93c; opacity: 0.6');
                 other.setAttribute('text', 'width: 3; value: Auto Play; align: center; color:#99154e');
-            } else if (this.id == 'btn-2') {
+            } else if (this.id === 'btn-2') {
                 console.log("auto selected");
                 this.setAttribute('material', 'color: #005f99; opacity: 1');
                 this.setAttribute('text', 'width: 3; value: Auto Play; align: center; color:#fff5b7');
                 let other = document.getElementById('btn-1');
                 other.setAttribute('material', 'color: #ffc93c; opacity: 0.6');
                 other.setAttribute('text', 'width: 3; value: Manual; align: center; color:#99154e');
-            } else if (this.id == 'start-btn') {
+            } else if (this.id === 'start-btn') {
                 console.log('start is clicked');
                 let manMode_cl = document.getElementById('btn-1');
                 let autoMode_cl = document.getElementById('btn-2');
@@ -112,7 +113,7 @@ AFRAME.registerComponent('cursor-listener', {
                 } else if (autoMode_cl.getAttribute('material').color == '#005f99') {
                     autoplay();
                 }
-            } else if (this.id == 'drop-down-btn') {
+            } else if (this.id === 'drop-down-btn') {
                 let y_co = 0.4;
                 for(let i = 0; i < songList.length; i++) {
                     let newSong = document.createElement('a-entity');
