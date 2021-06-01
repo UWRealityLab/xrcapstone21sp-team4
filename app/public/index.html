@@ -41,7 +41,7 @@
     <script src="scripts/chord-keys.js"></script>
     <script src="scripts/animation-manager.js"></script>
     <script src="scripts/autoplay.js"></script>
-    <script src="scripts/scene-manager.js"></script>
+    <!-- <script src="scripts/scene-manager.js"></script> -->
  
 
     <script src="https://unpkg.com/aframe-fps-counter-component/dist/aframe-fps-counter-component.min.js"></script>
@@ -50,7 +50,7 @@
 
 </head>
 <body>
-<a-scene scene-manager>
+<a-scene>
     <a-assets>
         <!-- Asset preloads-->
 <!--
@@ -112,6 +112,7 @@
         <a-entity fps-counter position="0 -0.6 -3"></a-entity>
         <a-image id="menu" src="" position="0 0 -3.5"></a-image>
         <a-entity
+        id="select-mode"
         geometry="primitive: plane; height: auto; width: 1"
         material="color: #ffc93c; opacity: 0 "
         text="width: 1.5; value: Select Mode ; align: center; color:#99154e" position = "0 0.5 -3"></a-entity>
@@ -124,9 +125,9 @@
         geometry="primitive: plane; height: 0.2; width: 1"
         material="color: #ffc93c; opacity: 0.6 "
         text="width: 3; value: Select Song; align: center; color:#99154e" position = "2 0.4 -3" id = "drop-down-btn" rotation = "0 -30 0 "cursor-listener>
-        <a-entity geometry = "primitive: plane; height: 0.01; width: 0.1" material = "color:black" position = "-.4 0 0"></a-entity>
-        <a-entity geometry = "primitive: plane; height: 0.01; width: 0.1" material = "color:black" position = "-.4 -0.02 0"></a-entity>
-        <a-entity geometry = "primitive: plane; height: 0.01; width: 0.1" material = "color:black" position = "-.4 0.02 0"></a-entity>
+            <a-entity geometry = "primitive: plane; height: 0.01; width: 0.1" material = "color:black" position = "-.4 0 0"></a-entity>
+            <a-entity geometry = "primitive: plane; height: 0.01; width: 0.1" material = "color:black" position = "-.4 -0.02 0"></a-entity>
+            <a-entity geometry = "primitive: plane; height: 0.01; width: 0.1" material = "color:black" position = "-.4 0.02 0"></a-entity>
         </a-entity>
 
         <a-entity
@@ -140,15 +141,16 @@
         text="width: 3; value: Start; align: center; color:#99154e" position = "0 -0.5 -3" id = "start-btn" cursor-listener></a-entity>
 
         <a-entity
-  geometry="primitive: plane; height: auto; width: auto"
-  material="color: blue; opacity: 0 "
-  text="width: 6; value: GuitXR; align: center; color:#99154e" position = "-0.7 0.6 -3" rotation = "0 0 45"></a-entity>
+        id="guitxr"
+        geometry="primitive: plane; height: auto; width: auto"
+        material="color: blue; opacity: 0 "
+        text="width: 6; value: GuitXR; align: center; color:#99154e" position = "-0.7 0.6 -3" rotation = "0 0 45"></a-entity>
 
         <!-- trying to load guitar -->
-        <!-- </a-entity
+        </a-entity
         id="guitar"
         gltf-model="#lowPolyGuitar"
-        position = "0.7 0.6 -3"></a-entity> -->
+        position = "0.7 0.6 -3"></a-entity>
 
         <a-entity id="image-tab" position="0 -0.2 -3.5">
             <a-entity animation-manager id="first" material="transparent: true; opacity: 0.60" position="0 0 -2"width="1.7"></a-entity>
