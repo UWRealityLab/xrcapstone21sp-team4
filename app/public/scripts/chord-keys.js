@@ -116,7 +116,7 @@ AFRAME.registerComponent('chord-keys', {
           //  console.log('begin');
             if (i >= times.length) {
                 i = 0;
-                // endCounter++;
+                endCounter++;
              }
 
 
@@ -203,7 +203,7 @@ AFRAME.registerComponent('chord-keys', {
                 scene.emit('tab-change', {tab: mergeTab(times[0].notes)});
             }
 
-            // console.log('first tab: '+JSON.stringify(mergeTab(times[i].notes)));
+
 
         }
 
@@ -239,6 +239,11 @@ AFRAME.registerComponent('chord-keys', {
 
 
         scene.addEventListener('start-music', this.startMusic);
+        this.controller = document.querySelector('#controller');
+        this.controller.addEventListener('triggerdown', () => {
+            console.log('triggerdown');
+            this.startMusic();
+        });
 
 
     },

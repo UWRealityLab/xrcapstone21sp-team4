@@ -165,15 +165,12 @@
     <a-entity id="rig">
         <a-entity camera id="camera" look-controls position="0 8 0" wasd-controls>
             <a-entity color="#4CC3D9" geometry="primitive: sphere; radius: 0.02" id="camera-center"
-                      position="0.05 0 0" raycaster="objects: .ui; showLine: true"></a-entity>
+                      position="0.05 0 0" raycaster="objects: .ui;">
+                <a-entity geometry="primitive: circle; radius: 0.02" color="blue" position="0 0 -2.5"></a-entity>
             </a-entity>
         </a-entity>
-
-
     </a-entity>
         <!-- Match Magic Leap controller if present, regardless of hand. -->
-    </a-entity>
-
 
 </a-scene>
 
