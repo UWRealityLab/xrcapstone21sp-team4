@@ -1,11 +1,14 @@
-let songList = ['song1','song2','song3'];
-let songSelected = 'none';
+
 
 // todo: cleanup (have scene manager handle)
 AFRAME.registerComponent('cursor-listener', {
     init: function () {
         // var lastIndex = -1;
         // var COLORS = ['red', 'green', 'blue'];
+
+        const songList = ['song1','song2','song3'];
+        let songSelected = 'none';
+
         const State = {
             MENU: 'menu',
             MANUAL: 'manual',
@@ -30,6 +33,7 @@ AFRAME.registerComponent('cursor-listener', {
 
         togglePitchRecognition(false);
 
+        // todo: delete the entities rather than making them invisible
         function clearMenu() {
             selectMode.object3D.visible = false;
             guitxr.object3D.visible = false;
@@ -38,16 +42,16 @@ AFRAME.registerComponent('cursor-listener', {
             startButton.object3D.visible = false;
             dropButton.object3D.visible = false;
             for (child of dropButton.getChildren()) {
-                console.log(child.object3D.visible);
+                //console.log(child.object3D.visible);
                 child.setAttribute('visible', "false");
-            }
-            for (child of dropButton.getChildren()) {
-                console.log(child.object3D.visible);
             }
 
             for (let i = 0; i < songList.length; i++) {
                 let sng_clear = document.getElementById(songList[i]);
-                sng_clear.object3D.visible = false;
+                if(sng_clear){
+                    sng_clear.object3D.visible = false;
+                }
+
             }
             // song1.object3D.visible = false;
         }
@@ -91,21 +95,21 @@ AFRAME.registerComponent('cursor-listener', {
         this.el.addEventListener('raycaster-intersected', function(el, intersection) {
             //lastIndex = (lastIndex + 1) % COLORS.length;
             if(this.id === 'btn-1') {
-                console.log("manual selected");
+                //console.log("manual selected");
                 this.setAttribute('material', 'color: #005f99; opacity: 1');
                 this.setAttribute('text', 'width: 3; value: Manual; align: center; color:#fff5b7');
                 let other = document.getElementById('btn-2');
                 other.setAttribute('material', 'color: #ffc93c; opacity: 0.6');
                 other.setAttribute('text', 'width: 3; value: Auto Play; align: center; color:#99154e');
             } else if (this.id === 'btn-2') {
-                console.log("auto selected");
+                //console.log("auto selected");
                 this.setAttribute('material', 'color: #005f99; opacity: 1');
                 this.setAttribute('text', 'width: 3; value: Auto Play; align: center; color:#fff5b7');
                 let other = document.getElementById('btn-1');
                 other.setAttribute('material', 'color: #ffc93c; opacity: 0.6');
                 other.setAttribute('text', 'width: 3; value: Manual; align: center; color:#99154e');
             } else if (this.id === 'start-btn') {
-                console.log('start is clicked');
+                //console.log('start is clicked');
                 let manMode_cl = document.getElementById('btn-1');
                 let autoMode_cl = document.getElementById('btn-2');
                 if (manMode_cl.getAttribute('material').color == '#005f99') {
@@ -117,7 +121,7 @@ AFRAME.registerComponent('cursor-listener', {
                 let y_co = 0.4;
                 for(let i = 0; i < songList.length; i++) {
                     let newSong = document.createElement('a-entity');
-                    newSong.setAttribute('geometry', 'primitive:plane; height: auto; width: 1');
+                    newSong.setAttribute('geometry', 'primitive:plane; width: 1; height: 0.15;');
                     newSong.setAttribute('material', 'color: #ffc93c; opacity: 0.6');
                     newSong.setAttribute('text', {
                         width: 3, 
