@@ -35,7 +35,9 @@ AFRAME.registerComponent('scene-manager', {
             if(state === State.MENU){
                 console.log('setting manual');
                 menu.setAttribute('visible', 'false');
-                imageTab.setAttribute('chord-keys', "none");
+                imageTab.setAttribute('chord-keys', {
+                    songNumber: 0 // smoke on the water
+                });
                 state = State.MANUAL;
                 togglePitchRecognition(true);
             }else if(state === State.MANUAL){
