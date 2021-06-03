@@ -3,10 +3,15 @@ AFRAME.registerComponent('chords-ui', {
     init: function(){
         this.song = `
 {start_of_verse}
-[D]Lights go out and I c[Am]an't be saved, tides that I tried to [Em]swim against
-[D]Brought me down up[Am]on my knees, oh I beg I [Em]beg and plead -singing
-[D]Come out of the [Am]things unsaid, shoot an apple [Em]off my head - and a
-[D]Trouble that ca[Am]n't be named, tigers waiting [Em]to be tamed - singing
+I'm gonna [Em]fight 'em off[G][C][B]
+A seven nation [Em]army couldn't [G]hold me [C]back[B]
+They're gonna [Em]rip it off[G][C][B]
+Taking their [Em]time right be[G]hind my [C]back[B]
+And I'm [Em]talking to my[G]self at [C]night
+Because I [B]can't for[Em]get[G][C][B]
+[Em]Back and forth [G]through my [C]mind
+Behind a [B]ciga[Em]rette[G][C][B]
+And a [G]message coming from my [A]eyes says leave it alone
 {end_of_verse}`
 
         this.ystart = 20;
