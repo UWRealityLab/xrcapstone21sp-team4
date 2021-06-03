@@ -28,6 +28,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@tonaljs/tonal/browser/tonal.min.js"></script>
     <script src="https://unpkg.com/@tonejs/midi"></script>
 
+
+    <!-- Start ml5.js-->
     <script src="scripts/ml5.min.js"></script>
 
     <script src="scripts/shared/GuitarSongs.js"></script>
@@ -59,6 +61,7 @@
         <a-asset-item id="middleHand" src="./assets/hands/middle_hand.glb"></a-asset-item>
         <a-asset-item id="ringHand" src="./assets/hands/ring_hand.glb"></a-asset-item>
         <a-asset-item id="pinkieHand" src="./assets/hands/pinkie_hand.glb"></a-asset-item>
+        <a-asset-item id="lowPolyGuitar" src="./assets/LowPolyGuitar.glb"></a-asset-item>
         <audio id="microphone" playsinline></audio>
 
         <img id="interface"
@@ -105,27 +108,76 @@
               line__2="start: 0 0 0; end: 0 0 0; color: green; opacity: 0 "
               line__3="start: 0 0 0; end: 0 0 0; color: blue; opacity: 0"></a-entity>
 
+    <a-entity hud id="hud" offset-component="0 0 0.5">
+        <a-entity fps-counter position="0 -0.7 -3"></a-entity>
+        <!-- <a-image id="menu" src="" position="0 0 -3.5"></a-image> -->
+        <a-entity id="ui">
+            <a-entity
+                    id="select-mode"
+                    material="color: #ffc93c; opacity: 0 "
+                    text="width: 1.5; value: Select Mode ; align: center; color:#99154e" position = "0 0.45 -3"
+                    class="ui"></a-entity>
 
-    <a-entity camera id="camera" look-controls position="0 8 0" wasd-controls>
-        <a-entity color="#4CC3D9" geometry="primitive: sphere; radius: 0.02" id="camera-center"
-                      position="0.05 0 0"></a-entity>
-        <a-entity id="camera-lookat" position="0.05 0 -3.5">
-            <!-- hud component-->
-            <a-entity  id="hud" offset-component="0 0 0.5" position="0 0.3 0">
-                <a-entity fps-counter position="0 -0.6 0"></a-entity>
-                <a-image id="menu" src="#interface" position="0 0 0"></a-image>
+            <a-entity
+                    geometry="primitive: plane; width: 1; height: 0.15;"
+                    material="color: #ffc93c; opacity: 0.6 "
+                    text="width: 3; value: Auto Play; align: center; color:#99154e" position = "0 0.3 -3" id = "btn-autoplay" class="ui"></a-entity>
+            <!-- 0 0.2 -3 -->
+            <a-entity
+                    geometry="primitive: plane; width: 1; height: 0.15;"
+                    material="color: #ffc93c; opacity: 0.6 "
+                    text="width: 3; value: Manual; align: center; color:#99154e" position = "0 0.1 -3" id = "btn-manual"
+                    class="ui"></a-entity>
 
-                <a-entity id="image-tab" position="0 -0.2 0">
-                    <a-entity animation-manager id="first" material="transparent: true; opacity: 0.60" position="0 0 -2"width="1.7"></a-entity>
-                    <a-entity animation-manager id="second" material="transparent: true; opacity: 0.60" position="2 0 -4" width="1.7"></a-entity>
-                    <a-entity animation-manager id="third" material="transparent: true; opacity: 0.60" position="4 0 -6" width="1.7"></a-entity>
-                </a-entity>
+
+
+            <a-entity
+                    geometry="primitive: plane; height: 0.2; width: 1"
+                    material="color: #ffc93c; opacity: 0.6 "
+                    text="width: 3; value: Select Song; align: center; color:#99154e" position = "2 0.4 -3" id = "drop-down-btn" rotation = "0 -30 0 " class="ui">
+                <a-entity geometry = "primitive: plane; height: 0.01; width: 0.1" material = "color:black" position = "-.4 0 0" class="ui"></a-entity>
+                <a-entity geometry = "primitive: plane; height: 0.01; width: 0.1" material = "color:black" position = "-.4 -0.02 0" class="ui"></a-entity>
+                <a-entity geometry = "primitive: plane; height: 0.01; width: 0.1" material = "color:black" position = "-.4 0.02 0" class="ui"></a-entity>
             </a-entity>
+
+
+
+            <a-entity
+                    geometry="primitive: plane; width: 1; height: 0.2;"
+                    material="color: #9fe6a0; opacity: 0.6 "
+                    text="width: 3; value: Start; align: center; color:#99154e" position = "0 -0.5 -3" id = "start-btn" class="ui"></a-entity>
+
+            <a-entity
+                    id="guitxr"
+                    geometry="primitive: plane; width: 1; height: 0.2;"
+                    material="color: blue; opacity: 0 "
+                    text="width: 6; value: GuitXR; align: center; color:#99154e" position = "-0.7 0.6 -3" rotation = "0 0 45"></a-entity>
+
+            <!-- trying to load guitar -->
+            <a-entity id="guitar"
+                      gltf-model="#lowPolyGuitar"
+                      position = "0.9 -0.2 -3"
+                      scale="0.05 0.05 0.05"
+                      rotation="75 -45 0"></a-entity>
         </a-entity>
 
+        <a-entity id="image-tab" position="0 -0.2 -3.5">
+            <a-entity animation-manager id="first" material="transparent: true; opacity: 0.60" position="0 0 -2"width="1.7"></a-entity>
+            <a-entity animation-manager id="second" material="transparent: true; opacity: 0.60" position="4 0 -4" width="1.7"></a-entity>
+            <a-entity animation-manager id="third" material="transparent: true; opacity: 0.60" position="6 0 -6" width="1.7"></a-entity>
+        </a-entity>
+    </a-entity>
 
+    <a-entity id="rig">
+        <a-entity camera id="camera" look-controls position="0 8 0" wasd-controls>
+            <a-entity color="#4CC3D9" geometry="primitive: sphere; radius: 0.02" id="camera-center"
+                      position="0.05 0 0" raycaster="objects: .ui;" cursor-listener>
+                <a-entity geometry="primitive: circle; radius: 0.02" color="blue" position="0 0 -2.5"></a-entity>
+            </a-entity>
+        </a-entity>
     </a-entity>
         <!-- Match Magic Leap controller if present, regardless of hand. -->
+
 </a-scene>
 
 <script src="scripts/utils/getScreenNumber.js"></script>
@@ -138,5 +190,6 @@
 <script src="scripts/screen-tabs.js"></script>
 <script src="scripts/add-hand.js"></script>
 <script src="scripts/rotation-reader.js"></script>
+<script src="scripts/cursor-listener.js"></script>
 </body>
 </html>
