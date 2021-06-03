@@ -35,6 +35,8 @@ AFRAME.registerComponent('chord-keys', {
 
         // file name (included in the first track)
         let track = midi.tracks[song.track];
+
+        console.log('playing track: '+track.name+' and channel: '+track.channel);
             // array of notes
         const midiNotes = track.notes;
         let startTime = midiNotes[0].time;
@@ -98,11 +100,12 @@ AFRAME.registerComponent('chord-keys', {
         let isListening = false;
 
         function snip(start, end) {
-            if(audio){
+            // todo: make this use the midi track
+            /*if(audio){
                 audio.currentTime = start;
                 audio.play()
                 setTimeout(() => {audio.pause();}, (end - start) * 1000);
-            }
+            }*/
         }
 
         // swapping photos
@@ -244,6 +247,10 @@ AFRAME.registerComponent('chord-keys', {
             console.log('triggerdown');
             this.startMusic();
         });
+
+        scene.addEventListener('click', () => {
+            this.startMusic();
+        }); // for debugging
 
 
     },

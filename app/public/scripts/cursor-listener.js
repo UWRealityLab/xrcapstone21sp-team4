@@ -6,126 +6,73 @@ AFRAME.registerComponent('cursor-listener', {
         // var lastIndex = -1;
         // var COLORS = ['red', 'green', 'blue'];
 
-        const songList = ['song1','song2','song3'];
-        let songSelected = 'none';
 
-        const State = {
-            MENU: 'menu',
-            MANUAL: 'manual',
-            AUTOPLAY: 'autoplay'
-        };
-        let state = State.MENU;
-        let scene = this.el;
-        //let menu = document.querySelector('#menu');
-        let imageTab = document.querySelector('#image-tab');
 
-        var manualButton = document.querySelector("#btn-1");
-        var autoplayButton = document.querySelector("#btn-2");
+        let songSelected = null;
+        let modeSelected = Mode.Manual;
+        let droppedDown = false;
+
+        let scene = document.querySelector('a-scene');
+
+        var manualButton = document.querySelector("#btn-manual");
+        var autoplayButton = document.querySelector("#btn-autoplay");
         var startButton = document.querySelector("#start-btn");
         var dropButton = document.querySelector("#drop-down-btn");
         var selectMode = document.querySelector("#select-mode");
         var guitxr = document.querySelector("#guitxr");
-        // var song1 = document.querySelector("#song1");
 
-        const togglePitchRecognition = function (isOn) {
-            scene.emit('toggle-pitch-recognition', {isOn: isOn})
-        }
-
-        togglePitchRecognition(false);
-
-        // todo: delete the entities rather than making them invisible
-        function clearMenu() {
-            selectMode.object3D.visible = false;
-            guitxr.object3D.visible = false;
-            manualButton.object3D.visible = false;
-            autoplayButton.object3D.visible = false;
-            startButton.object3D.visible = false;
-            dropButton.object3D.visible = false;
-            for (child of dropButton.getChildren()) {
-                //console.log(child.object3D.visible);
-                child.setAttribute('visible', "false");
-            }
-
-            for (let i = 0; i < songList.length; i++) {
-                let sng_clear = document.getElementById(songList[i]);
-                if(sng_clear){
-                    sng_clear.object3D.visible = false;
-                }
-
-            }
-            // song1.object3D.visible = false;
-        }
-
-        // todo: toggle pitch recognition
-        function autoplay() {
-            if(state === State.MENU){
-                togglePitchRecognition(false);
-                console.log('setting autoplay');
-                imageTab.setAttribute('autoplay', "test");
-                state = State.AUTOPLAY;
-                clearMenu();
-            }
-        }
-        
-        function manual() {
-            if(state === State.MENU){
-                console.log('setting manual');
-                imageTab.setAttribute('chord-keys', "none");
-                state = State.MANUAL;
-                togglePitchRecognition(true);
-                clearMenu();
-            } else if(state === State.MANUAL){
-                scene.emit('start-music', {});
-            }
-        }
-
-        function menuScreen() {
-            if(this.state!==State.MENU){
-                togglePitchRecognition(false);
-                state = State.MENU;
-                imageTab.removeAttribute('chord-keys');
-                imageTab.removeAttribute('autoplay');
-                //menu.setAttribute('visible', 'true');
-                scene.emit('clear-screens');
-
-
-            }
-        }
-
-        this.el.addEventListener('raycaster-intersected', function(el, intersection) {
+        this.el.addEventListener('raycaster-intersection', function(event) {
+            console.log('raycaster intersection');
             //lastIndex = (lastIndex + 1) % COLORS.length;
-            if(this.id === 'btn-1') {
+            let els = event.detail.els;
+            if(!els){
+                return;
+            }
+            let intersectedEntity = els[0] || els; // choose first intersection
+            if(intersectedEntity.id === 'btn-manual') {
                 //console.log("manual selected");
-                this.setAttribute('material', 'color: #005f99; opacity: 1');
-                this.setAttribute('text', 'width: 3; value: Manual; align: center; color:#fff5b7');
-                let other = document.getElementById('btn-2');
-                other.setAttribute('material', 'color: #ffc93c; opacity: 0.6');
-                other.setAttribute('text', 'width: 3; value: Auto Play; align: center; color:#99154e');
-            } else if (this.id === 'btn-2') {
+                intersectedEntity.setAttribute('material', 'color: #005f99; opacity: 1');
+                intersectedEntity.setAttribute('text', 'width: 3; value: Manual; align: center; color:#fff5b7');
+                // let other = document.getElementById('btn-autoplay');
+                autoplayButton.setAttribute('material', 'color: #ffc93c; opacity: 0.6');
+                autoplayButton.setAttribute('text', 'width: 3; value: Auto Play; align: center; color:#99154e');
+                modeSelected = Mode.Manual;
+            } else if (intersectedEntity.id === 'btn-autoplay') {
                 //console.log("auto selected");
-                this.setAttribute('material', 'color: #005f99; opacity: 1');
-                this.setAttribute('text', 'width: 3; value: Auto Play; align: center; color:#fff5b7');
-                let other = document.getElementById('btn-1');
-                other.setAttribute('material', 'color: #ffc93c; opacity: 0.6');
-                other.setAttribute('text', 'width: 3; value: Manual; align: center; color:#99154e');
-            } else if (this.id === 'start-btn') {
+                intersectedEntity.setAttribute('material', 'color: #005f99; opacity: 1');
+                intersectedEntity.setAttribute('text', 'width: 3; value: Auto Play; align: center; color:#fff5b7');
+                manualButton.setAttribute('material', 'color: #ffc93c; opacity: 0.6');
+                manualButton.setAttribute('text', 'width: 3; value: Manual; align: center; color:#99154e');
+                modeSelected = Mode.Autoplay;
+            } else if (intersectedEntity.id === 'start-btn') {
                 //console.log('start is clicked');
-                let manMode_cl = document.getElementById('btn-1');
-                let autoMode_cl = document.getElementById('btn-2');
-                if (manMode_cl.getAttribute('material').color == '#005f99') {
-                    manual();
-                } else if (autoMode_cl.getAttribute('material').color == '#005f99') {
-                    autoplay();
+                if(!songSelected){
+                    console.log('start button clicked without selecting song');
+                    // todo: show an error message to the user
+                    return;
                 }
-            } else if (this.id === 'drop-down-btn') {
+
+                songSelected = {
+                    ...songSelected,
+                    mode: modeSelected
+                }
+
+                scene.emit('start', {song: songSelected});
+            } else if (intersectedEntity.id === 'drop-down-btn') {
+                if(droppedDown){
+                    return;
+                }
+
+                droppedDown = true;
+
                 let y_co = 0.4;
-                for(let i = 0; i < songList.length; i++) {
+                for(let i = 0; i < GuitarSongs.length; i++) {
                     let newSong = document.createElement('a-entity');
                     newSong.setAttribute('geometry', 'primitive:plane; width: 1; height: 0.15;');
                     newSong.setAttribute('material', 'color: #ffc93c; opacity: 0.6');
                     newSong.setAttribute('text', {
-                        width: 3, 
-                        value: songList[i],
+                        width: 2,
+                        value: GuitarSongs[i].name,
                         align:'center',
                         color: '#99154e'
                     });
@@ -134,35 +81,45 @@ AFRAME.registerComponent('cursor-listener', {
                         y: y_co - 0.21,
                         z: -3
                     });
+                    newSong.classList.add('ui');
                     newSong.setAttribute('rotation','0 -30 0');
                     y_co -= 0.21;
-                    document.getElementById("hud").appendChild(newSong);
-                    newSong.setAttribute('cursor-listener','');
-                    newSong.setAttribute('id', songList[i]);
+                    document.getElementById("ui").appendChild(newSong);
+                    // newSong.setAttribute('cursor-listener','');
+                    newSong.setAttribute('id', GuitarSongs[i].id);
                 }
 
-            } else {
-                this.songSelected = this.id;
-                // let songBtn = document.getElementById(this.id);
-                for (let i = 0; i < songList.length; i++) {
-                        let itm = document.getElementById(songList[i]);
+            } else{
+                // selected a song
+                let newSongSelected = GuitarSongs.find((song) => song.id === intersectedEntity.id);
+                if(!newSongSelected){
+                    return;
+                }
+
+
+                if(!songSelected || newSongSelected.id !== songSelected.id){
+                    if(songSelected){
+                        // clear previous
+                        let itm = document.getElementById(songSelected.id);
                         itm.setAttribute('material', 'color: #ffc93c; opacity: 0.6');
                         itm.setAttribute('text', {
-                            width: 3, 
-                            value: songList[i],
+                            width: 2,
+                            value: songSelected.name,
                             align:'center',
                             color: '#99154e'
                         });
                     }
-                    this.setAttribute('material', 'color: #005f99; opacity: 1');
-                    this.setAttribute('text', {
-                        width:3,
-                        value: this.id,
+
+                    songSelected = newSongSelected;
+
+                    intersectedEntity.setAttribute('material', 'color: #005f99; opacity: 1');
+                    intersectedEntity.setAttribute('text', {
+                        width: 2,
+                        value: songSelected.name,
                         align:'center',
                         color: '#fff5b7'
                     });
-
-           
+                }
             }
         });
     }
