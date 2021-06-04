@@ -22,32 +22,14 @@ Conversion notes:
 
 ----->
 
-
-<p style="color: red; font-weight: bold">>>>>>  gd2md-html alert:  ERRORs: 0; WARNINGs: 0; ALERTS: 2.</p>
-<ul style="color: red; font-weight: bold"><li>See top comment block for details on ERRORs and WARNINGs. <li>In the converted Markdown or HTML, search for inline alerts that start with >>>>>  gd2md-html alert:  for specific instances that need correction.</ul>
-
-<p style="color: red; font-weight: bold">Links to alert messages:</p><a href="#gdcalert1">alert1</a>
-<a href="#gdcalert2">alert2</a>
-
-<p style="color: red; font-weight: bold">>>>>> PLEASE check and correct alert issues and delete this message and the inline alerts.<hr></p>
-
-
 **<span style="text-decoration:underline;">Rish</span>**
 
 Rish spent most of the time this week re-designing the UI for our application. The new UI now consists of a gaze-based control ( this was due to the fact that the controller will be on the guitar for this application). There are buttons such as Manual, Autoplay and Start. If we look to the right there is now a select songs option which loads dynamically through a data structure. With this we kept in mind the need to be able to add new songs easily. Kirit improved the cursor based approach by adding a ray-tracer, helping accelerate the response time. One challenge while creating the UI was that there are no button elements in AR. So each additional button on screen is stacks with other plane and text entities. Rish had to also manually create the drop down menu and add event listeners to each of these “planes” independently. This was slightly laborious but seemed like the only good option.
 
-<p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image1.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+![alt_text](https://i.imgur.com/hyNmlch.png "GuitXR menu before selecting with gaze")
 
 
-![alt_text](images/image1.png "image_tooltip")
-
-
-
-
-<p id="gdcalert2" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image2.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert3">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image2.png "image_tooltip")
+![alt_text](https://imgur.com/KrFyOsk "GuitXR menu after selecting with gaze")
  
 
 **<span style="text-decoration:underline;">Sam</span>**
