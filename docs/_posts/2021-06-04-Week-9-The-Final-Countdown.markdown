@@ -29,7 +29,7 @@ Rish spent most of the time this week re-designing the UI for our application. T
 ![alt_text](https://i.imgur.com/hyNmlch.png "GuitXR menu before selecting with gaze")
 
 
-![alt_text](https://imgur.com/KrFyOsk "GuitXR menu after selecting with gaze")
+![alt_text](https://imgur.com/KrFyOsk.png "GuitXR menu after selecting with gaze")
  
 
 **<span style="text-decoration:underline;">Sam</span>**
