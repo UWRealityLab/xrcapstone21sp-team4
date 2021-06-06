@@ -124,10 +124,7 @@
         <a-entity id="camera-lookat" position="0.05 0 -3.5">
             <!-- hud component-->
             <a-entity  id="hud" offset-component="0 0 0.5" position="0 0.3 0">
-                <!-- todo: renable -->
-<!--
                 <a-entity fps-counter position="0 -0.6 0"></a-entity>
--->
                 <!-- todo: refactor -->
                 <a-entity geometry="primitive:plane;" material="shader:draw; fps: 1; width: 1000; height:1000" chords-ui="" position="0.1 -0.7 1.5"></a-entity>
                 <a-image id="menu" src="#interface" position="0 0 0" opacity="0"></a-image>
@@ -210,10 +207,7 @@
 </a-scene>
 
 <script src="scripts/utils/getScreenNumber.js"></script>
-<!-- todo: enable -->
-<!--
 <script src="scripts/audio.js"></script>
--->
 <script src="scripts/add-frets.js"></script>
 <!--
 <script src= "scripts/add-animation.js"></script>

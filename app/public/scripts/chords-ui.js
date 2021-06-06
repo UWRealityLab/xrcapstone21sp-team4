@@ -1,73 +1,100 @@
 this.ChordSheetJS = chordsheetjs.default;
 AFRAME.registerComponent('chords-ui', {
-    init: function(){
-        this.song = `
-{start_of_verse}
-I'm gonna [Em]fight 'em off[G][C][B]
-A seven nation [Em]army couldn't [G]hold me [C]back[B]
-They're gonna [Em]rip it off[G][C][B]
-Taking their [Em]time right be[G]hind my [C]back[B]
-And I'm [Em]talking to my[G]self at [C]night
-Because I [B]can't for[Em]get[G][C][B]
-[Em]Back and forth [G]through my [C]mind
-Behind a [B]ciga[Em]rette[G][C][B]
-And a [G]message coming from my [A]eyes says leave it alone
-{end_of_verse}`
+    init: function () {
 
-        this.ystart = 20;
-        this.parser = new ChordSheetJS.ChordProParser();
-        this.parsedSong = this.parser.parse(this.song);
-        /*this.formatter = new ChordSheetJS.HtmlTableFormatter();
-        const disp = formatter.format(parsedSong);*/
-        this.el.addEventListener('draw-render', this.render.bind(this));
+        const readTextFile = (file, callback) => {
+            let rawFile = new XMLHttpRequest();
 
-        this.lineSpacing = 40;
-        this.chordSpacing = 15;
+            rawFile.open("GET", file, true);
+            rawFile.onreadystatechange = function () {
+                if (rawFile.readyState === 4) {
+                    if (rawFile.status === 200 || rawFile.status == 0) {
+                        let allText = rawFile.responseText;
+                        // return allText;
+                        callback(allText);
+                    }
+                }
+            }
+            rawFile.send(null);
+        }
+
+        let showSong = (song) => {
+            console.log('showSong called');
+            this.song = song;
+            // this.ystart = 20;
+            this.ystart = 20;
+            this.baseCharacterWidth = 10;
+            this.numLinesToRender = 20; // chord + lyrics is counted twice
+            this.lineStart = 0// line to start at
+
+            this.parser = new ChordSheetJS.ChordProParser();
+            this.parsedSong = this.parser.parse(this.song);
+            this.el.addEventListener('draw-render', this.render.bind(this));
+
+            this.lineSpacing = 20;
+            this.chordSpacing = 15;
+
+            let songScrollSpeedMS = 1000;
+
+            /*setInterval(() => {
+                this.lineStart++;
+            }, songScrollSpeedMS);*/
+        }
+
+        readTextFile('./assets/chordpro/HotelCalifornia.chopro', showSong);
+
 
     },
-    render(e){
+    render(e) {
         console.log('render texture');
         let ctx = e.detail.ctx;
+
         let texture = e.detail.texture;
-        let w = ctx.canvas.width;
-        let h = ctx.canvas.height;
+        let width = ctx.canvas.width;
+        let height = ctx.canvas.height;
+
+        ctx.clearRect(0, 0, width, height);
 
 
         ctx.lineWidth = 1;
         ctx.strokeStyle = 'blue';
         ctx.font = '15px serif';
         ctx.fillStyle = 'gray'
-        // ctx.fillRect(0, 0, w, h);
 
 
         let lineStart = [20, this.ystart];
+        let songLines = this.parsedSong.lines;
 
-        for(let paragraph of this.parsedSong.paragraphs){
-            for (let line of paragraph.lines){
-                let lineX = lineStart[0];
-                console.log('line type: '+line.type);
-                if(line.type === 'verse'){
-                    for(let item of line.items){
-                        console.log('drawing lyrics: '+item.lyrics);
-                        ctx.strokeStyle = 'green';
-                        ctx.strokeText(item.chords, lineX, lineStart[1]);
-                        ctx.strokeStyle = 'blue';
-                        ctx.strokeText(item.lyrics, lineX, lineStart[1]+this.chordSpacing);
-                        let textWidth = ctx.measureText(item.lyrics);
-                        lineX += textWidth.width;
-                    }
+        for (let i = this.lineStart; i < Math.min(songLines.length, this.lineStart + this.numLinesToRender); i++) {
+            let line = songLines[i];
+            let lineX = lineStart[0];
+            let shouldRenderLine = false;
+            for (let item of line.items) {
+                if (item.value || item.name) {
+                    let text = item.value || item.name;
+                    ctx.strokeStyle = 'gray';
+                    ctx.strokeText(text, lineX, lineStart[1]);
+                    lineX += text.length * this.baseCharacterWidth;
+                    shouldRenderLine = true;
+                } else if (item.chords || item.lyrics) {
+                    ctx.strokeStyle = 'green';
+                    ctx.strokeText(item.chords, lineX, lineStart[1]);
+                    ctx.strokeStyle = 'blue';
+                    ctx.strokeText(item.lyrics, lineX, lineStart[1] + this.chordSpacing);
+                    let textWidth = ctx.measureText(item.lyrics);
+                    lineX += textWidth.width;
+                    shouldRenderLine = true;
                 }
+            }
 
-                lineStart[1] += this.lineSpacing;
+            if (shouldRenderLine) {
+                lineStart[1] += this.lineSpacing * 2;
             }
         }
-
-        // this.ystart -= 0.1;
-
         texture.needsUpdate = true;
 
     },
-    remove: function (){
+    remove: function () {
 
     }
 })
