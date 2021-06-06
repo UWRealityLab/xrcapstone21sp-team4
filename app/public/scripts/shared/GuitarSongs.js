@@ -74,4 +74,134 @@ var GuitarSongs = [
             "G#3": "pinkie"*/
         }
     },
+    // {
+    //     id: 'SmellsLikeTeenSpirit',
+    //     name: 'Teen Spirit',
+    //     type: SongType.MIDI,
+    //     file: '../assets/midi/...',
+    //     track: 3,
+    //     mode: Mode.Manual, // default
+    //     notes: { // [String, Fret]
+    //         "E2": [5, 7],
+    //         "G2": [5, 10],
+    //         "D2": [6, 10],
+    //         "C2": [6, 8],
+    //         "B1": [6, 7]
+    //     },
+    //     handShapes: {
+    //         "E2": "ring",
+    //         "G2": "ring",
+    //         "D2": "ring",
+    //         "C2": "ring",
+    //         "B1": "ring"
+    //         /*"D3": "ring",
+    //         "F3": "index",
+    //         "G3": "ring",
+    //         "G#3": "pinkie"*/
+    //     }
+    // },
+    {
+        id: 'Thunderstruck',
+        name: 'Thunderstruck',
+        type: SongType.MIDI,
+        file: '../assets/midi/thunderstruck_mod.mid',
+        track: 1,
+        mode: Mode.Manual, // default
+        notes: { // [String, Fret]
+            "D#4": [2, 3],
+            "F#4": [2, 6],
+            "E4": [2, 4],
+            "G4": [2, 7],
+            "B4": [2, 11],
+            "A4": [2, 9],
+            "G#4": [2, 8]
+        },
+        handShapes: {
+            "D#4": "ring",
+            "F#4": "ring",
+            "E4": "ring",
+            "G4": "ring",
+            "B4": "ring",
+            "A4": "ring",
+            "G#4": "ring"
+        }
+    },
+    // {
+    //     id: 'FeelGoodInc',
+    //     name: 'Feel Good, Inc',
+    //     type: SongType.MIDI,
+    //     file: '../assets/midi/...',
+    //     track: 3,
+    //     mode: Mode.Manual, // default
+    //     notes: { // [String, Fret]
+    //         "E2": [5, 7],
+    //         "G2": [5, 10],
+    //         "D2": [6, 10],
+    //         "C2": [6, 8],
+    //         "B1": [6, 7]
+    //     },
+    //     handShapes: {
+    //         "E2": "ring",
+    //         "G2": "ring",
+    //         "D2": "ring",
+    //         "C2": "ring",
+    //         "B1": "ring"
+    //         /*"D3": "ring",
+    //         "F3": "index",
+    //         "G3": "ring",
+    //         "G#3": "pinkie"*/
+    //     }
+    // },
+    // {
+    //     id: 'WildThing',
+    //     name: 'Wild Thing',
+    //     type: SongType.MIDI,
+    //     file: '../assets/midi/...',
+    //     track: 3,
+    //     mode: Mode.Manual, // default
+    //     notes: { // [String, Fret]
+    //         "E2": [5, 7],
+    //         "G2": [5, 10],
+    //         "D2": [6, 10],
+    //         "C2": [6, 8],
+    //         "B1": [6, 7]
+    //     },
+    //     handShapes: {
+    //         "E2": "ring",
+    //         "G2": "ring",
+    //         "D2": "ring",
+    //         "C2": "ring",
+    //         "B1": "ring"
+    //         /*"D3": "ring",
+    //         "F3": "index",
+    //         "G3": "ring",
+    //         "G#3": "pinkie"*/
+    //     }
+    // },
+    // {
+    //     id: 'Lovecats',
+    //     name: 'Lovecats',
+    //     type: SongType.MIDI,
+    //     file: '../assets/midi/...',
+    //     track: 3,
+    //     mode: Mode.Manual, // default
+    //     notes: { // [String, Fret]
+    //         "E2": [5, 7],
+    //         "G2": [5, 10],
+    //         "D2": [6, 10],
+    //         "C2": [6, 8],
+    //         "B1": [6, 7]
+    //     },
+    //     handShapes: {
+    //         "E2": "ring",
+    //         "G2": "ring",
+    //         "D2": "ring",
+    //         "C2": "ring",
+    //         "B1": "ring"
+    //         /*"D3": "ring",
+    //         "F3": "index",
+    //         "G3": "ring",
+    //         "G#3": "pinkie"*/
+    //     }
+    // },
 ]
