@@ -9,5 +9,12 @@ layout: home
 GuitXR aims to visualize chords and music tabs as holograms floating in front of the player, providing a hands-free experience by advancing the tablature when the correct note is played via pitch recognition. 
 Experienced guitarists and beginners alike will also be able to pick up new songs and advanced techniques more easily by following visual indicators on the strings of their physical guitars, alongside potentially helpful guidance such as optimal handshapes.
 </h3>
-Demo Application (access on Magic Leap browser)    
-[https://uwrealitylab.github.io/xrcapstone21sp-team4/demo/index.html](https://uwrealitylab.github.io/xrcapstone21sp-team4/demo/index.html)
+
+
+Requirements:
+1. Magic Leap Headset
+2. Guitar + Capo
+3. [3D Printed Mount](https://uwrealitylab.github.io/xrcapstone21sp-team4/final/assets/guitxr_mount.stl)
+
+Try the application now!
+[https://uwrealitylab.github.io/xrcapstone21sp-team4/final/](https://uwrealitylab.github.io/xrcapstone21sp-team4/final/)
