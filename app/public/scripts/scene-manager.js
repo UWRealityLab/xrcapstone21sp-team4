@@ -139,7 +139,7 @@ AFRAME.registerComponent('scene-manager', {
 
             if(song.type===SongType.ChordPro){
                 this.playChords(songNumber);
-            }else if(song.type===SongType.MIDI){
+            }else if(song.type===SongType.MIDI || song.type === SongType.CustomTabs){
                 if(song.mode === Mode.Manual){
                     this.playManualTabs(songNumber);
                 }else if(song.mode === Mode.Autoplay){

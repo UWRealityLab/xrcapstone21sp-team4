@@ -13,10 +13,10 @@ AFRAME.registerComponent('chord-keys', {
         // notes: string[]
         // start: number
         // end: number
-        const times = [];
+        let times = [];
 
         // invariant: uppercase names
-        const freqsDirectory = {/*
+        let freqsDirectory = {/*
             "D3": 146.83,
             "F3": 174.61,
             "G3": 196.00,
@@ -30,41 +30,61 @@ AFRAME.registerComponent('chord-keys', {
         let song = GuitarSongs[this.data.songNumber];
 
         console.log('starting song: '+JSON.stringify(song));
-        const midi = await Midi.fromUrl(song.file);
-        console.log('midi loaded');
 
-        // file name (included in the first track)
-        let track = midi.tracks[song.track];
+        if(song.type === SongType.MIDI){
+            const midi = await Midi.fromUrl(song.file);
+            console.log('midi loaded');
 
-        console.log('playing track: '+track.name+' and channel: '+track.channel);
+            // file name (included in the first track)
+            let track = midi.tracks[song.track];
+
+            console.log('playing track: '+track.name+' and channel: '+track.channel);
             // array of notes
-        const midiNotes = track.notes;
-        let startTime = midiNotes[0].time;
+            const midiNotes = track.notes;
 
-        for (let midiNote of midiNotes) {
-            let noteName = midiNote.name.toUpperCase();
-            let noteStart = (midiNote.time - startTime);
+            // console.log('midiNotes: '+JSON.stringify(track));
+            let startTime = midiNotes[0].time;
 
-            if(times.length>0 && times[times.length-1].start === noteStart){
-                // add to existing note
-                times[times.length-1].notes.push(noteName);
-            }else{
-                // create new note
-                let note = {
-                    notes: [midiNote.name],
-                    start: noteStart,
-                    end: noteStart+midiNote.duration
+            for (let midiNote of midiNotes) {
+                let noteName = midiNote.name.toUpperCase();
+                let noteStart = (midiNote.time - startTime);
+
+                if(times.length>0 && times[times.length-1].start === noteStart){
+                    // add to existing note
+                    times[times.length-1].notes.push(noteName);
+                }else{
+                    // create new note
+                    let note = {
+                        notes: [midiNote.name],
+                        start: noteStart,
+                        end: noteStart+midiNote.duration
+                    }
+                    times.push(note);
                 }
-                times.push(note);
+
+                //
+                if(!(noteName in freqsDirectory)){
+                    // get frequency
+                    let noteFreq = Tonal.Note.freq(noteName);
+                    freqsDirectory[noteName] = noteFreq;
+                    console.log('putting freq '+noteName +': '+noteFreq);
+                }
+            }
+        }else if(song.type === SongType.CustomTabs){
+            times = song.times;
+            for(let time of times){
+                for(let noteName of time.notes){
+                    if(!(noteName in freqsDirectory)){
+                        // get frequency
+                        let noteFreq = Tonal.Note.freq(noteName);
+                        freqsDirectory[noteName] = noteFreq;
+                        console.log('putting freq '+noteName +': '+noteFreq);
+                    }
+                }
             }
 
-            //
-            if(!(noteName in freqsDirectory)){
-                // get frequency
-                let noteFreq = Tonal.Note.freq(noteName);
-                freqsDirectory[noteName] = noteFreq;
-            }
         }
+
 
         let endCounter = 0;
         let beginClick = true;
@@ -96,7 +116,7 @@ AFRAME.registerComponent('chord-keys', {
 
         
         // check if pitch is sustained
-        const ERROR_THRESHOLD = 1.5;
+        const ERROR_THRESHOLD = 2.5;
         let isListening = false;
 
         function snip(start, end) {
@@ -203,7 +223,9 @@ AFRAME.registerComponent('chord-keys', {
                 }
             }else{
                 // end of song
+                // i = 0;
                 scene.emit('tab-change', {tab: mergeTab(times[0].notes)});
+                // this.startMusic();
             }
 
 
@@ -217,6 +239,7 @@ AFRAME.registerComponent('chord-keys', {
         }
 
         this.onPitch = (e)=> {
+            console.log('onpitch: '+e.detail.freq);
             if(!isListening){
                 return;
             }
@@ -224,8 +247,9 @@ AFRAME.registerComponent('chord-keys', {
             // assert first not null
 
             // if the notes freq is out of the threshold bounds, dont progress
-            if(isSingleNote(times[i].notes)){
-                let note = times[i].notes[0];
+            /*if(isSingleNote(times[i].notes)){*/
+            if(times[i%times.length]){
+                let note = times[i%times.length].notes[0];
                 if(!freqsDirectory[note]){
                     console.log('frequency not defined for note: '+note);
                     return;
@@ -233,8 +257,14 @@ AFRAME.registerComponent('chord-keys', {
                 if (e.detail.freq > freqsDirectory[note]- ERROR_THRESHOLD &&
                     e.detail.freq < freqsDirectory[note]+ ERROR_THRESHOLD) {
                     this.startMusic();
+                }else{
+                    console.log(e.detail.freq + 'doesnt match note '+note+'freq: '+freqsDirectory[note]);
                 }
+            }else{
+                // end of song
             }
+
+            /*}*/
             // todo: chord detection for multiple notes
 
         };

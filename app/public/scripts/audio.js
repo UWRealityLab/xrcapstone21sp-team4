@@ -44,11 +44,10 @@ function modelLoaded() {
     scene.addEventListener('toggle-pitch-recognition', event => {
         console.log('toggle-pitch-recognition isOn: '+event.detail.isOn);
         if(event.detail.isOn){
-            // todo: enable
-            /*if(!isRunning){
+            if(!isRunning){
                 isRunning = true;
                 audioContext.resume();
-            }*/
+            }
         }else{
             if(isRunning){
                 isRunning = false;
@@ -71,7 +70,6 @@ function gotPitch(error, frequency) {
         console.error(error);
     } else {
         if (frequency) {
-            //console.log('got pitch: '+frequency); todo: enable
             freq = frequency;
             scene.emit('pitch', {"freq": freq});
         }
