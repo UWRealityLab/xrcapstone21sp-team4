@@ -1,6 +1,11 @@
 this.ChordSheetJS = chordsheetjs.default;
 AFRAME.registerComponent('chords-ui', {
+    schema: { // indexed in shared/GuitarSongs.js
+        songNumber: {type: 'int'}
+    },
     init: function () {
+        let guitarSong = GuitarSongs[this.data.songNumber];
+        let scene = document.querySelector('a-scene');
 
         const readTextFile = (file, callback) => {
             let rawFile = new XMLHttpRequest();
@@ -34,19 +39,23 @@ AFRAME.registerComponent('chords-ui', {
             this.lineSpacing = 20;
             this.chordSpacing = 15;
 
-            let songScrollSpeedMS = 1000;
-
             /*setInterval(() => {
                 this.lineStart++;
             }, songScrollSpeedMS);*/
+            scene.addEventListener('secondary-ui-trigger', (event) => {
+                if(event.detail.value === 'next'){
+                    this.lineStart++;
+                }else if(event.detail.value === 'prev'){
+                    this.lineStart--;
+                }
+            });
         }
 
-        readTextFile('./assets/chordpro/HotelCalifornia.chopro', showSong);
+        readTextFile(guitarSong.file, showSong);
 
 
     },
     render(e) {
-        console.log('render texture');
         let ctx = e.detail.ctx;
 
         let texture = e.detail.texture;

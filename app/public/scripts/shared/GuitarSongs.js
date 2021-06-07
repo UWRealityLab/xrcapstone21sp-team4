@@ -68,38 +68,8 @@ var GuitarSongs = [
             "D2": "ring",
             "C2": "ring",
             "B1": "ring"
-            /*"D3": "ring",
-            "F3": "index",
-            "G3": "ring",
-            "G#3": "pinkie"*/
         }
     },
-    // {
-    //     id: 'SmellsLikeTeenSpirit',
-    //     name: 'Teen Spirit',
-    //     type: SongType.MIDI,
-    //     file: '../assets/midi/...',
-    //     track: 3,
-    //     mode: Mode.Manual, // default
-    //     notes: { // [String, Fret]
-    //         "E2": [5, 7],
-    //         "G2": [5, 10],
-    //         "D2": [6, 10],
-    //         "C2": [6, 8],
-    //         "B1": [6, 7]
-    //     },
-    //     handShapes: {
-    //         "E2": "ring",
-    //         "G2": "ring",
-    //         "D2": "ring",
-    //         "C2": "ring",
-    //         "B1": "ring"
-    //         /*"D3": "ring",
-    //         "F3": "index",
-    //         "G3": "ring",
-    //         "G#3": "pinkie"*/
-    //     }
-    // },
     {
         id: 'Thunderstruck',
         name: 'Thunderstruck',
@@ -126,6 +96,54 @@ var GuitarSongs = [
             "G#4": "ring"
         }
     },
+    {
+        id: 'HotelCalifornia',
+        name: 'Hotel California',
+        type: SongType.ChordPro,
+        file: '../assets/chordpro/HotelCalifornia.chopro',
+        notes: {
+        },
+        handShapes: {
+        }
+    },
+    {
+        id: 'Clocks',
+        name: 'Clocks Coldplay',
+        type: SongType.ChordPro,
+        file: '../assets/chordpro/clocks.chopro',
+        notes: {
+        },
+        handShapes: {
+        }
+    },
+
+
+    // {
+    //     id: 'SmellsLikeTeenSpirit',
+    //     name: 'Teen Spirit',
+    //     type: SongType.MIDI,
+    //     file: '../assets/midi/...',
+    //     track: 3,
+    //     mode: Mode.Manual, // default
+    //     notes: { // [String, Fret]
+    //         "E2": [5, 7],
+    //         "G2": [5, 10],
+    //         "D2": [6, 10],
+    //         "C2": [6, 8],
+    //         "B1": [6, 7]
+    //     },
+    //     handShapes: {
+    //         "E2": "ring",
+    //         "G2": "ring",
+    //         "D2": "ring",
+    //         "C2": "ring",
+    //         "B1": "ring"
+    //         /*"D3": "ring",
+    //         "F3": "index",
+    //         "G3": "ring",
+    //         "G#3": "pinkie"*/
+    //     }
+    // },
     // {
     //     id: 'FeelGoodInc',
     //     name: 'Feel Good, Inc',

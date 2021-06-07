@@ -243,14 +243,18 @@ AFRAME.registerComponent('chord-keys', {
 
         scene.addEventListener('start-music', this.startMusic);
         this.controller = document.querySelector('#controller');
-        this.controller.addEventListener('triggerdown', () => {
-            console.log('triggerdown');
-            this.startMusic();
-        });
+        this.controller.addEventListener('triggerdown', this.startMusic);
 
-        scene.addEventListener('click', () => {
-            this.startMusic();
-        }); // for debugging
+        this.uiTrigger = (event) => {
+            console.log('got ui trigger: '+event.detail.value);
+            if(event.detail.value === 'next'){
+                this.startMusic();
+            }
+        };
+
+        scene.addEventListener('secondary-ui-trigger', this.uiTrigger);
+
+        // scene.addEventListener('click', this.startMusic); // for debugging
 
 
     },
@@ -258,5 +262,7 @@ AFRAME.registerComponent('chord-keys', {
         scene.removeEventListener('pitch', this.startMusic);
         scene.removeEventListener('start-music', this.startMusic);
         scene.removeEventListener('pitch', this.onPitch);
+        this.controller.removeEventListener('triggerdown', this.startMusic);
+        scene.removeEventListener('secondary-ui-trigger', this.uiTrigger);
     }
 });
