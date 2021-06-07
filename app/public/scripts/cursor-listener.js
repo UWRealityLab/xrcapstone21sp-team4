@@ -18,57 +18,22 @@ AFRAME.registerComponent('cursor-listener', {
         var autoplayButton = document.querySelector("#btn-autoplay");
         let secondaryUI = document.querySelector('#secondary-ui');
 
-        var startButton = document.querySelector("#start-btn");
-        var dropButton = document.querySelector("#drop-down-btn");
-        var selectMode = document.querySelector("#select-mode");
-        var guitxr = document.querySelector("#guitxr");
+        let songListElement = document.querySelector('#song-list');
 
-        this.el.addEventListener('raycaster-intersection', function(event) {
-            console.log('raycaster intersection');
-            //lastIndex = (lastIndex + 1) % COLORS.length;
-            let els = event.detail.els;
-            if(!els){
-                return;
+        let showSongs = () => {
+            if(droppedDown){
+                //recreate
+                while(songListElement.firstChild){
+                    songListElement.removeChild(songListElement.firstChild);
+                }
             }
-            let intersectedEntity = els[0] || els; // choose first intersection
-            if(intersectedEntity.id === 'btn-manual') {
-                //console.log("manual selected");
-                intersectedEntity.setAttribute('material', 'color: #005f99; opacity: 1');
-                intersectedEntity.setAttribute('text', 'width: 3; value: Manual; align: center; color:#fff5b7');
-                // let other = document.getElementById('btn-autoplay');
-                autoplayButton.setAttribute('material', 'color: #ffc93c; opacity: 0.6');
-                autoplayButton.setAttribute('text', 'width: 3; value: Auto Play; align: center; color:#99154e');
-                modeSelected = Mode.Manual;
-            } else if (intersectedEntity.id === 'btn-autoplay') {
-                //console.log("auto selected");
-                intersectedEntity.setAttribute('material', 'color: #005f99; opacity: 1');
-                intersectedEntity.setAttribute('text', 'width: 3; value: Auto Play; align: center; color:#fff5b7');
-                manualButton.setAttribute('material', 'color: #ffc93c; opacity: 0.6');
-                manualButton.setAttribute('text', 'width: 3; value: Manual; align: center; color:#99154e');
-                modeSelected = Mode.Autoplay;
-            } else if (intersectedEntity.id === 'start-btn') {
-                //console.log('start is clicked');
-                if(!songSelected){
-                    console.log('start button clicked without selecting song');
-                    // todo: show an error message to the user
-                    return;
-                }
 
-                songSelected = {
-                    ...songSelected,
-                    mode: modeSelected
-                }
+            droppedDown = true;
+            songSelected = null;
 
-                scene.emit('start', {song: songSelected});
-            } else if (intersectedEntity.id === 'drop-down-btn') {
-                if(droppedDown){
-                    return;
-                }
-
-                droppedDown = true;
-
-                let y_co = 0.4;
-                for(let i = 0; i < GuitarSongs.length; i++) {
+            let y_co = 0.4;
+            for(let i = 0; i < GuitarSongs.length; i++) {
+                if(GuitarSongs[i].supportedModes.includes(modeSelected)){
                     let newSong = document.createElement('a-entity');
                     newSong.setAttribute('geometry', 'primitive:plane; width: 1; height: 0.15;');
                     newSong.setAttribute('material', 'color: #ffc93c; opacity: 0.6');
@@ -86,11 +51,53 @@ AFRAME.registerComponent('cursor-listener', {
                     newSong.classList.add('ui');
                     newSong.setAttribute('rotation','0 -30 0');
                     y_co -= 0.21;
-                    document.getElementById("ui").appendChild(newSong);
+                    songListElement.appendChild(newSong);
                     // newSong.setAttribute('cursor-listener','');
                     newSong.setAttribute('id', GuitarSongs[i].id);
                 }
+            }
+        }
 
+
+        this.el.addEventListener('raycaster-intersection', function(event) {
+            console.log('raycaster intersection');
+            //lastIndex = (lastIndex + 1) % COLORS.length;
+            let els = event.detail.els;
+            if(!els){
+                return;
+            }
+            let intersectedEntity = els[0] || els; // choose first intersection
+            if(intersectedEntity.id === 'btn-manual') {
+                //console.log("manual selected");
+                intersectedEntity.setAttribute('material', 'color: #005f99; opacity: 1');
+                intersectedEntity.setAttribute('text', 'width: 3; value: Manual; align: center; color:#fff5b7');
+                // let other = document.getElementById('btn-autoplay');
+                autoplayButton.setAttribute('material', 'color: #ffc93c; opacity: 0.6');
+                autoplayButton.setAttribute('text', 'width: 3; value: Auto Play; align: center; color:#99154e');
+                modeSelected = Mode.Manual;
+                showSongs();
+            } else if (intersectedEntity.id === 'btn-autoplay') {
+                //console.log("auto selected");
+                intersectedEntity.setAttribute('material', 'color: #005f99; opacity: 1');
+                intersectedEntity.setAttribute('text', 'width: 3; value: Auto Play; align: center; color:#fff5b7');
+                manualButton.setAttribute('material', 'color: #ffc93c; opacity: 0.6');
+                manualButton.setAttribute('text', 'width: 3; value: Manual; align: center; color:#99154e');
+                modeSelected = Mode.Autoplay;
+                showSongs();
+            } else if (intersectedEntity.id === 'start-btn') {
+                //console.log('start is clicked');
+                if(!songSelected){
+                    console.log('start button clicked without selecting song');
+                    // todo: show an error message to the user
+                    return;
+                }
+
+                songSelected = {
+                    ...songSelected,
+                    mode: modeSelected
+                }
+
+                scene.emit('start', {song: songSelected});
             } else if(secondaryUI.contains(intersectedEntity)){
                 scene.emit('secondary-ui-trigger', {
                     value: intersectedEntity.id
