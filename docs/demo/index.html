@@ -24,13 +24,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.sound.min.js"></script>
-
     <!-- Start tone.js (if performance lags consider importing the minified version from the repo) -->
     <script src="https://cdn.jsdelivr.net/npm/@tonaljs/tonal/browser/tonal.min.js"></script>
+    <script src="https://unpkg.com/@tonejs/midi"></script>
+
+
+    <!-- Start ml5.js-->
+
+    <script src="https://rawgit.com/mayognaise/aframe-draw-shader/master/dist/aframe-draw-shader.min.js"></script>
+
+    <!--<script src="https://wzrd.in/standalone/chordsheetjs@4.3.1"></script>-->
+    <script src="scripts/chordsheetjs.js"></script>
+
 
     <!-- Start ml5.js-->
     <!--<script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>-->
     <script src="scripts/ml5.min.js"></script>
+
+    <script src="scripts/shared/GuitarSongs.js"></script>
 
     <script src="scripts/offset-component.js"></script>
     <script src="scripts/controller-tracking.js"></script>
@@ -40,10 +51,10 @@
     <script src="scripts/animation-manager.js"></script>
     <script src="scripts/autoplay.js"></script>
     <script src="scripts/scene-manager.js"></script>
+    <script src="scripts/chords-ui.js"></script>
+
 
     <script src="https://unpkg.com/aframe-fps-counter-component/dist/aframe-fps-counter-component.min.js"></script>
-
-
 
     <link href="./style.css" rel="stylesheet">
 
@@ -52,40 +63,34 @@
 <a-scene scene-manager>
     <a-assets>
         <!-- Asset preloads-->
-<!--
-        <video id="webcam" playsinline></video>
--->
         <a-asset-item id="baseHand" src="./assets/hands/natural_base_hand.glb"></a-asset-item>
         <a-asset-item id="indexHand" src="./assets/hands/index_hand.glb"></a-asset-item>
         <a-asset-item id="middleHand" src="./assets/hands/middle_hand.glb"></a-asset-item>
         <a-asset-item id="ringHand" src="./assets/hands/ring_hand.glb"></a-asset-item>
         <a-asset-item id="pinkieHand" src="./assets/hands/pinkie_hand.glb"></a-asset-item>
+        <a-asset-item id="lowPolyGuitar" src="./assets/LowPolyGuitar.glb"></a-asset-item>
         <audio id="microphone" playsinline></audio>
-
-        <img id="interface"
-             src="./assets/menu.png" >
     </a-assets>
-    <!-- <a-audio src="#microphone" width="16" height="9" position="0 0 -40"></a-audio> -->
 
-
-    <a-box color="green" depth="0.01" height="0.01" id="controller-estimate" offset-component="1.5 0 0" position="0.0 0.0 0.0"
+    <a-box color="green" depth="0.01" height="0.01" id="controller-estimate" offset-component="1.5 0 0"
+           position="0.0 0.0 0.0"
            width="0.01"></a-box>
 
     <a-entity controller-tracking id="controller" magicleap-controls="hand: right">
-        <!--<a-box color="blue" height="0.01" width="0.01" depth="0.01" id="controller-child" position="0.0 -0.06 0.02"></a-box>-->
-        <!--<a-entity id="controller" geometry="primitive: box; width: 0.45; height: 0.05; depth: 0.05" position="0 0 0" rotation="0 0 0 "></a-entity>-->
+
     </a-entity>
 
     <a-box color="tomato" depth="0.01" height="0.01" id="real-controller" offset-component="-0.175 0.015 0.07"
-           width="0.01">
-        <a-plane color="#b3b3b3" height="0.1" id="fretboard" material="side: double; transparent: true; opacity: 0.1" position="0 0 0.0" rotation="-45 0 0"
+           opacity="0" width="0.01">
+        <a-plane color="#b3b3b3" height="0.1" id="fretboard" material="side: double; transparent: true; opacity: 0"
+                 position="0 0 0.0" rotation="-45 0 0"
                  width="0.45">
-            <a-entity id="hand" position="0.02 -0.14 -0.14" offset-component="0.1 0 0">
-                <a-entity id="base" gltf-model="#baseHand" material="opacity: 0.3"></a-entity>
-                <a-entity visible="false" id="indexFinger" gltf-model="#indexHand" material="opacity: 0.3"></a-entity>
-                <a-entity visible="false" id="middleFinger" gltf-model="#middleHand"  material="opacity: 0.3"></a-entity>
-                <a-entity visible="false" id="ringFinger" gltf-model="#ringHand" material="opacity: 0.3"></a-entity>
-                <a-entity visible="false" id="pinkieFinger" gltf-model="#pinkieHand" material="opacity: 0.3"></a-entity>
+            <a-entity id="hand" offset-component="0.1 0 0" position="0.02 -0.14 -0.14">
+                <a-entity gltf-model="#baseHand" id="base" material="opacity: 0.3"></a-entity>
+                <a-entity gltf-model="#indexHand" id="indexFinger" material="opacity: 0.3" visible="false"></a-entity>
+                <a-entity gltf-model="#middleHand" id="middleFinger" material="opacity: 0.3" visible="false"></a-entity>
+                <a-entity gltf-model="#ringHand" id="ringFinger" material="opacity: 0.3" visible="false"></a-entity>
+                <a-entity gltf-model="#pinkieHand" id="pinkieFinger" material="opacity: 0.3" visible="false"></a-entity>
             </a-entity>
             <a-entity id="strings" position="0.1 -0.035 0">
                 <a-entity geometry="primitive: box; width: 0.6477; height: 0.001; depth: 0.001" id="String1"
@@ -105,29 +110,124 @@
         </a-plane>
     </a-box>
 
-    <a-entity id="axisLines" line="start: 0 0 0; end: 0 0 0; color: red"
-              line__2="start: 0 0 0; end: 0 0 0; color: green"
-              line__3="start: 0 0 0; end: 0 0 0; color: blue"></a-entity>
+    <a-entity id="axisLines" line="start: 0 0 0; end: 0 0 0; color: red; opacity:0"
+              line__2="start: 0 0 0; end: 0 0 0; color: green; opacity: 0 "
+              line__3="start: 0 0 0; end: 0 0 0; color: blue; opacity: 0"></a-entity>
+
 
     <a-entity hud id="hud" offset-component="0 0 0.5">
-        <a-entity fps-counter position="0 -0.6 -3"></a-entity>
-        <a-image id="menu" src="#interface" position="0 0 -3.5"></a-image>
+<!--
+        <a-entity fps-counter position="0 -0.7 -3"></a-entity>
+-->
+
+        <a-entity id="ui">
+            <a-entity
+                    class="ui"
+                    id="select-mode"
+                    material="color: #ffc93c; opacity: 0 " position="0 0.45 -3"
+                    text="width: 1.5; value: Select Mode ; align: center; color:#99154e"></a-entity>
+
+            <a-entity
+                    class="ui"
+                    geometry="primitive: plane; width: 1; height: 0.15;"
+                    id="btn-autoplay" material="color: #ffc93c; opacity: 0.6 "
+                    position="0 0.3 -3" text="width: 3; value: Auto Play; align: center; color:#99154e"></a-entity>
+            <!-- 0 0.2 -3 -->
+            <a-entity
+                    class="ui"
+                    geometry="primitive: plane; width: 1; height: 0.15;"
+                    id="btn-manual" material="color: #ffc93c; opacity: 0.6 " position="0 0.1 -3"
+                    text="width: 3; value: Manual; align: center; color:#99154e"></a-entity>
+
+
+            <a-entity
+                    geometry="primitive: plane; height: 0.2; width: 1"
+                    id="drop-down-btn" material="color: #ffc93c; opacity: 0.6 "
+                    position="2 0.4 -3" rotation="0 -30 0 "
+                    text="width: 3; value: Select Song; align: center; color:#99154e">
+            </a-entity>
+
+
+            <a-entity
+                    class="ui"
+                    geometry="primitive: plane; width: 1; height: 0.2;"
+                    id="start-btn" material="color: #9fe6a0; opacity: 0.6 " position="0 -0.5 -3"
+                    text="width: 3; value: Start; align: center; color:#99154e"></a-entity>
+
+            <a-entity
+                    geometry="primitive: plane; width: 1; height: 0.2;"
+                    id="guitxr"
+                    material="color: blue; opacity: 0 "
+                    position="-0.7 0.6 -3" rotation="0 0 45"
+                    text="width: 6; value: GuitXR; align: center; color:#99154e"></a-entity>
+
+            <!-- trying to load guitar -->
+            <a-entity gltf-model="#lowPolyGuitar"
+                      id="guitar"
+                      position="0.9 -0.2 -3"
+                      rotation="75 -45 0"
+                      scale="0.05 0.05 0.05"></a-entity>
+
+            <a-entity id="song-list"></a-entity>
+        </a-entity>
+
+
+
+        <a-entity id="secondary-ui" visible="false">
+            <a-entity id="drawer" position="0 0.7 -2.8">
+                <a-entity
+                        id="home"
+                        geometry="primitive: plane; width: 0.25; height: 0.15;"
+                        material="color: #9fe6a0; opacity: 0.6 "
+                        text="width: 1; value: Home; align: center; color:#99154e"
+                        position="0 0 0"
+                        class="secondary-ui"></a-entity>
+            </a-entity>
+
+            <a-entity id="song-controls" position="0 -0.7 -2.8">
+                <a-entity
+                        id="next"
+                        geometry="primitive: plane; width: 0.25; height: 0.15;"
+                        material="color: #ffc93c; opacity: 0.6"
+                        text="width: 1; value: Next; align: center; color: #000000"
+                        position="0.3 0 0"
+                        class="secondary-ui"></a-entity>
+                <a-entity
+                        id="prev"
+                        geometry="primitive: plane; width: 0.25; height: 0.15;"
+                        material="color: #ffc93c; opacity: 0.6"
+                        text="width: 1; value: Prev; align: center; color: #000000"
+                        position="-0.3 0 0"
+                        class="secondary-ui"></a-entity>
+            </a-entity>
+        </a-entity>
+
+
+
+
+        <!--<a-entity chords-ui="" geometry="primitive:plane;" material="shader:draw; fps: 1; width: 1000; height:1000"
+                  position="0.1 -0.25 -3"></a-entity>-->
 
         <a-entity id="image-tab" position="0 -0.2 -3.5">
-            <a-entity animation-manager id="first" material="transparent: true; opacity: 0.60" position="0 0 -2" width="1.7"></a-entity>
-            <a-entity animation-manager id="second" material="transparent: true; opacity: 0.60" position="2 0 -4" width="1.7"></a-entity>
-            <a-entity animation-manager id="third" material="transparent: true; opacity: 0.60" position="4 0 -6" width="1.7"></a-entity>
+            <a-entity animation-manager id="first" material="transparent: true; opacity: 0.60" position="0 0 -2"
+                      width="1.7"></a-entity>
+            <a-entity animation-manager id="second" material="transparent: true; opacity: 0.60" position="4 0 -4"
+                      width="1.7"></a-entity>
+            <a-entity animation-manager id="third" material="transparent: true; opacity: 0.60" position="6 0 -6"
+                      width="1.7"></a-entity>
         </a-entity>
     </a-entity>
 
     <a-entity id="rig">
         <a-entity camera id="camera" look-controls position="0 8 0" wasd-controls>
-            <a-entity color="#4CC3D9" geometry="primitive: sphere; radius: 0.02" id="camera-center"
-                      position="0.05 0 0"></a-entity>
+            <a-entity color="#4CC3D9" cursor-listener geometry="primitive: sphere; radius: 0.02"
+                      id="camera-center" position="0.05 0 0" raycaster="objects: .ui;">
+                <a-entity color="blue" geometry="primitive: circle; radius: 0.02" position="0 0 -2.5"></a-entity>
+            </a-entity>
         </a-entity>
-        <!-- Match Magic Leap controller if present, regardless of hand. -->
-
     </a-entity>
+    <!-- Match Magic Leap controller if present, regardless of hand. -->
+
 </a-scene>
 
 <script src="scripts/utils/getScreenNumber.js"></script>
@@ -136,8 +236,10 @@
 <!--
 <script src= "scripts/add-animation.js"></script>
 -->
-<script src= "scripts/add-element-controller.js"></script>
+<script src="scripts/add-element-controller.js"></script>
 <script src="scripts/screen-tabs.js"></script>
 <script src="scripts/add-hand.js"></script>
+<script src="scripts/rotation-reader.js"></script>
+<script src="scripts/cursor-listener.js"></script>
 </body>
 </html>

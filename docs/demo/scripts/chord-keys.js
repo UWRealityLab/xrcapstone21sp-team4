@@ -1,67 +1,131 @@
 // Sam branch
 AFRAME.registerComponent('chord-keys', {
-    init: function() {
+    schema: { // indexed in shared/GuitarSongs.js
+        songNumber: {type: 'int'}
+    },
+    init: async function() {
         this.scene = document.querySelector("a-scene");
         const firstPos = document.querySelector('#first').object3D.position.clone();
         const secondPos = document.querySelector('#second').object3D.position.clone();
         const thirdPos = document.querySelector('#third').object3D.position.clone();
 
-        
-        let endCounter = 0;
-        let beginClick = true;
-        const water = new Audio("../assets/smoke-on-water-vr.mp3");
-        let el = this.el;
-        let i = 0;
+        //new note:
+        // notes: string[]
+        // start: number
+        // end: number
+        let times = [];
 
-        const times = [
-            {"note": "D3", "start": 0, "end": 0.5},
-            {"note": "F3", "start": 0.5, "end": 1.2},
-            {"note": "G3", "start": 1.2, "end": 2},
-            {"note": "D3", "start": 2, "end": 2.5},
-            {"note": "F3", "start": 2.5, "end": 3.2},
-            {"note": "G#3", "start": 3.2, "end": 3.52},
-            {"note": "G3", "start": 3.43, "end": 4.5},
-            {"note": "D3", "start": 4.5, "end": 4.9},
-            {"note": "F3", "start": 4.9, "end": 5.6},
-            {"note": "G3", "start": 5.6, "end": 6.4},
-            {"note": "F3", "start": 6.4, "end": 6.9},
-            {"note": "D3", "start": 6.9, "end": 8.5},
-        ];
-
-        const notes = {
-            "D3": {tab: [[5, 5]]},
-            "F3": { tab: [[4, 3]]},
-            "G3": {tab: [[ 4, 5]]},
-            "G#3": { tab: [[4, 6]]}
-        };
-
-        // Note as an associated hand shape on how to play, will emit event for 
-        // script to change hand shape
-        const handShapes = {
-            "D3": {shape: "ring"},
-            "F3": {shape: "index"},
-            "G3": {shape: "ring"},
-            "G#3": {shape: "pinkie"}
-        };
-
-        const freqs = {
+        // invariant: uppercase names
+        let freqsDirectory = {/*
             "D3": 146.83,
             "F3": 174.61,
             "G3": 196.00,
-            "G#3": 207.65
+            "G#3": 207.65*/
         };
+
+
+        // MIDI stuff
+
+        // load song
+        let song = GuitarSongs[this.data.songNumber];
+
+        console.log('starting song: '+JSON.stringify(song));
+
+        if(song.type === SongType.MIDI){
+            const midi = await Midi.fromUrl(song.file);
+            console.log('midi loaded');
+
+            // file name (included in the first track)
+            let track = midi.tracks[song.track];
+
+            console.log('playing track: '+track.name+' and channel: '+track.channel);
+            // array of notes
+            const midiNotes = track.notes;
+
+            // console.log('midiNotes: '+JSON.stringify(track));
+            let startTime = midiNotes[0].time;
+
+            for (let midiNote of midiNotes) {
+                let noteName = midiNote.name.toUpperCase();
+                let noteStart = (midiNote.time - startTime);
+
+                if(times.length>0 && times[times.length-1].start === noteStart){
+                    // add to existing note
+                    times[times.length-1].notes.push(noteName);
+                }else{
+                    // create new note
+                    let note = {
+                        notes: [midiNote.name],
+                        start: noteStart,
+                        end: noteStart+midiNote.duration
+                    }
+                    times.push(note);
+                }
+
+                //
+                if(!(noteName in freqsDirectory)){
+                    // get frequency
+                    let noteFreq = Tonal.Note.freq(noteName);
+                    freqsDirectory[noteName] = noteFreq;
+                    console.log('putting freq '+noteName +': '+noteFreq);
+                }
+            }
+        }else if(song.type === SongType.CustomTabs){
+            times = song.times;
+            for(let time of times){
+                for(let noteName of time.notes){
+                    if(!(noteName in freqsDirectory)){
+                        // get frequency
+                        let noteFreq = Tonal.Note.freq(noteName);
+                        freqsDirectory[noteName] = noteFreq;
+                        console.log('putting freq '+noteName +': '+noteFreq);
+                    }
+                }
+            }
+
+        }
+
+
+        let endCounter = 0;
+        let beginClick = true;
+        const audio = song.audio? new Audio(song.audio) : null;
+        let el = this.el;
+        let i = 0;              // number of note in the riff that we're practicing
+
+        const notesDirectory = song.notes;
+        // Note as an associated hand shape on how to play, will emit event for
+        // script to change hand shape
+        const handShapes = song.handShapes;
+
+        let mergeTab = (notes) => {
+            let tab = [];
+            for(let note of notes){
+                if(note in notesDirectory){
+                    tab.push(notesDirectory[note]);
+            }
+            }
+            return tab;
+        }
+
+
+
+
+        // import frequencies from MIDI
+        // import frequencies from MIDI
+
+
         
         // check if pitch is sustained
-        const ERROR_THRESHOLD = 1.5;
+        const ERROR_THRESHOLD = 2.5;
         let isListening = false;
 
         function snip(start, end) {
-            water.currentTime = start;
-            console.log('play')
-            // this system is flawed, audio of progressing notes can get
-            // cut awkwardly
-            water.play()
-            setTimeout(() => {water.pause();}, (end - start) * 1000);
+            // todo: make this use the midi track
+            /*if(audio){
+                audio.currentTime = start;
+                audio.play()
+                setTimeout(() => {audio.pause();}, (end - start) * 1000);
+            }*/
         }
 
         // swapping photos
@@ -71,8 +135,8 @@ AFRAME.registerComponent('chord-keys', {
         let third = document.querySelector('#third');
 
         this.startMusic = async (/*e*/) => {
-            console.log('startmusic called');
-            console.log('begin');
+          //  console.log('startmusic called');
+          //  console.log('begin');
             if (i >= times.length) {
                 i = 0;
                 endCounter++;
@@ -83,14 +147,14 @@ AFRAME.registerComponent('chord-keys', {
             if (beginClick) {
                 beginClick = false;
                 isListening = true;
-                first.setAttribute('note', times[0]["note"]);
-                second.setAttribute('note', times[1]["note"]);
-                third.setAttribute('note', times[2]["note"]);
-                scene.emit('show-screen-marker', {screen: 0, tab: notes[times[0]["note"]].tab})
-                scene.emit('show-screen-marker', {screen: 1, tab: notes[times[1]["note"]].tab})
-                scene.emit('show-screen-marker', {screen: 2, tab: notes[times[2]["note"]].tab})
-                scene.emit('tab-change', {tab: notes[times[0]['note']].tab});
-                scene.emit('hand-change', {shape: handShapes[times[0]['note']].shape})
+                scene.emit('show-screen-marker', {screen: 0, tab: mergeTab(times[0].notes)})
+                scene.emit('show-screen-marker', {screen: 1, tab: mergeTab(times[1].notes)})
+                scene.emit('show-screen-marker', {screen: 2, tab: mergeTab(times[2].notes)})
+                scene.emit('tab-change', {tab: mergeTab(times[0].notes)});
+
+                if (isSingleNote(times[i].notes)) {
+                    scene.emit('hand-change', {shape: handShapes[times[0].notes[0]].shape})
+                }
                 return;
             }
 
@@ -125,9 +189,8 @@ AFRAME.registerComponent('chord-keys', {
             if (thirdI == times.length) { thirdI = 0; }
             thirdI++;
             if (thirdI == times.length) { thirdI = 0; }
-            // console.log(thirdI);
-            first.setAttribute('note', times[thirdI]["note"]);
-            scene.emit('show-screen-marker', {screen: i%3, tab: notes[times[thirdI]["note"]].tab});
+
+            scene.emit('show-screen-marker', {screen: i%3, tab: mergeTab(times[thirdI].notes)});
             first.object3D.position.set(thirdPos.x, thirdPos.y, thirdPos.z);
 
             let prevFirst = first;
@@ -136,19 +199,14 @@ AFRAME.registerComponent('chord-keys', {
             third = prevFirst;
 
             // console.log(times[i])
-            snip(times[i]["start"], times[i]["end"]);
-            console.log('end');
+            snip(times[i].start, times[i].end);
+            //console.log('end');
             // if we are at the last note, wait to start listening again
             if (i+1 == times.length) {
                 isListening = false;
                 setTimeout(() => {isListening = true}, 1200);
             }
             if (endCounter > 2) {
-                // el.setAttribute('swap', "none");
-                /*el.removeAttribute('chord-keys');
-                second.setAttribute('src', "#interface");
-                third.setAttribute('src', "");
-                first.setAttribute('src', "");*/
                 scene.emit('reset-menu', {});
                 return;
             }
@@ -156,13 +214,18 @@ AFRAME.registerComponent('chord-keys', {
             // Send the hand shape
             i++;
 
-    
             if(times[i]){
-                scene.emit('tab-change', {tab: notes[times[i]['note']].tab});
-                scene.emit('hand-change', {shape: handShapes[times[i]['note']].shape})
+                scene.emit('tab-change', {tab: mergeTab(times[i].notes)});
+                // todo: maybe disappear hand in this case
+                let firstNote = times[0].notes[0];
+                if (isSingleNote(times[i].notes) && handShapes[firstNote]) {
+                    scene.emit('hand-change', {shape: handShapes[firstNote]})
+                }
             }else{
                 // end of song
-                scene.emit('tab-change', {tab: notes[times[0]['note']].tab});
+                // i = 0;
+                scene.emit('tab-change', {tab: mergeTab(times[0].notes)});
+                // this.startMusic();
             }
 
 
@@ -171,25 +234,57 @@ AFRAME.registerComponent('chord-keys', {
 
         this.startMusic();
 
-        this.onPitch = (e)=>{
+        function isSingleNote(notes) {
+            return times[i].notes.length===1;
+        }
+
+        this.onPitch = (e)=> {
+            console.log('onpitch: '+e.detail.freq);
             if(!isListening){
                 return;
             }
 
-            // asert first not null
+            // assert first not null
 
             // if the notes freq is out of the threshold bounds, dont progress
-            if (e.detail.freq < freqs[first.getAttribute('note')]- ERROR_THRESHOLD ||
-                e.detail.freq > freqs[first.getAttribute('note')]+ ERROR_THRESHOLD) {
-                return;
+            /*if(isSingleNote(times[i].notes)){*/
+            if(times[i%times.length]){
+                let note = times[i%times.length].notes[0];
+                if(!freqsDirectory[note]){
+                    console.log('frequency not defined for note: '+note);
+                    return;
+                }
+                if (e.detail.freq > freqsDirectory[note]- ERROR_THRESHOLD &&
+                    e.detail.freq < freqsDirectory[note]+ ERROR_THRESHOLD) {
+                    this.startMusic();
+                }else{
+                    console.log(e.detail.freq + 'doesnt match note '+note+'freq: '+freqsDirectory[note]);
+                }
+            }else{
+                // end of song
             }
 
-            this.startMusic();
+            /*}*/
+            // todo: chord detection for multiple notes
+
         };
         scene.addEventListener('pitch', this.onPitch);
 
 
         scene.addEventListener('start-music', this.startMusic);
+        this.controller = document.querySelector('#controller');
+        this.controller.addEventListener('triggerdown', this.startMusic);
+
+        this.uiTrigger = (event) => {
+            console.log('got ui trigger: '+event.detail.value);
+            if(event.detail.value === 'next'){
+                this.startMusic();
+            }
+        };
+
+        scene.addEventListener('secondary-ui-trigger', this.uiTrigger);
+
+        // scene.addEventListener('click', this.startMusic); // for debugging
 
 
     },
@@ -197,5 +292,7 @@ AFRAME.registerComponent('chord-keys', {
         scene.removeEventListener('pitch', this.startMusic);
         scene.removeEventListener('start-music', this.startMusic);
         scene.removeEventListener('pitch', this.onPitch);
+        this.controller.removeEventListener('triggerdown', this.startMusic);
+        scene.removeEventListener('secondary-ui-trigger', this.uiTrigger);
     }
 });

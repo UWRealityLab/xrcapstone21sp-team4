@@ -9,8 +9,8 @@ var pinkie = document.querySelector('#pinkieFinger');
 
 this.changeMesh = function(shape) {
     // var handEl = document.querySelector('#hand');
-    console.log('shape');
-    console.log(shape);
+   // console.log('shape');
+   // console.log(shape);
     base.object3D.visible = false;
     index.object3D.visible = false;
     middle.object3D.visible = false;
@@ -36,4 +36,4 @@ this.changeMesh = function(shape) {
 scene.addEventListener('hand-change', (event) => {
     this.changeMesh(event.detail.shape)
 });
-console.log('hereere');
+//console.log('hereere');

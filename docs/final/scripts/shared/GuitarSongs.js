@@ -47,7 +47,8 @@ var GuitarSongs = [
             {notes: ["F3"], "start": 6.4, "end": 6.9},
             {notes: ["D3"], "start": 6.9, "end": 8.5},
         ],
-        mode: Mode.Manual, // default
+        supportedModes: [Mode.Manual, Mode.Autoplay], // default
+        mode: [Mode.Manual], // default
         notes: {
             "D3": [5, 5],
             "F3": [4, 3],
@@ -67,6 +68,7 @@ var GuitarSongs = [
         type: SongType.MIDI,
         file: '../assets/midi/SevenNationArmy_mod.mid',
         track: 3,
+        supportedModes: [Mode.Manual], // default
         mode: Mode.Manual, // default
         notes: {
             "E2": [5, 7],
@@ -84,12 +86,37 @@ var GuitarSongs = [
         }
     },
     {
+        id: 'HotelCalifornia',
+        name: 'Hotel California',
+        type: SongType.ChordPro,
+        supportedModes: [Mode.Manual],
+        mode: Mode.Manual,
+        file: '../assets/chordpro/HotelCalifornia.chopro',
+        notes: {
+        },
+        handShapes: {
+        }
+    },
+    {
+        id: 'Clocks',
+        name: 'Clocks Coldplay',
+        type: SongType.ChordPro,
+        supportedModes: [Mode.Manual],
+        mode: Mode.Manual,
+        file: '../assets/chordpro/clocks.chopro',
+        notes: {
+        },
+        handShapes: {
+        }
+    },
+
+   /* {
         id: 'Thunderstruck',
         name: 'Thunderstruck',
         type: SongType.MIDI,
         file: '../assets/midi/thunderstruck_mod.mid',
         track: 1,
-        mode: Mode.Manual, // default
+        modes: [Mode.Manual], // default
         notes: { // [String, Fret]
             "D#4": [2, 3],
             "F#4": [2, 6],
@@ -108,27 +135,7 @@ var GuitarSongs = [
             "A4": "ring",
             "G#4": "ring"
         }
-    },
-    {
-        id: 'HotelCalifornia',
-        name: 'Hotel California',
-        type: SongType.ChordPro,
-        file: '../assets/chordpro/HotelCalifornia.chopro',
-        notes: {
-        },
-        handShapes: {
-        }
-    },
-    {
-        id: 'Clocks',
-        name: 'Clocks Coldplay',
-        type: SongType.ChordPro,
-        file: '../assets/chordpro/clocks.chopro',
-        notes: {
-        },
-        handShapes: {
-        }
-    },
+    },*/
 
 
     // {
@@ -137,7 +144,7 @@ var GuitarSongs = [
     //     type: SongType.MIDI,
     //     file: '../assets/midi/...',
     //     track: 3,
-    //     mode: Mode.Manual, // default
+    //     modes: [Mode.Manual], // default
     //     notes: { // [String, Fret]
     //         "E2": [5, 7],
     //         "G2": [5, 10],
@@ -163,7 +170,7 @@ var GuitarSongs = [
     //     type: SongType.MIDI,
     //     file: '../assets/midi/...',
     //     track: 3,
-    //     mode: Mode.Manual, // default
+    //     modes: [Mode.Manual], // default
     //     notes: { // [String, Fret]
     //         "E2": [5, 7],
     //         "G2": [5, 10],
@@ -189,7 +196,7 @@ var GuitarSongs = [
     //     type: SongType.MIDI,
     //     file: '../assets/midi/...',
     //     track: 3,
-    //     mode: Mode.Manual, // default
+    //     modes: [Mode.Manual, // default
     //     notes: { // [String, Fret]
     //         "E2": [5, 7],
     //         "G2": [5, 10],

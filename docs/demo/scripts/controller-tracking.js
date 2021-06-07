@@ -24,8 +24,6 @@ AFRAME.registerComponent('controller-tracking', {
 
         this.tick = AFRAME.utils.throttleTick(this.tick, 50, this);
 
-
-
     },
     tick: function(t, dt){
         this.offset= this.realModel.getAttribute('offset-component'); // todo: move to init
