@@ -16,6 +16,8 @@ AFRAME.registerComponent('cursor-listener', {
 
         var manualButton = document.querySelector("#btn-manual");
         var autoplayButton = document.querySelector("#btn-autoplay");
+        let secondaryUI = document.querySelector('#secondary-ui');
+
         var startButton = document.querySelector("#start-btn");
         var dropButton = document.querySelector("#drop-down-btn");
         var selectMode = document.querySelector("#select-mode");
@@ -88,6 +90,11 @@ AFRAME.registerComponent('cursor-listener', {
                     // newSong.setAttribute('cursor-listener','');
                     newSong.setAttribute('id', GuitarSongs[i].id);
                 }
+
+            } else if(secondaryUI.contains(intersectedEntity)){
+                scene.emit('secondary-ui-trigger', {
+                    value: intersectedEntity.id
+                });
 
             } else{
                 // selected a song

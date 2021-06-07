@@ -70,7 +70,6 @@ function gotPitch(error, frequency) {
         console.error(error);
     } else {
         if (frequency) {
-            //console.log('got pitch: '+frequency); todo: enable
             freq = frequency;
             scene.emit('pitch', {"freq": freq});
         }
