@@ -122,6 +122,16 @@
 -->
 
         <a-entity id="ui">
+            <!-- testing chefing method of streaming processing from computer -->
+            <a-entity
+                        id="record"
+                        url = "http://127.0.0.1:5000/live_demo"
+                        geometry="primitive: plane; width: 0.25; height: 0.15;"
+                        material="color: #9fe6a0; opacity: 0.6 "
+                        text="width: 1; value: Home; align: center; color:#99154e"
+                        position="0.6 0 0"
+                        class="secondary-ui"></a-entity>
+                        
             <a-entity
                     class="ui"
                     id="select-mode"
@@ -170,6 +180,7 @@
                       scale="0.05 0.05 0.05"></a-entity>
 
             <a-entity id="song-list"></a-entity>
+
         </a-entity>
 
 
