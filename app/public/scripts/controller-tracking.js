@@ -54,12 +54,19 @@ AFRAME.registerComponent('controller-tracking', {
         offsetPos.addScaledVector(up, this.offset.y);
         offsetPos.addScaledVector(this.cross, this.offset.x);
 
+        // todo: potentially scale axes by some fraction of the z axis - the distance between
+        // the magic leap controller and the origin located at the headset
+        // Will help with magnified inaccuracy at greater distances between headset and controller,
+        // and dampen some of the jitter that we're now experiencing.
+        
+        let relativeOffsetScale = 0.2;
+
         let z_axis = this.worldPos.clone();
-        z_axis.addScaledVector(this.worldDir, 0.2);
+        z_axis.addScaledVector(this.worldDir, relativeOffsetScale);
         let y_axis = this.worldPos.clone();
-        y_axis.addScaledVector(up, 0.2);
+        y_axis.addScaledVector(up, relativeOffsetScale);
         let x_axis = this.worldPos.clone();
-        x_axis.addScaledVector(this.cross, 0.2);
+        x_axis.addScaledVector(this.cross, relativeOffsetScale);
 
         this.axisLines.setAttribute('line__3', {
             'start': this.worldPos,
